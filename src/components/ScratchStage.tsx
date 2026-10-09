@@ -22,9 +22,9 @@ export const ScratchStage: React.FC<ScratchStageProps> = ({
   onReset,
 }) => {
   return (
-    <div className="flex flex-col h-full bg-slate-900/90 rounded-2xl border-2 border-slate-700/80 shadow-2xl overflow-hidden backdrop-blur-md">
+    <div className="flex flex-col h-full bg-white rounded-3xl border-2 border-slate-200 shadow-lg overflow-hidden">
       {/* Stage Toolbar */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-slate-800/90 border-b border-slate-700">
+      <div className="flex items-center justify-between px-4 py-2.5 bg-slate-50 border-b border-slate-200">
         <div className="flex items-center gap-2">
           {/* Green Flag Button */}
           <button
@@ -33,10 +33,10 @@ export const ScratchStage: React.FC<ScratchStageProps> = ({
               onRun?.();
             }}
             title="运行程序 (绿旗)"
-            className={`flex items-center justify-center w-8 h-8 rounded-lg font-black transition-all ${
+            className={`flex items-center justify-center w-8 h-8 rounded-xl font-black transition-all ${
               isRunning
-                ? 'bg-emerald-400 text-slate-900 shadow-dopamine-lime'
-                : 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 active:translate-y-0.5'
+                ? 'bg-emerald-500 text-white shadow-none translate-y-0.5'
+                : 'bg-emerald-500 hover:bg-emerald-400 text-white shadow-[0_3px_0_#15803D] active:translate-y-0.5 active:shadow-none'
             }`}
           >
             <Play className="w-4 h-4 fill-current ml-0.5" />
@@ -49,37 +49,37 @@ export const ScratchStage: React.FC<ScratchStageProps> = ({
               onReset?.();
             }}
             title="停止并复位"
-            className="flex items-center justify-center w-8 h-8 rounded-lg bg-rose-600/80 hover:bg-rose-500 text-white transition-all active:translate-y-0.5"
+            className="flex items-center justify-center w-8 h-8 rounded-xl bg-rose-500 hover:bg-rose-400 text-white transition-all shadow-[0_3px_0_#BE123C] active:translate-y-0.5 active:shadow-none"
           >
             <Square className="w-3.5 h-3.5 fill-current" />
           </button>
 
-          <span className="ml-2 text-xs font-mono font-bold text-slate-400 tracking-wider">
+          <span className="ml-2 text-xs font-mono font-bold text-slate-500 tracking-wider">
             舞台 PREVIEW
           </span>
         </div>
 
         {/* Realtime Coordinates Badge */}
-        <div className="flex items-center gap-2 font-mono text-xs bg-slate-950/60 px-2.5 py-1 rounded-md border border-slate-800 text-slate-300">
-          <span className="text-dopamine-cyan font-bold">X:</span>
-          <span className="w-7 text-right">{Math.round(x)}</span>
-          <span className="text-dopamine-pink font-bold ml-1">Y:</span>
-          <span className="w-7 text-right">{Math.round(y)}</span>
+        <div className="flex items-center gap-2 font-mono text-xs bg-white px-3 py-1 rounded-lg border border-slate-200 text-slate-600 shadow-sm">
+          <span className="text-sky-600 font-extrabold">X:</span>
+          <span className="w-7 text-right font-bold">{Math.round(x)}</span>
+          <span className="text-rose-500 font-extrabold ml-1">Y:</span>
+          <span className="w-7 text-right font-bold">{Math.round(y)}</span>
         </div>
       </div>
 
       {/* Stage Canvas Viewport */}
-      <div className="relative flex-1 w-full overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-[#0c1322] flex items-center justify-center">
-        {/* Subtle Cartesian STEM Coordinate Grid */}
-        <div className="absolute inset-0 pointer-events-none opacity-20">
+      <div className="relative flex-1 w-full overflow-hidden bg-gradient-to-b from-white via-sky-50/20 to-slate-50 flex items-center justify-center">
+        {/* Subtle STEM Cartesian Grid */}
+        <div className="absolute inset-0 pointer-events-none opacity-40">
           {/* Center Crosshairs */}
-          <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-dopamine-cyan/70 border-r border-dashed border-dopamine-cyan" />
-          <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-dopamine-cyan/70 border-b border-dashed border-dopamine-cyan" />
+          <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-sky-400/80 border-r border-dashed border-sky-400" />
+          <div className="absolute top-1/2 left-0 right-0 h-[1px] bg-sky-400/80 border-b border-dashed border-sky-400" />
           {/* Grid dots */}
           <div
             className="w-full h-full"
             style={{
-              backgroundImage: 'radial-gradient(#38bdf8 1px, transparent 1px)',
+              backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)',
               backgroundSize: '32px 32px',
             }}
           />
@@ -94,16 +94,16 @@ export const ScratchStage: React.FC<ScratchStageProps> = ({
               top: 'calc(50% - 24px)',
             }}
           >
-            <div className="w-10 h-10 rounded-xl bg-dopamine-yellow/20 border-2 border-dopamine-yellow flex items-center justify-center animate-bounce shadow-[0_0_15px_rgba(255,208,0,0.5)]">
+            <div className="w-10 h-10 rounded-2xl bg-amber-100 border-2 border-amber-400 flex items-center justify-center animate-bounce shadow-[0_4px_12px_rgba(251,191,36,0.6)]">
               <span className="text-xl">💎</span>
             </div>
-            <span className="mt-1 text-[10px] font-mono font-bold text-amber-300 bg-slate-950/80 px-1.5 py-0.5 rounded border border-amber-500/30">
+            <span className="mt-1 text-[10px] font-mono font-bold text-amber-800 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-300 shadow-sm">
               目标点
             </span>
           </div>
         )}
 
-        {/* Scratch Cat Sprite Container */}
+        {/* Scratch Cat Sprite */}
         <div
           className="absolute z-20 transition-all duration-500 ease-out flex flex-col items-center pointer-events-none"
           style={{
@@ -114,7 +114,7 @@ export const ScratchStage: React.FC<ScratchStageProps> = ({
         >
           {/* Comic Speech Bubble */}
           {speechText && (
-            <div className="relative mb-2 max-w-[180px] bg-white text-slate-900 text-xs font-bold px-3 py-1.5 rounded-2xl shadow-xl animate-fade-in border-2 border-slate-900">
+            <div className="relative mb-2 max-w-[180px] bg-white text-slate-800 text-xs font-bold px-3 py-1.5 rounded-2xl shadow-lg animate-fade-in border-2 border-slate-800">
               <span>{speechText}</span>
               {/* Bubble Tail */}
               <div className="absolute -bottom-2 left-6 w-0 h-0 border-x-8 border-x-transparent border-t-8 border-t-white" />
@@ -122,7 +122,7 @@ export const ScratchStage: React.FC<ScratchStageProps> = ({
           )}
 
           {/* SVG Scratch Cat Icon */}
-          <div className="relative w-20 h-20 filter drop-shadow-[0_8px_12px_rgba(0,0,0,0.6)]">
+          <div className="relative w-20 h-20 filter drop-shadow-[0_6px_10px_rgba(0,0,0,0.15)]">
             <svg viewBox="0 0 100 100" className="w-full h-full">
               {/* Body */}
               <ellipse cx="50" cy="55" rx="30" ry="24" fill="#FFAB19" />
@@ -143,7 +143,7 @@ export const ScratchStage: React.FC<ScratchStageProps> = ({
               <line x1="80" y1="40" x2="66" y2="42" stroke="#2D3748" strokeWidth="2" strokeLinecap="round" />
               <line x1="78" y1="46" x2="66" y2="45" stroke="#2D3748" strokeWidth="2" strokeLinecap="round" />
 
-              {/* Big Anime Eyes (Asperger/Kid Friendly, High Contrast) */}
+              {/* Big Anime Eyes */}
               <ellipse cx="40" cy="36" rx="6" ry="8" fill="#FFFFFF" />
               <circle cx="41" cy="36" r="4.5" fill="#1E293B" />
               <circle cx="43" cy="34" r="1.8" fill="#FFFFFF" />
@@ -174,9 +174,9 @@ export const ScratchStage: React.FC<ScratchStageProps> = ({
       </div>
 
       {/* Stage Bottom Footer */}
-      <div className="px-3 py-1.5 bg-slate-950/80 border-t border-slate-800 text-[11px] text-slate-400 flex justify-between items-center font-mono">
+      <div className="px-4 py-2 bg-slate-50 border-t border-slate-200 text-[11px] text-slate-500 flex justify-between items-center font-mono font-medium">
         <span>坐标原点 (0, 0) 居中</span>
-        <span className="text-emerald-400">● 实时仿真引擎就绪</span>
+        <span className="text-emerald-600 font-bold">● 实时仿真引擎就绪</span>
       </div>
     </div>
   );

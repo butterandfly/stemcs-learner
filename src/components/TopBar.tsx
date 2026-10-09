@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flame, Zap, Heart, Volume2, VolumeX, Wifi, WifiOff } from 'lucide-react';
+import { Flame, Zap, Heart, Volume2, VolumeX, Wifi, WifiOff, Menu } from 'lucide-react';
 import { sound } from '../audio/sound';
 
 interface TopBarProps {
@@ -7,6 +7,7 @@ interface TopBarProps {
   streakDays: number;
   energy: number;
   onRefillEnergy: () => void;
+  onToggleSidebar?: () => void;
 }
 
 export const TopBar: React.FC<TopBarProps> = ({
@@ -14,6 +15,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   streakDays,
   energy,
   onRefillEnergy,
+  onToggleSidebar,
 }) => {
   const [isMuted, setIsMuted] = useState(sound.isMuted());
   const [isOnline, setIsOnline] = useState(navigator.onLine);
@@ -35,36 +37,51 @@ export const TopBar: React.FC<TopBarProps> = ({
   };
 
   return (
-    <header className="h-16 px-6 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 flex items-center justify-between z-30 select-none">
-      {/* Offline Status Badge */}
-      <div className="flex items-center gap-2 text-xs font-mono">
-        {isOnline ? (
-          <span className="flex items-center gap-1.5 text-emerald-400 bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-500/20">
-            <Wifi className="w-3.5 h-3.5" />
-            <span>离线可用</span>
-          </span>
-        ) : (
-          <span className="flex items-center gap-1.5 text-amber-400 bg-amber-950/40 px-2.5 py-1 rounded-full border border-amber-500/20">
-            <WifiOff className="w-3.5 h-3.5" />
-            <span>离线模式</span>
-          </span>
+    <header className="shrink-0 h-16 px-4 md:px-6 bg-white/95 backdrop-blur-md border-b border-slate-200 flex items-center justify-between z-30 select-none shadow-[0_1px_3px_rgba(0,0,0,0.03)]">
+      {/* Left: Mobile / Tablet Sidebar Toggle & Offline Status Badge */}
+      <div className="flex items-center gap-3">
+        {onToggleSidebar && (
+          <button
+            onClick={() => {
+              sound.playPop();
+              onToggleSidebar();
+            }}
+            className="lg:hidden p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
+            title="切换章节导航"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
         )}
+
+        <div className="flex items-center gap-2 text-xs font-mono font-bold">
+          {isOnline ? (
+            <span className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shadow-sm">
+              <Wifi className="w-3.5 h-3.5 text-emerald-600" />
+              <span>离线可用</span>
+            </span>
+          ) : (
+            <span className="flex items-center gap-1.5 text-amber-700 bg-amber-50 px-3 py-1 rounded-full border border-amber-200 shadow-sm">
+              <WifiOff className="w-3.5 h-3.5 text-amber-600" />
+              <span>离线运行中</span>
+            </span>
+          )}
+        </div>
       </div>
 
-      {/* Gamification Stats: Streak, XP, Hearts */}
-      <div className="flex items-center gap-4 md:gap-6">
+      {/* Right Gamification Stats: Streak, XP, Hearts, Sound */}
+      <div className="flex items-center gap-2 md:gap-4">
         {/* Streak */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800/80 rounded-xl border border-slate-700/80">
-          <Flame className="w-5 h-5 text-dopamine-orange fill-dopamine-orange" />
-          <span className="font-display font-extrabold text-sm text-amber-200">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 rounded-xl border border-orange-200 shadow-sm">
+          <Flame className="w-4 h-4 text-orange-500 fill-orange-500" />
+          <span className="font-display font-black text-xs md:text-sm text-orange-950">
             {streakDays} 天
           </span>
         </div>
 
         {/* XP Points */}
-        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800/80 rounded-xl border border-slate-700/80">
-          <Zap className="w-5 h-5 text-dopamine-yellow fill-dopamine-yellow" />
-          <span className="font-display font-extrabold text-sm text-yellow-300">
+        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 rounded-xl border border-amber-200 shadow-sm">
+          <Zap className="w-4 h-4 text-amber-500 fill-amber-500" />
+          <span className="font-display font-black text-xs md:text-sm text-amber-950">
             {xp} XP
           </span>
         </div>
@@ -76,10 +93,10 @@ export const TopBar: React.FC<TopBarProps> = ({
             onRefillEnergy();
           }}
           title="点击补满能量"
-          className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-800/80 hover:bg-slate-750 active:scale-95 transition-all rounded-xl border border-slate-700/80 group"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-rose-50 hover:bg-rose-100 active:scale-95 transition-all rounded-xl border border-rose-200 shadow-sm group"
         >
-          <Heart className="w-5 h-5 text-rose-500 fill-rose-500 group-hover:scale-110 transition-transform" />
-          <span className="font-display font-extrabold text-sm text-rose-300">
+          <Heart className="w-4 h-4 text-rose-500 fill-rose-500 group-hover:scale-110 transition-transform" />
+          <span className="font-display font-black text-xs md:text-sm text-rose-900">
             {energy}
           </span>
         </button>
@@ -87,13 +104,13 @@ export const TopBar: React.FC<TopBarProps> = ({
         {/* Mute Sound Toggle */}
         <button
           onClick={handleToggleSound}
-          className="w-10 h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center transition-all active:scale-95"
+          className="w-9 h-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center transition-all active:scale-95 shadow-sm"
           title={isMuted ? '开启声音' : '静音'}
         >
           {isMuted ? (
-            <VolumeX className="w-5 h-5 text-rose-400" />
+            <VolumeX className="w-4 h-4 text-rose-500" />
           ) : (
-            <Volume2 className="w-5 h-5 text-dopamine-cyan" />
+            <Volume2 className="w-4 h-4 text-sky-600" />
           )}
         </button>
       </div>

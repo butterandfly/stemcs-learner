@@ -24,6 +24,7 @@ export default function App() {
 
   const [activeLessonNode, setActiveLessonNode] = useState<LearningNode | null>(null);
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 
   // Register PWA Service Worker for offline support
   useEffect(() => {
@@ -41,7 +42,6 @@ export default function App() {
   // Monitor orientation: iPad landscape is prioritized
   useEffect(() => {
     const checkOrientation = () => {
-      // If height is significantly larger than width, it's portrait
       setIsPortrait(window.innerHeight > window.innerWidth && window.innerWidth < 768);
     };
 
@@ -60,46 +60,77 @@ export default function App() {
   const currentUnit = allUnits.find((u) => u.id === activeUnitId) || allUnits[0];
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden flex bg-dopamine-surface text-slate-100 font-sans">
+    <div className="relative w-screen h-screen overflow-hidden flex bg-[#F8FAFC] text-slate-800 font-sans">
       {/* Landscape Advisor for small mobile portrait screens */}
       {isPortrait && (
-        <div className="fixed inset-0 z-50 bg-slate-950/95 flex flex-col items-center justify-center p-8 text-center backdrop-blur-md">
-          <div className="w-20 h-20 rounded-3xl bg-dopamine-cyan/20 border-2 border-dopamine-cyan flex items-center justify-center mb-6 animate-pulse">
-            <Smartphone className="w-10 h-10 text-dopamine-cyan rotate-90" />
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-md flex flex-col items-center justify-center p-8 text-center">
+          <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 max-w-sm w-full shadow-2xl flex flex-col items-center">
+            <div className="w-16 h-16 rounded-2xl bg-sky-100 border-2 border-sky-300 flex items-center justify-center mb-4 animate-pulse">
+              <Smartphone className="w-8 h-8 text-sky-600 rotate-90" />
+            </div>
+            <h2 className="text-xl font-display font-black text-slate-800 mb-2">
+              建议横屏使用
+            </h2>
+            <p className="text-xs text-slate-500 mb-6 leading-relaxed">
+              本应用专为 iPad 横屏打造，横向视窗可获得沉浸式双栏编程与最佳积木触控体验。
+            </p>
+            <button
+              onClick={() => setIsPortrait(false)}
+              className="px-6 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-mono font-bold transition-all"
+            >
+              继续竖屏预览
+            </button>
           </div>
-          <h2 className="text-2xl font-display font-black text-white mb-2">
-            请将设备横屏使用
-          </h2>
-          <p className="text-sm text-slate-400 max-w-xs mb-6">
-            本应用专为 iPad 横屏设计，横屏可获得最佳的双栏编程与积木拼装体验。
-          </p>
-          <button
-            onClick={() => setIsPortrait(false)}
-            className="px-6 py-2.5 rounded-xl bg-slate-800 text-slate-300 text-xs font-mono font-bold hover:bg-slate-700"
-          >
-            强制竖屏预览
-          </button>
         </div>
       )}
 
-      {/* Main iPad Landscape Layout */}
-      {/* 1. Left Sidebar Navigation */}
-      <Sidebar
-        activeModuleId={activeModuleId}
-        activeUnitId={activeUnitId}
-        completedNodeIds={progress.completedNodeIds}
-        onSelectModule={setActiveModuleId}
-        onSelectUnit={setActiveUnitId}
-        onResetProgress={resetAllProgress}
-      />
+      {/* 1. Desktop & iPad Landscape Sidebar */}
+      <div className="hidden lg:flex shrink-0 h-full">
+        <Sidebar
+          activeModuleId={activeModuleId}
+          activeUnitId={activeUnitId}
+          completedNodeIds={progress.completedNodeIds}
+          onSelectModule={setActiveModuleId}
+          onSelectUnit={setActiveUnitId}
+          onResetProgress={resetAllProgress}
+        />
+      </div>
+
+      {/* Mobile / Tablet Drawer Sidebar */}
+      {sidebarOpen && (
+        <div className="lg:hidden fixed inset-0 z-50 flex">
+          <div
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs"
+            onClick={() => setSidebarOpen(false)}
+          />
+          <div className="relative z-10 h-full animate-fade-in shadow-2xl">
+            <Sidebar
+              activeModuleId={activeModuleId}
+              activeUnitId={activeUnitId}
+              completedNodeIds={progress.completedNodeIds}
+              onSelectModule={(id) => {
+                setActiveModuleId(id);
+                setSidebarOpen(false);
+              }}
+              onSelectUnit={(id) => {
+                setActiveUnitId(id);
+                setSidebarOpen(false);
+              }}
+              onResetProgress={resetAllProgress}
+              onCloseMobile={() => setSidebarOpen(false)}
+            />
+          </div>
+        </div>
+      )}
 
       {/* 2. Right Center Canvas: TopBar + Duolingo Path View */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden bg-slate-950/60 relative">
+      <main className="flex-1 flex flex-col h-full overflow-hidden bg-[#F8FAFC] relative">
         <TopBar
           xp={progress.xp}
           streakDays={progress.streakDays}
           energy={progress.energy}
           onRefillEnergy={refillEnergy}
+          onToggleSidebar={() => setSidebarOpen(true)}
         />
 
         <PathView
