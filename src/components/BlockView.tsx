@@ -76,39 +76,59 @@ export const BlockView: React.FC<BlockViewProps> = ({
   const isHat = block.shape === 'hat';
   const isCBlock = block.shape === 'c-block';
 
-  // Format label: Extract flag or dropdown if present
-  const renderBilingualContent = () => {
-    const isFlagBlock = block.labelEn.includes('clicked');
-    const isPointerBlock = block.labelEn.includes('mouse-pointer');
+  // Helper to parse Scratch dropdowns e.g. [Underwater 2 ▼]
+  const renderTextWithDropdowns = (text: string) => {
+    if (text.includes('when ⚑ clicked')) {
+      return (
+        <span className="inline-flex items-center gap-1.5">
+          <span>when</span>
+          <span className="p-0.5 rounded bg-[#059669] text-white">
+            <Flag className="w-3.5 h-3.5 fill-current" />
+          </span>
+          <span>clicked</span>
+        </span>
+      );
+    }
 
+    const regex = /\[(.*?)\]/g;
+    const parts = [];
+    let lastIndex = 0;
+    let match;
+
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(text.substring(lastIndex, match.index));
+      }
+      parts.push(
+        <span
+          key={match.index}
+          className="mx-1 px-2 py-0.5 rounded-full bg-black/25 text-white text-xs font-mono font-bold inline-flex items-center gap-1 border border-white/20 shadow-inner"
+        >
+          <span>{match[1].replace('▼', '').trim()}</span>
+          <span className="text-[10px] opacity-80">▼</span>
+        </span>
+      );
+      lastIndex = regex.lastIndex;
+    }
+
+    if (lastIndex < text.length) {
+      parts.push(text.substring(lastIndex));
+    }
+
+    return <span>{parts}</span>;
+  };
+
+  const renderBilingualContent = () => {
     return (
       <div className="flex flex-col select-none">
         {/* English (Scratch Standard) */}
-        <div className="flex items-center gap-1.5 font-display font-bold text-white tracking-wide">
-          {isFlagBlock ? (
-            <>
-              <span>when</span>
-              <span className="p-1 rounded bg-[#059669] text-white">
-                <Flag className="w-3.5 h-3.5 fill-current" />
-              </span>
-              <span>clicked</span>
-            </>
-          ) : isPointerBlock ? (
-            <>
-              <span>go to</span>
-              <span className="px-2 py-0.5 rounded-full bg-[#2662B8] text-white text-xs font-mono font-bold flex items-center gap-1 border border-white/20">
-                <span>mouse-pointer</span>
-                <span className="text-[10px]">▼</span>
-              </span>
-            </>
-          ) : (
-            <span>{block.labelEn}</span>
-          )}
+        <div className="font-display font-bold text-white tracking-wide flex items-center">
+          {renderTextWithDropdowns(block.labelEn)}
         </div>
 
         {/* Chinese (Scratch Official Bilingual Subtitle) */}
         <div className="text-[11px] font-medium text-white/90 font-mono tracking-tight -mt-0.5">
-          {block.label}
+          {renderTextWithDropdowns(block.label)}
         </div>
       </div>
     );
