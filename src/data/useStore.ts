@@ -8,7 +8,7 @@ const defaultProgress: UserProgress = {
   streakDays: 1,
   energy: 5,
   completedNodeIds: [],
-  activeNodeId: 'node-1-1',
+  activeNodeId: 'node-star-mouse',
   lastActiveDate: new Date().toISOString().split('T')[0],
 };
 
@@ -26,7 +26,7 @@ export function useUserStore() {
   });
 
   const [activeModuleId, setActiveModuleId] = useState<string>('scratch');
-  const [activeUnitId, setActiveUnitId] = useState<string>('unit-1');
+  const [activeUnitId, setActiveUnitId] = useState<string>('unit-star-hunter');
 
   useEffect(() => {
     try {
@@ -72,6 +72,15 @@ export function useUserStore() {
     }));
   };
 
+  const unlockAllNodes = (allNodeIds: string[]) => {
+    setProgress((prev) => ({
+      ...prev,
+      completedNodeIds: allNodeIds,
+      xp: Math.max(prev.xp, 100),
+      energy: 5,
+    }));
+  };
+
   const resetAllProgress = () => {
     setProgress(defaultProgress);
     localStorage.removeItem(STORAGE_KEY);
@@ -87,6 +96,7 @@ export function useUserStore() {
     completeNode,
     loseEnergy,
     refillEnergy,
+    unlockAllNodes,
     resetAllProgress,
   };
 }

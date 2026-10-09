@@ -5,6 +5,7 @@ import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { PathView } from './components/PathView';
 import { LessonView } from './components/LessonView';
+import { DevPanel } from './components/DevPanel';
 import { LearningNode } from './types';
 import { Smartphone } from 'lucide-react';
 import { registerSW } from 'virtual:pwa-register';
@@ -16,15 +17,18 @@ export default function App() {
     setActiveModuleId,
     activeUnitId,
     setActiveUnitId,
+    addXp,
     completeNode,
     loseEnergy,
     refillEnergy,
+    unlockAllNodes,
     resetAllProgress,
   } = useUserStore();
 
   const [activeLessonNode, setActiveLessonNode] = useState<LearningNode | null>(null);
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [isDevOpen, setIsDevOpen] = useState<boolean>(false);
 
   // Register PWA Service Worker for offline support
   useEffect(() => {
@@ -58,6 +62,9 @@ export default function App() {
   const currentModule = CURRICULUM.find((m) => m.id === activeModuleId) || CURRICULUM[0];
   const allUnits = currentModule.sections.flatMap((s) => s.units);
   const currentUnit = allUnits.find((u) => u.id === activeUnitId) || allUnits[0];
+
+  // All node IDs across current module for dev unlock
+  const allNodeIds = allUnits.flatMap((u) => u.nodes.map((n) => n.id));
 
   return (
     <div className="relative w-screen h-screen overflow-hidden flex bg-[#F8FAFC] text-slate-800 font-sans">
@@ -93,6 +100,7 @@ export default function App() {
           onSelectModule={setActiveModuleId}
           onSelectUnit={setActiveUnitId}
           onResetProgress={resetAllProgress}
+          onToggleDevPanel={() => setIsDevOpen(true)}
         />
       </div>
 
@@ -118,6 +126,7 @@ export default function App() {
               }}
               onResetProgress={resetAllProgress}
               onCloseMobile={() => setSidebarOpen(false)}
+              onToggleDevPanel={() => setIsDevOpen(true)}
             />
           </div>
         </div>
@@ -153,6 +162,21 @@ export default function App() {
           }}
         />
       )}
+
+      {/* 4. Developer Debug Panel */}
+      <DevPanel
+        isOpen={isDevOpen}
+        onClose={() => setIsDevOpen(false)}
+        progress={progress}
+        onResetProgress={resetAllProgress}
+        onUnlockAll={() => unlockAllNodes(allNodeIds)}
+        onAddXp={addXp}
+        onRefillEnergy={refillEnergy}
+        onJumpToNode={(node) => {
+          setActiveLessonNode(node);
+          setIsDevOpen(false);
+        }}
+      />
     </div>
   );
 }
