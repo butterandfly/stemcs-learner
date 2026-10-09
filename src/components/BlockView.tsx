@@ -75,9 +75,11 @@ export const BlockView: React.FC<BlockViewProps> = ({
   const style = getCategoryStyles();
   const isHat = block.shape === 'hat';
   const isCBlock = block.shape === 'c-block';
+  const isCap = block.shape === 'cap';
+  const isIfBlock = block.labelEn.toLowerCase().startsWith('if');
 
-  // Helper to parse Scratch dropdowns e.g. [Underwater 2 ▼]
-  const renderTextWithDropdowns = (text: string) => {
+  // Parses [dropdown ▼], (input), or <sensing boolean>
+  const renderTextWithDropdowns = (text: string): React.ReactNode => {
     if (text.includes('when ⚑ clicked')) {
       return (
         <span className="inline-flex items-center gap-1.5">
@@ -90,8 +92,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
       );
     }
 
-    // Matches [dropdown ▼] or (input_number)
-    const regex = /(\[.*?\]|\(.*?\))/g;
+    const regex = /(\[.*?\]|\(.*?\)|<.*?>)/g;
     const parts = [];
     let lastIndex = 0;
     let match;
@@ -103,7 +104,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
 
       const raw = match[0];
       if (raw.startsWith('[')) {
-        // Dropdown menu pill (e.g. [left-right ▼])
+        // Dropdown menu pill (e.g. [left-right ▼], [Cat ▼])
         const inner = raw.slice(1, -1).replace('▼', '').trim();
         parts.push(
           <span
@@ -123,6 +124,17 @@ export const BlockView: React.FC<BlockViewProps> = ({
             className="mx-1.5 px-2.5 py-0.5 rounded-full bg-white text-slate-900 text-xs font-mono font-extrabold inline-flex items-center shadow-inner"
           >
             {inner}
+          </span>
+        );
+      } else if (raw.startsWith('<') && raw.endsWith('>')) {
+        // Hexagonal Boolean Sensing Condition (e.g. <touching [Cat ▼] ?>)
+        const inner = raw.slice(1, -1).trim();
+        parts.push(
+          <span
+            key={match.index}
+            className="mx-1.5 px-3 py-0.5 rounded-full bg-[#49B3DB] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner"
+          >
+            {renderTextWithDropdowns(inner)}
           </span>
         );
       }
@@ -153,7 +165,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
     );
   };
 
-  // Render C-Block (forever / 重复执行)
+  // Render C-Block (forever or if-then)
   if (isCBlock) {
     return (
       <div
@@ -184,7 +196,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
           <div className={`w-4 ${style.bg} border-l border-white/30 shrink-0`} />
 
           {/* Inner Mouth Slot */}
-          <div className="flex-1 py-1 px-1 min-h-[48px] bg-slate-100/60 border-l border-slate-300/40 rounded-r-lg">
+          <div className="flex-1 py-1.5 px-1 min-h-[48px] bg-slate-100/60 border-l border-slate-300/40 rounded-r-lg">
             {block.nestedBlocks && block.nestedBlocks.length > 0 ? (
               <div className="flex flex-col gap-1 items-start">
                 {block.nestedBlocks.map((child) => (
@@ -199,20 +211,24 @@ export const BlockView: React.FC<BlockViewProps> = ({
           </div>
         </div>
 
-        {/* C-Block Bottom Return Arm */}
+        {/* C-Block Bottom Arm */}
         <div
           className={`relative flex items-center justify-between px-4 py-2 rounded-b-xl ${style.bg} ${style.shadow} border-b border-x border-black/10`}
         >
-          {/* Loop return arrow symbol */}
-          <div className="ml-auto flex items-center gap-1 text-white/90">
-            <RotateCcw className="w-3.5 h-3.5 stroke-[2.5]" />
-          </div>
+          {/* Socket under bottom arm (for if-then block) or loop return arrow (for forever) */}
+          {isIfBlock ? (
+            <div className="absolute -bottom-1 left-4 w-6 h-1.5 bg-inherit rounded-b-md border-b border-black/20" />
+          ) : (
+            <div className="ml-auto flex items-center gap-1 text-white/90">
+              <RotateCcw className="w-3.5 h-3.5 stroke-[2.5]" />
+            </div>
+          )}
         </div>
       </div>
     );
   }
 
-  // Render Hat or Stack Block
+  // Render Hat, Stack, or Cap Block
   return (
     <div
       onClick={() => {
@@ -234,15 +250,17 @@ export const BlockView: React.FC<BlockViewProps> = ({
           size === 'compact' ? 'px-3 py-1.5' : 'px-4 py-2.5'
         } ${style.bg} ${style.shadow} border-t border-white/30 shadow-sm`}
       >
-        {/* Top puzzle tab for stack blocks */}
+        {/* Top puzzle tab for stack/cap blocks */}
         {!isHat && !isNestedChild && (
           <div className="absolute -top-1 left-4 w-6 h-1.5 bg-slate-300 rounded-b-md" />
         )}
 
         {renderBilingualContent()}
 
-        {/* Bottom puzzle socket */}
-        <div className="absolute -bottom-1 left-4 w-6 h-1.5 bg-inherit rounded-b-md border-b border-black/20" />
+        {/* Bottom puzzle socket (Cap blocks have FLAT bottom, no socket!) */}
+        {!isCap && (
+          <div className="absolute -bottom-1 left-4 w-6 h-1.5 bg-inherit rounded-b-md border-b border-black/20" />
+        )}
       </div>
     </div>
   );
