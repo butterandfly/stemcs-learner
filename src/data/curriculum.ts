@@ -4,382 +4,279 @@ export const CURRICULUM: Module[] = [
   {
     id: 'scratch',
     name: 'Scratch 积木王国',
-    tagline: '逻辑积木 · 动感舞台',
+    tagline: 'DK 星星猎手 · 经典实战',
     icon: 'Cat',
     color: '#FFAB19',
     isLocked: false,
     sections: [
       {
-        id: 'sec-1',
-        title: '第 1 部份：动起来与第一条指令',
-        description: '掌握事件触发与小猫的基础运动',
+        id: 'sec-dk-projects',
+        title: '第 1 部份：DK 经典游戏实战',
+        description: '跟着 DK 经典编程教程，从零构建完整的互动游戏',
         units: [
           {
-            id: 'unit-1',
+            id: 'unit-star-hunter',
             unitNumber: 1,
-            title: '第 1 单元：绿旗与第一次移动',
-            badge: '起步先锋',
-            summary: '认识 Scratch 积木结构，让小猫迈出编程第一步',
+            title: '第 1 单元：星星猎手',
+            titleEn: 'Unit 1: Star Hunter',
+            badge: 'DK 实战',
+            summary: '掌握用鼠标指针操控角色，搭建太空寻宝游戏的角色引擎！',
             nodes: [
               {
-                id: 'node-1-1',
-                title: '启动魔法',
-                shortDesc: '程序的起跑信号',
-                icon: 'Flag',
-                xp: 20,
+                id: 'node-star-mouse',
+                title: '鼠标操控',
+                titleEn: 'Mouse Control',
+                shortDesc: '学会用鼠标指针操控角色移动',
+                icon: 'Footprints',
+                xp: 30,
+                blueprint: {
+                  title: '目标脚本：鼠标跟踪',
+                  titleEn: 'Target Script: Follow Mouse-Pointer',
+                  blocks: [
+                    {
+                      id: 'bp-flag',
+                      category: 'events',
+                      label: '当 绿旗 被点击',
+                      labelEn: 'when ⚑ clicked',
+                      shape: 'hat',
+                    },
+                    {
+                      id: 'bp-forever',
+                      category: 'control',
+                      label: '重复执行',
+                      labelEn: 'forever',
+                      shape: 'c-block',
+                      nestedBlocks: [
+                        {
+                          id: 'bp-goto',
+                          category: 'motion',
+                          label: '移到 [鼠标指针 ▼]',
+                          labelEn: 'go to [mouse-pointer ▼]',
+                          shape: 'stack',
+                        },
+                      ],
+                    },
+                  ],
+                  tip: '将蓝色运动积木塞入金色循环框的嘴巴中，点击绿旗即可用鼠标操纵角色！',
+                },
                 questions: [
                   {
-                    id: 'q-1-1-1',
+                    id: 'q-star-1',
                     type: 'select_one',
-                    prompt: '找出能让程序启动的「起跑帽」积木',
-                    subtext: '所有 Scratch 脚本都需要一个起始事件',
+                    prompt: '要让角色飞到鼠标所在的位置，该选哪块蓝色运动积木？',
+                    promptEn: 'Which motion block moves the sprite to your mouse pointer?',
+                    subtext: '提示：在「运动 (Motion)」分类中寻找',
                     options: [
                       {
-                        id: 'opt-flag',
-                        text: '当 绿旗 被点击',
+                        id: 'opt-goto',
+                        text: '移到 [鼠标指针 ▼]',
                         isCorrect: true,
                         block: {
-                          id: 'b-flag-demo',
-                          category: 'events',
-                          label: '当 绿旗 被点击',
-                          shape: 'hat'
-                        }
+                          id: 'b-goto-opt',
+                          category: 'motion',
+                          label: '移到 [鼠标指针 ▼]',
+                          labelEn: 'go to [mouse-pointer ▼]',
+                          shape: 'stack',
+                        },
                       },
                       {
                         id: 'opt-move',
                         text: '移动 10 步',
                         isCorrect: false,
                         block: {
-                          id: 'b-move-demo',
+                          id: 'b-move-opt',
                           category: 'motion',
                           label: '移动 10 步',
-                          shape: 'stack'
-                        }
+                          labelEn: 'move 10 steps',
+                          shape: 'stack',
+                        },
                       },
                       {
-                        id: 'opt-say',
-                        text: '说 "你好" 2秒',
+                        id: 'opt-turn',
+                        text: '右转 15 度',
                         isCorrect: false,
                         block: {
-                          id: 'b-say-demo',
-                          category: 'looks',
-                          label: '说 "你好" 2秒',
-                          shape: 'stack'
-                        }
-                      }
+                          id: 'b-turn-opt',
+                          category: 'motion',
+                          label: '右转 15 度',
+                          labelEn: 'turn ↷ 15 degrees',
+                          shape: 'stack',
+                        },
+                      },
                     ],
-                    stageConfig: {
-                      initialX: -100,
-                      initialY: 0,
-                      actionType: 'say',
-                      speechText: '我在等绿旗指令！'
-                    },
-                    successMessage: '正确！圆形凸起是「帽子积木」，它是程序的开端。'
+                    successMessage: '正确！「go to mouse-pointer」会让角色瞬间吸附到鼠标位置。',
                   },
                   {
-                    id: 'q-1-1-2',
+                    id: 'q-star-2',
                     type: 'predict_output',
-                    prompt: '如果不放「绿旗」积木，点击绿旗小猫会怎样？',
+                    prompt: '如果只放了「移到 鼠标指针」，没放循环，点击绿旗会发生什么？',
+                    promptEn: 'What happens if we run it without a forever loop?',
                     options: [
                       {
-                        id: 'opt-idle',
-                        text: '原地不动，因为没有接收到触发指令',
-                        isCorrect: true
+                        id: 'opt-p1',
+                        text: '角色只在点击瞬间瞬移一次，随后就停下不动了',
+                        isCorrect: true,
                       },
                       {
-                        id: 'opt-auto',
-                        text: '会自动跑起来',
-                        isCorrect: false
-                      }
+                        id: 'opt-p2',
+                        text: '角色会永远一直跟着鼠标到处跑',
+                        isCorrect: false,
+                      },
                     ],
-                    stageConfig: {
-                      initialX: 0,
-                      initialY: 0,
-                      actionType: 'say',
-                      speechText: '没有事件，我不知道该做什么~'
-                    },
-                    successMessage: '极客法则：计算机只执行被明确触发的指令。'
-                  }
-                ]
-              },
-              {
-                id: 'node-1-2',
-                title: '迈出第一步',
-                shortDesc: '拼合积木并移动',
-                icon: 'Footprints',
-                xp: 25,
-                questions: [
+                    successMessage: '极客直觉！计算机只执行了一瞬间就结束了，必须加上持续的循环。',
+                  },
                   {
-                    id: 'q-1-2-1',
+                    id: 'q-star-3',
+                    type: 'select_one',
+                    prompt: '想让指令「每分每秒不停重复」，该套上哪块金色控制积木？',
+                    promptEn: 'Which control block repeats the action indefinitely?',
+                    subtext: '提示：在「控制 (Control)」分类中寻找循环框',
+                    options: [
+                      {
+                        id: 'opt-forever',
+                        text: '重复执行',
+                        isCorrect: true,
+                        block: {
+                          id: 'b-forever-opt',
+                          category: 'control',
+                          label: '重复执行',
+                          labelEn: 'forever',
+                          shape: 'c-block',
+                        },
+                      },
+                      {
+                        id: 'opt-repeat10',
+                        text: '重复执行 10 次',
+                        isCorrect: false,
+                        block: {
+                          id: 'b-r10-opt',
+                          category: 'control',
+                          label: '重复执行 10 次',
+                          labelEn: 'repeat 10',
+                          shape: 'c-block',
+                        },
+                      },
+                      {
+                        id: 'opt-wait',
+                        text: '等待 1 秒',
+                        isCorrect: false,
+                        block: {
+                          id: 'b-wait-opt',
+                          category: 'control',
+                          label: '等待 1 秒',
+                          labelEn: 'wait 1 seconds',
+                          shape: 'stack',
+                        },
+                      },
+                    ],
+                    successMessage: '完全正确！forever（重复执行）就像无限循环带，角色永远不会下线！',
+                  },
+                  {
+                    id: 'q-star-4',
                     type: 'block_assemble',
-                    prompt: '按照先后顺序拼好积木，让小猫前进',
-                    subtext: '先放起跑帽，再卡入运动积木',
+                    prompt: '按先后顺序点击积木，拼装出完整的操控脚本：',
+                    promptEn: 'Assemble the blocks in order to build the script:',
+                    subtext: '点击积木放入轨道（先起跑帽，再循环，再放入运动）',
                     availableBlocks: [
                       {
                         id: 'b_flag',
                         category: 'events',
                         label: '当 绿旗 被点击',
-                        shape: 'hat'
+                        labelEn: 'when ⚑ clicked',
+                        shape: 'hat',
                       },
                       {
-                        id: 'b_move10',
+                        id: 'b_forever',
+                        category: 'control',
+                        label: '重复执行',
+                        labelEn: 'forever',
+                        shape: 'c-block',
+                      },
+                      {
+                        id: 'b_goto',
                         category: 'motion',
-                        label: '移动 10 步',
-                        shape: 'stack'
+                        label: '移到 [鼠标指针 ▼]',
+                        labelEn: 'go to [mouse-pointer ▼]',
+                        shape: 'stack',
                       },
                       {
-                        id: 'b_wrong',
-                        category: 'sound',
-                        label: '播放声音 喵',
-                        shape: 'stack'
-                      }
-                    ],
-                    correctBlockSequence: ['b_flag', 'b_move10'],
-                    stageConfig: {
-                      initialX: -60,
-                      initialY: 0,
-                      targetX: -10,
-                      actionType: 'move',
-                      actionValue: 50
-                    },
-                    successMessage: '咔哒！积木咬合，小猫向前迈出第一步！'
-                  },
-                  {
-                    id: 'q-1-2-2',
-                    type: 'select_one',
-                    prompt: '在 Scratch 中，控制「位置和移动」的积木是什么颜色？',
-                    options: [
-                      {
-                        id: 'opt-blue',
-                        text: '蓝色 (运动分类)',
-                        isCorrect: true
-                      },
-                      {
-                        id: 'opt-yellow',
-                        text: '黄色 (事件分类)',
-                        isCorrect: false
-                      },
-                      {
-                        id: 'opt-purple',
-                        text: '紫色 (外观分类)',
-                        isCorrect: false
-                      }
-                    ],
-                    successMessage: '漂亮！蓝色对应运动，颜色是积木的分类密码。'
-                  }
-                ]
-              },
-              {
-                id: 'node-1-3',
-                title: '数值与距离',
-                shortDesc: '调整步数与方向',
-                icon: 'Gauge',
-                xp: 30,
-                questions: [
-                  {
-                    id: 'q-1-3-1',
-                    type: 'parameter_tune',
-                    prompt: '想要小猫走到右侧的水晶能量站，选择哪个积木？',
-                    subtext: '距离测量显示：大约需要前进 60 步',
-                    options: [
-                      {
-                        id: 'opt-p10',
-                        text: '移动 10 步',
-                        isCorrect: false,
-                        block: {
-                          id: 'b-m10',
-                          category: 'motion',
-                          label: '移动 10 步',
-                          shape: 'stack'
-                        }
-                      },
-                      {
-                        id: 'opt-p60',
-                        text: '移动 60 步',
-                        isCorrect: true,
-                        block: {
-                          id: 'b-m60',
-                          category: 'motion',
-                          label: '移动 60 步',
-                          shape: 'stack'
-                        }
-                      },
-                      {
-                        id: 'opt-p0',
-                        text: '移动 0 步',
-                        isCorrect: false,
-                        block: {
-                          id: 'b-m0',
-                          category: 'motion',
-                          label: '移动 0 步',
-                          shape: 'stack'
-                        }
-                      }
-                    ],
-                    stageConfig: {
-                      initialX: -80,
-                      initialY: 0,
-                      targetX: 40,
-                      actionType: 'move',
-                      actionValue: 120
-                    },
-                    successMessage: '充能成功！步数参数越大，位移距离越大。'
-                  },
-                  {
-                    id: 'q-1-3-2',
-                    type: 'predict_output',
-                    prompt: '如果把步数写成「-10」(负数)，小猫会怎么走？',
-                    options: [
-                      {
-                        id: 'opt-back',
-                        text: '向相反方向（后退）走 10 步',
-                        isCorrect: true
-                      },
-                      {
-                        id: 'opt-jump',
-                        text: '向上跳高 10 步',
-                        isCorrect: false
-                      },
-                      {
-                        id: 'opt-vanish',
-                        text: '直接消失',
-                        isCorrect: false
-                      }
-                    ],
-                    stageConfig: {
-                      initialX: 20,
-                      initialY: 0,
-                      actionType: 'say',
-                      speechText: '负数让我倒着走！'
-                    },
-                    successMessage: '极客思维达成！在坐标轴上，负号代表反向。'
-                  }
-                ]
-              },
-              {
-                id: 'node-1-4',
-                title: '单元大挑战：小猫亮相',
-                shortDesc: '移动并发出问候',
-                icon: 'Award',
-                xp: 40,
-                questions: [
-                  {
-                    id: 'q-1-4-1',
-                    type: 'block_assemble',
-                    prompt: '按顺序拼装：小猫起步前进，然后打招呼！',
-                    subtext: '点击积木放入轨道',
-                    availableBlocks: [
-                      {
-                        id: 'b_flag_final',
-                        category: 'events',
-                        label: '当 绿旗 被点击',
-                        shape: 'hat'
-                      },
-                      {
-                        id: 'b_move_final',
-                        category: 'motion',
-                        label: '移动 40 步',
-                        shape: 'stack'
-                      },
-                      {
-                        id: 'b_say_final',
+                        id: 'b_say',
                         category: 'looks',
-                        label: '说 "STEM 真酷！" 2秒',
-                        shape: 'stack'
-                      }
+                        label: '说 "你好!"',
+                        labelEn: 'say "Hello!"',
+                        shape: 'stack',
+                      },
                     ],
-                    correctBlockSequence: ['b_flag_final', 'b_move_final', 'b_say_final'],
-                    stageConfig: {
-                      initialX: -70,
-                      initialY: 0,
-                      targetX: 10,
-                      actionType: 'say',
-                      speechText: 'STEM 真酷！',
-                      actionValue: 80
+                    correctBlockSequence: ['b_flag', 'b_forever', 'b_goto'],
+                    successMessage: '咔哒！积木严丝合缝！脚本结构与 DK 教材完全一致！',
+                  },
+                  {
+                    id: 'q-star-5',
+                    type: 'action_mission',
+                    prompt: '现在打开你电脑上的 Scratch，完成这个脚本！',
+                    promptEn: 'Now open Scratch on your computer and build it!',
+                    subtext: '对照右侧的代码蓝图，在 Scratch 中拼好并点击绿旗测试',
+                    successMessage: '太棒了！你已经在电脑上成功用鼠标操控了角色！',
+                    missionStep: {
+                      stepNumber: 1,
+                      title: '电脑 Scratch 动手任务',
+                      description: '拼好积木后点击右上角绿旗，移动你的电脑鼠标，看看角色是不是牢牢跟着鼠标飞？',
                     },
-                    successMessage: '太棒了！你已经完成了第一个完整的 Scratch 脚本！'
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            id: 'unit-2',
-            unitNumber: 2,
-            title: '第 2 单元：转向与 X/Y 坐标秘密',
-            badge: '空间向导',
-            summary: '掌握角度旋转与舞台直角坐标系',
-            nodes: [
-              {
-                id: 'node-2-1',
-                title: '向右转一转',
-                shortDesc: '角度与方向积木',
-                icon: 'RotateCw',
-                xp: 25,
-                questions: []
+                  },
+                ],
               },
               {
-                id: 'node-2-2',
-                title: '探秘 X 轴与 Y 轴',
-                shortDesc: '舞台上的坐标网格',
-                icon: 'Compass',
-                xp: 30,
-                questions: []
-              }
-            ]
-          },
-          {
-            id: 'unit-3',
-            unitNumber: 3,
-            title: '第 3 单元：造型切换与走步动画',
-            badge: '动画大师',
-            summary: '利用下一个造型积木制作生动走路效果',
-            nodes: [
+                id: 'node-star-spawn',
+                title: '星星闪烁登场',
+                titleEn: 'Star Appears',
+                shortDesc: '让金色星星随机出现在太空舞台',
+                icon: 'Award',
+                xp: 35,
+                blueprint: {
+                  title: '星星生成脚本',
+                  titleEn: 'Star Spawn Script',
+                  blocks: [],
+                  tip: '下一关卡即将解锁！',
+                },
+                questions: [],
+              },
               {
-                id: 'node-3-1',
-                title: '换个姿势',
-                shortDesc: '造型 1 与造型 2',
-                icon: 'Sparkles',
-                xp: 30,
-                questions: []
-              }
-            ]
-          }
-        ]
+                id: 'node-star-catch',
+                title: '捕获得分',
+                titleEn: 'Catch & Score',
+                shortDesc: '碰撞检测与变量得分系统',
+                icon: 'Gauge',
+                xp: 40,
+                blueprint: {
+                  title: '碰触得分脚本',
+                  titleEn: 'Scoring Script',
+                  blocks: [],
+                  tip: '下一关卡即将解锁！',
+                },
+                questions: [],
+              },
+            ],
+          },
+        ],
       },
-      {
-        id: 'sec-2',
-        title: '第 2 部份：循环循环再循环',
-        description: '让计算机自动重复执行动作，掌握无限与有限循环',
-        units: [
-          {
-            id: 'unit-4',
-            unitNumber: 4,
-            title: '第 4 单元：重复执行积木',
-            badge: '齿轮运转',
-            summary: 'C 型积木的包裹奥秘',
-            nodes: []
-          }
-        ]
-      }
-    ]
+    ],
   },
   {
     id: 'python',
     name: 'Python 终端极客',
     tagline: '文本代码 · 算法探险',
     icon: 'Terminal',
-    color: '#00E5FF',
+    color: '#0EA5E9',
     isLocked: true,
-    sections: []
+    sections: [],
   },
   {
     id: 'hardware',
     name: '硬件与机器人',
     tagline: '电路脉冲 · 传感互联',
     icon: 'Cpu',
-    color: '#00E676',
+    color: '#22C55E',
     isLocked: true,
-    sections: []
-  }
+    sections: [],
+  },
 ];

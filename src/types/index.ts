@@ -1,52 +1,69 @@
-export type BlockCategory = 'events' | 'motion' | 'looks' | 'control' | 'sound';
+export type BlockCategory =
+  | 'events'
+  | 'motion'
+  | 'control'
+  | 'looks'
+  | 'sound'
+  | 'sensing'
+  | 'operators'
+  | 'variables';
 
 export interface ScratchBlock {
   id: string;
   category: BlockCategory;
-  label: string;
-  param?: string | number;
-  shape: 'hat' | 'stack' | 'c-block' | 'cap';
+  label: string; // Official Scratch Chinese
+  labelEn: string; // Official Scratch English
+  shape: 'hat' | 'stack' | 'c-block' | 'cap' | 'reporter';
+  nestedBlocks?: ScratchBlock[];
 }
 
-export type QuestionType = 'select_one' | 'block_assemble' | 'predict_output' | 'parameter_tune';
+export type QuestionType =
+  | 'select_one'
+  | 'block_assemble'
+  | 'predict_output'
+  | 'action_mission';
 
 export interface QuestionOption {
   id: string;
   text: string;
+  textEn?: string;
   isCorrect: boolean;
   explanation?: string;
   block?: ScratchBlock;
 }
 
-export interface StageSimulation {
-  initialX: number;
-  initialY: number;
-  targetX?: number;
-  initialCostume?: number;
-  expectedBlocks?: string[];
-  speechText?: string;
-  actionType: 'move' | 'say' | 'turn' | 'grow';
-  actionValue?: number | string;
+export interface TargetBlueprint {
+  title: string;
+  titleEn: string;
+  blocks: ScratchBlock[];
+  tip: string;
 }
 
 export interface ChallengeQuestion {
   id: string;
   type: QuestionType;
   prompt: string; // Concise instruction
+  promptEn?: string;
   subtext?: string;
-  stageConfig?: StageSimulation;
   availableBlocks?: ScratchBlock[];
   correctBlockSequence?: string[]; // block IDs
   options?: QuestionOption[];
   successMessage: string;
+  missionStep?: {
+    stepNumber: number;
+    title: string;
+    description: string;
+  };
 }
 
 export interface LearningNode {
   id: string;
   title: string;
+  titleEn: string;
   shortDesc: string;
   icon: string;
   xp: number;
+  blueprint: TargetBlueprint;
   questions: ChallengeQuestion[];
 }
 
@@ -54,6 +71,7 @@ export interface Unit {
   id: string;
   unitNumber: number;
   title: string;
+  titleEn: string;
   badge: string;
   summary: string;
   nodes: LearningNode[];
@@ -79,7 +97,7 @@ export interface Module {
 export interface UserProgress {
   xp: number;
   streakDays: number;
-  energy: number; // 5 hearts max
+  energy: number;
   completedNodeIds: string[];
   activeNodeId: string;
   lastActiveDate: string;

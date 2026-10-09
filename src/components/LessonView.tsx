@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, Heart, Sparkles, Check, ArrowRight, RotateCcw } from 'lucide-react';
+import { X, Heart, Sparkles, Check, ArrowRight, RotateCcw, Monitor, Compass, CheckCircle2 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { LearningNode, ScratchBlock } from '../types';
 import { BlockView } from './BlockView';
-import { ScratchStage } from './ScratchStage';
 import { sound } from '../audio/sound';
 
 interface LessonViewProps {
@@ -25,12 +24,7 @@ export const LessonView: React.FC<LessonViewProps> = ({
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [assembledBlocks, setAssembledBlocks] = useState<ScratchBlock[]>([]);
   const [availableBlocks, setAvailableBlocks] = useState<ScratchBlock[]>([]);
-
-  // Stage state
-  const [stageX, setStageX] = useState<number>(0);
-  const [stageY, setStageY] = useState<number>(0);
-  const [speech, setSpeech] = useState<string | undefined>(undefined);
-  const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [missionDone, setMissionDone] = useState(false);
 
   // Result check state: 'idle' | 'correct' | 'wrong'
   const [checkState, setCheckState] = useState<'idle' | 'correct' | 'wrong'>('idle');
@@ -44,20 +38,11 @@ export const LessonView: React.FC<LessonViewProps> = ({
 
     setSelectedOptionId(null);
     setCheckState('idle');
+    setMissionDone(false);
 
     if (question.type === 'block_assemble' && question.availableBlocks) {
       setAvailableBlocks([...question.availableBlocks]);
       setAssembledBlocks([]);
-    }
-
-    if (question.stageConfig) {
-      setStageX(question.stageConfig.initialX);
-      setStageY(question.stageConfig.initialY);
-      setSpeech(question.stageConfig.speechText);
-    } else {
-      setStageX(0);
-      setStageY(0);
-      setSpeech(undefined);
     }
   }, [currentQIndex, question]);
 
@@ -69,63 +54,71 @@ export const LessonView: React.FC<LessonViewProps> = ({
   const handleAddToAssembled = (block: ScratchBlock) => {
     sound.playSnap();
     setAvailableBlocks((prev) => prev.filter((b) => b.id !== block.id));
-    setAssembledBlocks((prev) => [...prev, block]);
+
+    // If the assembled list already has a C-block and this is a motion stack block, nest it inside!
+    setAssembledBlocks((prev) => {
+      const cBlockIndex = prev.findIndex((b) => b.shape === 'c-block');
+      if (cBlockIndex !== -1 && block.category === 'motion') {
+        const copy = [...prev];
+        const cBlock = { ...copy[cBlockIndex] };
+        cBlock.nestedBlocks = [...(cBlock.nestedBlocks || []), block];
+        copy[cBlockIndex] = cBlock;
+        return copy;
+      }
+      return [...prev, block];
+    });
   };
 
   const handleRemoveFromAssembled = (block: ScratchBlock) => {
     sound.playPop();
-    setAssembledBlocks((prev) => prev.filter((b) => b.id !== block.id));
-    setAvailableBlocks((prev) => [...prev, block]);
-  };
 
-  // Run simulation preview on stage
-  const runSimulation = () => {
-    setIsRunning(true);
-    if (question.stageConfig) {
-      if (question.stageConfig.actionType === 'move') {
-        const delta = Number(question.stageConfig.actionValue || 50);
-        setStageX((prev) => prev + delta);
-      } else if (question.stageConfig.actionType === 'say') {
-        setSpeech(question.stageConfig.speechText || '你好！');
-        sound.playCatMeow();
+    // Remove from root or from nested C-block
+    setAssembledBlocks((prev) => {
+      const isRoot = prev.some((b) => b.id === block.id);
+      if (isRoot) {
+        return prev.filter((b) => b.id !== block.id);
       }
-    }
-    setTimeout(() => {
-      setIsRunning(false);
-    }, 800);
-  };
+      return prev.map((b) => {
+        if (b.nestedBlocks && b.nestedBlocks.some((n) => n.id === block.id)) {
+          return {
+            ...b,
+            nestedBlocks: b.nestedBlocks.filter((n) => n.id !== block.id),
+          };
+        }
+        return b;
+      });
+    });
 
-  const resetSimulation = () => {
-    if (question.stageConfig) {
-      setStageX(question.stageConfig.initialX);
-      setStageY(question.stageConfig.initialY);
-      setSpeech(question.stageConfig.speechText);
-    } else {
-      setStageX(0);
-      setStageY(0);
-      setSpeech(undefined);
-    }
+    setAvailableBlocks((prev) => [...prev, block]);
   };
 
   // Submit check
   const handleCheck = () => {
     let isCorrect = false;
 
-    if (question.type === 'select_one' || question.type === 'predict_output' || question.type === 'parameter_tune') {
+    if (question.type === 'select_one' || question.type === 'predict_output') {
       const selected = question.options?.find((opt) => opt.id === selectedOptionId);
       isCorrect = !!selected?.isCorrect;
     } else if (question.type === 'block_assemble') {
-      const assembledIds = assembledBlocks.map((b) => b.id);
+      // Flatten root and nested blocks
+      const flatIds: string[] = [];
+      assembledBlocks.forEach((b) => {
+        flatIds.push(b.id);
+        if (b.nestedBlocks) {
+          b.nestedBlocks.forEach((nested) => flatIds.push(nested.id));
+        }
+      });
       const expectedIds = question.correctBlockSequence || [];
       isCorrect =
-        assembledIds.length === expectedIds.length &&
-        assembledIds.every((id, idx) => id === expectedIds[idx]);
+        flatIds.length === expectedIds.length &&
+        flatIds.every((id, idx) => id === expectedIds[idx]);
+    } else if (question.type === 'action_mission') {
+      isCorrect = missionDone;
     }
 
     if (isCorrect) {
       setCheckState('correct');
       sound.playSuccess();
-      runSimulation();
 
       confetti({
         particleCount: 40,
@@ -160,11 +153,14 @@ export const LessonView: React.FC<LessonViewProps> = ({
 
   const isCheckDisabled = () => {
     if (checkState !== 'idle') return false;
-    if (question.type === 'select_one' || question.type === 'predict_output' || question.type === 'parameter_tune') {
+    if (question.type === 'select_one' || question.type === 'predict_output') {
       return !selectedOptionId;
     }
     if (question.type === 'block_assemble') {
       return assembledBlocks.length === 0;
+    }
+    if (question.type === 'action_mission') {
+      return !missionDone;
     }
     return false;
   };
@@ -201,15 +197,23 @@ export const LessonView: React.FC<LessonViewProps> = ({
         </div>
       </header>
 
-      {/* Main Content Area - iPad Landscape Split-Screen */}
+      {/* Main Content Area - Split-Screen on iPad Landscape */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Side: Challenge & Interaction Zone (60%) */}
-        <div className="flex-1 flex flex-col p-6 lg:p-8 overflow-y-auto">
-          {/* Prompt */}
+        {/* Left Side: Challenge & Interactive Zone (60%) */}
+        <div className="flex-1 flex flex-col p-6 lg:p-10 overflow-y-auto">
+          {/* Question Title & Prompt */}
           <div className="mb-6">
-            <span className="inline-block px-3 py-1 rounded-full text-xs font-mono font-bold tracking-wider bg-purple-100 text-purple-800 border border-purple-200 mb-2">
-              第 {currentQIndex + 1} / {node.questions.length} 题
-            </span>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="px-3 py-0.5 rounded-full text-xs font-mono font-bold tracking-wider bg-purple-100 text-purple-800 border border-purple-200">
+                第 {currentQIndex + 1} / {node.questions.length} 步
+              </span>
+              {question.promptEn && (
+                <span className="text-xs font-mono text-slate-400 truncate">
+                  {question.promptEn}
+                </span>
+              )}
+            </div>
+
             <h2 className="text-2xl lg:text-3xl font-display font-black text-slate-800 tracking-tight leading-snug">
               {question.prompt}
             </h2>
@@ -222,10 +226,8 @@ export const LessonView: React.FC<LessonViewProps> = ({
 
           {/* Interactive Work Area */}
           <div className="flex-1 flex flex-col justify-center">
-            {/* 1. Multiple Choice / Prediction / Tune */}
-            {(question.type === 'select_one' ||
-              question.type === 'predict_output' ||
-              question.type === 'parameter_tune') && (
+            {/* 1. Multiple Choice / Prediction */}
+            {(question.type === 'select_one' || question.type === 'predict_output') && (
               <div className="grid grid-cols-1 gap-3.5 max-w-xl">
                 {question.options?.map((option) => {
                   const isSelected = selectedOptionId === option.id;
@@ -247,7 +249,9 @@ export const LessonView: React.FC<LessonViewProps> = ({
                         {option.block ? (
                           <BlockView block={option.block} size="compact" />
                         ) : (
-                          <span className="text-base font-bold text-slate-800">{option.text}</span>
+                          <span className="text-base font-bold text-slate-800">
+                            {option.text}
+                          </span>
                         )}
                       </div>
 
@@ -270,18 +274,18 @@ export const LessonView: React.FC<LessonViewProps> = ({
             {/* 2. Block Assemble Dock & Tray */}
             {question.type === 'block_assemble' && (
               <div className="flex flex-col gap-6 max-w-xl">
-                {/* Script Dock (Assembled sequence) */}
-                <div className="min-h-[140px] p-5 bg-white rounded-3xl border-2 border-dashed border-sky-300 shadow-sm flex flex-col gap-2">
+                {/* Script Dock (Assembled script) */}
+                <div className="min-h-[160px] p-5 bg-white rounded-3xl border-2 border-dashed border-sky-300 shadow-sm flex flex-col gap-2">
                   <div className="text-xs font-mono font-bold text-slate-500 mb-1 flex items-center justify-between">
-                    <span>运行轨道 (点击积木可放回)</span>
+                    <span>运行轨道 (点击积木可拆卸)</span>
                     <span className="text-sky-600 font-extrabold">
-                      已放入 {assembledBlocks.length} 个积木
+                      已装配 {assembledBlocks.length} 组积木
                     </span>
                   </div>
 
                   {assembledBlocks.length === 0 ? (
-                    <div className="flex-1 flex items-center justify-center text-slate-400 text-sm font-medium">
-                      从下方点击积木拼入此处
+                    <div className="flex-1 flex items-center justify-center text-slate-400 text-sm font-medium py-8">
+                      从下方点击积木依次拼入此处
                     </div>
                   ) : (
                     <div className="flex flex-col gap-1 items-start">
@@ -302,7 +306,7 @@ export const LessonView: React.FC<LessonViewProps> = ({
                 {/* Available Blocks Tray */}
                 <div>
                   <div className="text-xs font-mono font-bold text-slate-500 mb-2">
-                    待选积木托盘
+                    备选积木托盘
                   </div>
                   <div className="flex flex-wrap gap-3 p-4 bg-slate-100/90 rounded-2xl border border-slate-200 min-h-[70px] items-center">
                     {availableBlocks.map((block) => (
@@ -324,24 +328,162 @@ export const LessonView: React.FC<LessonViewProps> = ({
                 </div>
               </div>
             )}
+
+            {/* 3. Computer Action Mission Step */}
+            {question.type === 'action_mission' && (
+              <div className="max-w-xl space-y-4">
+                <div className="p-6 bg-gradient-to-br from-sky-50 to-emerald-50 rounded-3xl border-2 border-sky-200 shadow-sm">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-md">
+                      <Monitor className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="font-display font-black text-lg text-slate-800">
+                        电脑 Scratch 实操清单
+                      </h3>
+                      <p className="text-xs text-slate-500 font-medium">
+                        请在你的电脑屏幕上打开 Scratch 3.0 进行同步操作
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3 font-medium text-sm text-slate-700">
+                    <div className="flex items-start gap-2.5 bg-white/80 p-3 rounded-xl border border-sky-100">
+                      <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                        1
+                      </span>
+                      <span>从左侧黄色「事件」分类拖出：<strong className="text-amber-800">when ⚑ clicked (当绿旗被点击)</strong></span>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 bg-white/80 p-3 rounded-xl border border-sky-100">
+                      <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                        2
+                      </span>
+                      <span>从金色「控制」分类拖出：<strong className="text-amber-800">forever (重复执行)</strong> 卡在下方</span>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 bg-white/80 p-3 rounded-xl border border-sky-100">
+                      <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                        3
+                      </span>
+                      <span>从蓝色「运动」分类将 <strong className="text-sky-800">go to [mouse-pointer ▼]</strong> 塞入嘴巴里</span>
+                    </div>
+
+                    <div className="flex items-start gap-2.5 bg-white/80 p-3 rounded-xl border border-sky-100">
+                      <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                        4
+                      </span>
+                      <span>点击电脑右上角的绿旗 ⚑，移动鼠标测试角色跟随效果！</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Practical Confirmation Checkbox Button */}
+                <button
+                  onClick={() => {
+                    sound.playSnap();
+                    setMissionDone(!missionDone);
+                  }}
+                  className={`w-full p-4 rounded-2xl border-2 flex items-center justify-between transition-all ${
+                    missionDone
+                      ? 'bg-emerald-50 border-emerald-500 text-emerald-950 shadow-[0_4px_0_#16A34A]'
+                      : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 shadow-sm'
+                  }`}
+                >
+                  <div className="flex items-center gap-3 font-display font-bold text-base">
+                    <CheckCircle2
+                      className={`w-6 h-6 ${
+                        missionDone ? 'text-emerald-500 fill-emerald-100' : 'text-slate-300'
+                      }`}
+                    />
+                    <span>我已在电脑 Scratch 上拼好并测试成功！</span>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2.5 py-1 rounded-full">
+                    {missionDone ? '已就绪' : '点击确认'}
+                  </span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Right Side: Scratch Stage Simulation (40% width on iPad Landscape) */}
-        <div className="w-[42%] max-w-[460px] p-6 lg:p-8 border-l border-slate-200 bg-slate-50/50 flex flex-col">
-          <ScratchStage
-            x={stageX}
-            y={stageY}
-            speechText={speech}
-            targetX={question.stageConfig?.targetX}
-            isRunning={isRunning}
-            onRun={runSimulation}
-            onReset={resetSimulation}
-          />
+        {/* Right Side: Scratch Code Reference & Blueprint Desk (40%) */}
+        <div className="w-[42%] max-w-[460px] p-6 lg:p-8 border-l border-slate-200 bg-slate-50 flex flex-col justify-between overflow-y-auto">
+          <div>
+            {/* Desk Title */}
+            <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
+              <div className="flex items-center gap-2">
+                <span className="p-1.5 rounded-lg bg-sky-100 text-sky-700">
+                  <Compass className="w-4 h-4" />
+                </span>
+                <span className="font-display font-black text-sm text-slate-800">
+                  {node.blueprint.title}
+                </span>
+              </div>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-bold uppercase">
+                DK 规范代码
+              </span>
+            </div>
+
+            {/* Target Block Blueprint (Matching User's Uploaded Image!) */}
+            <div className="p-6 bg-white rounded-3xl border-2 border-slate-200 shadow-sm flex flex-col items-start gap-1 relative overflow-hidden mb-6">
+              {/* Scratch Grid dots */}
+              <div
+                className="absolute inset-0 pointer-events-none opacity-40"
+                style={{
+                  backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)',
+                  backgroundSize: '24px 24px',
+                }}
+              />
+
+              <div className="relative z-10 flex flex-col items-start">
+                {node.blueprint.blocks.map((b) => (
+                  <BlockView key={b.id} block={b} />
+                ))}
+              </div>
+            </div>
+
+            {/* Scratch Categories Radar Guide */}
+            <div className="space-y-2.5">
+              <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
+                积木寻宝雷达 (分类指引)
+              </div>
+              <div className="grid grid-cols-1 gap-2 text-xs">
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 font-medium">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#FFBF00] border border-amber-600" />
+                    <strong>事件 (Events)</strong>
+                  </div>
+                  <span className="font-mono text-amber-800">when ⚑ clicked</span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-orange-50 border border-orange-200 text-orange-950 font-medium">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#FFAB19] border border-orange-600" />
+                    <strong>控制 (Control)</strong>
+                  </div>
+                  <span className="font-mono text-orange-800">forever</span>
+                </div>
+
+                <div className="flex items-center justify-between p-2.5 rounded-xl bg-sky-50 border border-sky-200 text-sky-950 font-medium">
+                  <div className="flex items-center gap-2">
+                    <span className="w-3 h-3 rounded-full bg-[#4C97FF] border border-sky-600" />
+                    <strong>运动 (Motion)</strong>
+                  </div>
+                  <span className="font-mono text-sky-800">go to mouse-pointer</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Blueprint Tip */}
+          <div className="mt-6 p-4 rounded-2xl bg-amber-50/80 border border-amber-200/90 text-xs text-amber-900 leading-relaxed font-medium">
+            💡 {node.blueprint.tip}
+          </div>
         </div>
       </div>
 
-      {/* Bottom Action / Feedback Drawer (Light Mode Duolingo Drawer) */}
+      {/* Bottom Action / Feedback Drawer */}
       <footer
         className={`px-8 py-5 border-t-2 transition-all duration-300 flex items-center justify-between ${
           checkState === 'correct'
@@ -378,7 +520,7 @@ export const LessonView: React.FC<LessonViewProps> = ({
                   再思考一下
                 </h4>
                 <p className="text-sm text-rose-800 font-medium">
-                  提示：仔细观察积木的形状与颜色分类。
+                  提示：仔细观察右侧代码蓝图的形状与嵌套关系。
                 </p>
               </div>
             </div>
@@ -426,7 +568,7 @@ export const LessonView: React.FC<LessonViewProps> = ({
         </div>
       </footer>
 
-      {/* Level Complete Celebration Modal (Light Mode) */}
+      {/* Level Complete Celebration Modal */}
       {isFinished && (
         <div className="fixed inset-0 z-60 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-6 animate-fade-in">
           <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl flex flex-col items-center">
@@ -439,7 +581,7 @@ export const LessonView: React.FC<LessonViewProps> = ({
               关卡通过！
             </h3>
             <p className="text-slate-600 text-sm mb-6">
-              你已经掌握了「{node.title}」的核心知识！
+              你已经掌握了「{node.title}」的核心逻辑与 Scratch 拼装！
             </p>
 
             {/* XP reward card */}
