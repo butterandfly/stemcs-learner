@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flag, Footprints, Gauge, Award, Lock, Check, Star, Play, RotateCw, Compass, Sparkles, Volume2 } from 'lucide-react';
+import { Flag, Footprints, Gauge, Award, Lock, Check, Star, Play, RotateCw, Compass, Sparkles, Volume2, Ghost } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
 import { sound } from '../audio/sound';
 
@@ -24,6 +24,8 @@ export const PathView: React.FC<PathViewProps> = ({
         return <Footprints className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Volume2':
         return <Volume2 className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'Ghost':
+        return <Ghost className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Gauge':
         return <Gauge className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Award':

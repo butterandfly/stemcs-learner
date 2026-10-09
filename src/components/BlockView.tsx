@@ -90,7 +90,8 @@ export const BlockView: React.FC<BlockViewProps> = ({
       );
     }
 
-    const regex = /\[(.*?)\]/g;
+    // Matches [dropdown ▼] or (input_number)
+    const regex = /(\[.*?\]|\(.*?\))/g;
     const parts = [];
     let lastIndex = 0;
     let match;
@@ -99,15 +100,33 @@ export const BlockView: React.FC<BlockViewProps> = ({
       if (match.index > lastIndex) {
         parts.push(text.substring(lastIndex, match.index));
       }
-      parts.push(
-        <span
-          key={match.index}
-          className="mx-1 px-2 py-0.5 rounded-full bg-black/25 text-white text-xs font-mono font-bold inline-flex items-center gap-1 border border-white/20 shadow-inner"
-        >
-          <span>{match[1].replace('▼', '').trim()}</span>
-          <span className="text-[10px] opacity-80">▼</span>
-        </span>
-      );
+
+      const raw = match[0];
+      if (raw.startsWith('[')) {
+        // Dropdown menu pill (e.g. [left-right ▼])
+        const inner = raw.slice(1, -1).replace('▼', '').trim();
+        parts.push(
+          <span
+            key={match.index}
+            className="mx-1 px-2 py-0.5 rounded-full bg-black/25 text-white text-xs font-mono font-bold inline-flex items-center gap-1 border border-white/20 shadow-inner"
+          >
+            <span>{inner}</span>
+            <span className="text-[10px] opacity-80">▼</span>
+          </span>
+        );
+      } else if (raw.startsWith('(')) {
+        // Round number input bubble (e.g. (10))
+        const inner = raw.slice(1, -1).trim();
+        parts.push(
+          <span
+            key={match.index}
+            className="mx-1.5 px-2.5 py-0.5 rounded-full bg-white text-slate-900 text-xs font-mono font-extrabold inline-flex items-center shadow-inner"
+          >
+            {inner}
+          </span>
+        );
+      }
+
       lastIndex = regex.lastIndex;
     }
 
