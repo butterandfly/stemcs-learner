@@ -62,15 +62,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <div className="flex items-center gap-3">
             <button
               onClick={handleLogoClick}
-              title="连续点击 5 次打开开发者面板"
-              className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-400 to-emerald-400 flex items-center justify-center font-display font-black text-white text-xl shadow-md active:scale-95 transition-transform cursor-pointer relative group"
+              className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-sky-400 to-emerald-400 flex items-center justify-center font-display font-black text-white text-xl shadow-md active:scale-95 transition-transform cursor-pointer"
             >
               <span>CQ</span>
-              {logoClicks > 1 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-amber-400 text-slate-900 rounded-full text-[10px] font-mono font-bold flex items-center justify-center shadow">
-                  {logoClicks}
-                </span>
-              )}
             </button>
             <div>
               <h1 className="font-display font-black text-lg text-slate-800 tracking-wider flex items-center gap-1.5">

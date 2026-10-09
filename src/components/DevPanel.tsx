@@ -28,8 +28,12 @@ export const DevPanel: React.FC<DevPanelProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-60 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in select-none">
-      <div className="bg-white border-2 border-slate-300 rounded-3xl p-6 max-w-lg w-full shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 z-[100] bg-slate-950/70 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in select-none">
+      {/* Backdrop click to close */}
+      <div className="absolute inset-0" onClick={onClose} />
+
+      {/* Modal Dialog Card */}
+      <div className="relative z-10 bg-white border-2 border-slate-300 rounded-3xl p-6 max-w-xl w-full shadow-2xl flex flex-col max-h-[88vh] overflow-hidden">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-200">
           <div className="flex items-center gap-2.5">
@@ -44,7 +48,7 @@ export const DevPanel: React.FC<DevPanelProps> = ({
                 </span>
               </h3>
               <p className="text-xs text-slate-500 font-medium">
-                快速重置、关卡跳转与调试作弊器
+                快速重置、关卡跳转与状态调试
               </p>
             </div>
           </div>
@@ -138,23 +142,29 @@ export const DevPanel: React.FC<DevPanelProps> = ({
 
                   <div className="space-y-2">
                     {module.sections.flatMap((s) => s.units).map((unit) => (
-                      <div key={unit.id} className="p-3 rounded-2xl bg-slate-50/80 border border-slate-200 space-y-2">
+                      <div key={unit.id} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-2.5">
                         <div className="text-xs font-extrabold text-slate-700">
                           {unit.title}
                         </div>
 
-                        <div className="space-y-1.5">
+                        <div className="space-y-2">
                           {unit.nodes.map((node) => {
                             const isCompleted = progress.completedNodeIds.includes(node.id);
                             return (
                               <div
                                 key={node.id}
-                                className="flex items-center justify-between p-2 rounded-xl bg-white border border-slate-200 hover:border-sky-300 transition-all text-xs"
+                                className="flex items-center justify-between p-3 rounded-xl bg-white border border-slate-200 hover:border-sky-300 transition-all gap-3 shadow-xs"
                               >
-                                <div className="flex items-center gap-2 truncate pr-2">
-                                  <span className={`w-2 h-2 rounded-full ${isCompleted ? 'bg-emerald-500' : 'bg-slate-300'}`} />
-                                  <span className="font-bold text-slate-800">{node.title}</span>
-                                  <span className="text-[11px] text-slate-400 truncate">({node.titleEn})</span>
+                                <div className="flex items-center gap-2.5 min-w-0">
+                                  <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${isCompleted ? 'bg-emerald-500' : 'bg-slate-300'}`} />
+                                  <div className="min-w-0">
+                                    <div className="font-bold text-slate-800 text-sm truncate">
+                                      {node.title}
+                                    </div>
+                                    <div className="text-[11px] text-slate-400 font-mono truncate">
+                                      {node.titleEn}
+                                    </div>
+                                  </div>
                                 </div>
 
                                 <button
@@ -163,7 +173,7 @@ export const DevPanel: React.FC<DevPanelProps> = ({
                                     onJumpToNode(node);
                                     onClose();
                                   }}
-                                  className="px-3 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-white font-bold text-xs shadow-sm flex items-center gap-1 shrink-0 active:scale-95"
+                                  className="px-3.5 py-1.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-display font-bold text-xs shadow-sm flex items-center gap-1 shrink-0 active:scale-95"
                                 >
                                   <Play className="w-3 h-3 fill-current" />
                                   <span>直接开始</span>
@@ -179,13 +189,6 @@ export const DevPanel: React.FC<DevPanelProps> = ({
               ))}
             </div>
           </div>
-        </div>
-
-        {/* Footer */}
-        <div className="pt-3 border-t border-slate-200 text-center">
-          <span className="text-[11px] font-mono text-slate-400">
-            提示：在主界面连续点击「CQ」Logo 5 次即可随时调出此面板
-          </span>
         </div>
       </div>
     </div>
