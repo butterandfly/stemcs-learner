@@ -182,7 +182,9 @@ export const BlockView: React.FC<BlockViewProps> = ({
           className={`relative flex items-center justify-between px-4 py-2.5 rounded-t-xl ${style.bg} border-t border-x border-white/30`}
         >
           {/* Puzzle notch at top of C block */}
-          <div className="absolute -top-1 left-4 w-6 h-1.5 bg-slate-300 rounded-b-md" />
+          {!isNestedChild && (
+            <div className="absolute -top-1 left-4 w-6 h-1.5 bg-slate-300 rounded-b-md" />
+          )}
 
           {renderBilingualContent()}
 
