@@ -18,6 +18,8 @@ import {
   FolderPlus,
   FolderSearch,
   Terminal,
+  FileText,
+  FileCode,
 } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
 import { sound } from '../audio/sound';
@@ -55,6 +57,10 @@ export const PathView: React.FC<PathViewProps> = ({
         return <Folder className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Terminal':
         return <Terminal className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'FileText':
+        return <FileText className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'FileCode':
+        return <FileCode className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Gauge':
         return <Gauge className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Award':
