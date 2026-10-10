@@ -97,7 +97,14 @@ export default function App() {
           activeModuleId={activeModuleId}
           activeUnitId={activeUnitId}
           completedNodeIds={progress.completedNodeIds}
-          onSelectModule={setActiveModuleId}
+          onSelectModule={(id) => {
+            setActiveModuleId(id);
+            const target = CURRICULUM.find((m) => m.id === id);
+            const firstUnit = target?.sections[0]?.units[0];
+            if (firstUnit) {
+              setActiveUnitId(firstUnit.id);
+            }
+          }}
           onSelectUnit={setActiveUnitId}
           onResetProgress={resetAllProgress}
           onToggleDevPanel={() => setIsDevOpen(true)}
@@ -118,6 +125,11 @@ export default function App() {
               completedNodeIds={progress.completedNodeIds}
               onSelectModule={(id) => {
                 setActiveModuleId(id);
+                const target = CURRICULUM.find((m) => m.id === id);
+                const firstUnit = target?.sections[0]?.units[0];
+                if (firstUnit) {
+                  setActiveUnitId(firstUnit.id);
+                }
                 setSidebarOpen(false);
               }}
               onSelectUnit={(id) => {

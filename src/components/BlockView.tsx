@@ -62,6 +62,13 @@ export const BlockView: React.FC<BlockViewProps> = ({
           shadow: 'shadow-[0_4px_0_#2B7391]',
           accent: 'bg-[#4396BA]',
         };
+      case 'terminal':
+        return {
+          bg: 'bg-slate-900',
+          border: 'border-emerald-500/80',
+          shadow: 'shadow-[0_4px_0_#065F46]',
+          accent: 'bg-slate-800',
+        };
       default:
         return {
           bg: 'bg-[#FFAB19]',
@@ -152,13 +159,28 @@ export const BlockView: React.FC<BlockViewProps> = ({
   const renderBilingualContent = () => {
     return (
       <div className="flex flex-col select-none">
-        {/* English (Scratch Standard) */}
-        <div className="font-display font-bold text-white tracking-wide flex items-center">
+        {/* English / Command Standard */}
+        <div
+          className={`font-bold tracking-wide flex items-center ${
+            block.category === 'terminal'
+              ? 'font-mono text-emerald-300 text-sm'
+              : 'font-display text-white'
+          }`}
+        >
+          {block.category === 'terminal' && (
+            <span className="text-emerald-400 font-black mr-1.5 select-none">$</span>
+          )}
           {renderTextWithDropdowns(block.labelEn)}
         </div>
 
-        {/* Chinese (Scratch Official Bilingual Subtitle) */}
-        <div className="text-[11px] font-medium text-white/90 font-mono tracking-tight -mt-0.5">
+        {/* Chinese (Bilingual Subtitle) */}
+        <div
+          className={`text-[11px] font-medium tracking-tight -mt-0.5 ${
+            block.category === 'terminal'
+              ? 'text-slate-300 font-sans'
+              : 'text-white/90 font-mono'
+          }`}
+        >
           {renderTextWithDropdowns(block.label)}
         </div>
       </div>

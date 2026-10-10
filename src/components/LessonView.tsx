@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Heart, Sparkles, Check, ArrowRight, RotateCcw, Monitor, Compass, CheckCircle2 } from 'lucide-react';
+import { X, Heart, Sparkles, Check, ArrowRight, RotateCcw, Monitor, Compass, CheckCircle2, Terminal } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { LearningNode, ScratchBlock } from '../types';
 import { BlockView } from './BlockView';
@@ -335,46 +335,43 @@ export const LessonView: React.FC<LessonViewProps> = ({
                 <div className="p-6 bg-gradient-to-br from-sky-50 to-emerald-50 rounded-3xl border-2 border-sky-200 shadow-sm">
                   <div className="flex items-center gap-3 mb-4">
                     <div className="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-md">
-                      <Monitor className="w-6 h-6" />
+                      {node.id.includes('cli') || node.id.includes('terminal') ? (
+                        <Terminal className="w-6 h-6" />
+                      ) : (
+                        <Monitor className="w-6 h-6" />
+                      )}
                     </div>
                     <div>
                       <h3 className="font-display font-black text-lg text-slate-800">
-                        电脑 Scratch 实操清单
+                        {question.missionStep?.title || '电脑实操任务清单'}
                       </h3>
                       <p className="text-xs text-slate-500 font-medium">
-                        请在你的电脑屏幕上打开 Scratch 3.0 进行同步操作
+                        {node.id.includes('cli') || node.id.includes('terminal')
+                          ? '请在你的电脑上打开终端 (Terminal / PowerShell) 进行同步实操'
+                          : '请在你的电脑屏幕上打开 Scratch 3.0 进行同步操作'}
                       </p>
                     </div>
                   </div>
 
-                  <div className="space-y-3 font-medium text-sm text-slate-700">
-                    <div className="flex items-start gap-2.5 bg-white/80 p-3 rounded-xl border border-sky-100">
-                      <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                        1
-                      </span>
-                      <span>从左侧黄色「事件」分类拖出：<strong className="text-amber-800">when ⚑ clicked (当绿旗被点击)</strong></span>
-                    </div>
-
-                    <div className="flex items-start gap-2.5 bg-white/80 p-3 rounded-xl border border-sky-100">
-                      <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                        2
-                      </span>
-                      <span>从金色「控制」分类拖出：<strong className="text-amber-800">forever (重复执行)</strong> 卡在下方</span>
-                    </div>
-
-                    <div className="flex items-start gap-2.5 bg-white/80 p-3 rounded-xl border border-sky-100">
-                      <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                        3
-                      </span>
-                      <span>从蓝色「运动」分类将 <strong className="text-sky-800">go to [mouse-pointer ▼]</strong> 塞入嘴巴里</span>
-                    </div>
-
-                    <div className="flex items-start gap-2.5 bg-white/80 p-3 rounded-xl border border-sky-100">
-                      <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                        4
-                      </span>
-                      <span>点击电脑右上角的绿旗 ⚑，移动鼠标测试角色跟随效果！</span>
-                    </div>
+                  <div className="space-y-2.5 font-medium text-sm text-slate-700">
+                    {question.missionStep?.description
+                      ? question.missionStep.description
+                          .split('\n')
+                          .filter(Boolean)
+                          .map((line, idx) => (
+                            <div
+                              key={idx}
+                              className="flex items-start gap-2.5 bg-white/90 p-3 rounded-xl border border-sky-100 shadow-xs"
+                            >
+                              <span className="w-5 h-5 rounded-full bg-amber-400 text-amber-950 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
+                                {idx + 1}
+                              </span>
+                              <span className="text-xs md:text-sm font-medium leading-relaxed">
+                                {line.replace(/^[0-9]+\.\s*/, '')}
+                              </span>
+                            </div>
+                          ))
+                      : null}
                   </div>
                 </div>
 
@@ -396,7 +393,11 @@ export const LessonView: React.FC<LessonViewProps> = ({
                         missionDone ? 'text-emerald-500 fill-emerald-100' : 'text-slate-300'
                       }`}
                     />
-                    <span>我已在电脑 Scratch 上拼好并测试成功！</span>
+                    <span>
+                      {node.id.includes('cli') || node.id.includes('terminal')
+                        ? '我已在电脑终端输入并测试成功！'
+                        : '我已在电脑 Scratch 上拼好并测试成功！'}
+                    </span>
                   </div>
                   <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-100/70 px-2.5 py-1 rounded-full">
                     {missionDone ? '已就绪' : '点击确认'}
@@ -407,73 +408,156 @@ export const LessonView: React.FC<LessonViewProps> = ({
           </div>
         </div>
 
-        {/* Right Side: Scratch Code Reference & Blueprint Desk (40%) */}
+        {/* Right Side: Scratch / Terminal Blueprint Desk (40%) */}
         <div className="w-[42%] max-w-[460px] p-6 lg:p-8 border-l border-slate-200 bg-slate-50 flex flex-col justify-between overflow-y-auto">
           <div>
             {/* Desk Title */}
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
               <div className="flex items-center gap-2">
                 <span className="p-1.5 rounded-lg bg-sky-100 text-sky-700">
-                  <Compass className="w-4 h-4" />
+                  {node.blueprint.cliWindowPreview ? (
+                    <Terminal className="w-4 h-4" />
+                  ) : (
+                    <Compass className="w-4 h-4" />
+                  )}
                 </span>
                 <span className="font-display font-black text-sm text-slate-800">
                   {node.blueprint.title}
                 </span>
               </div>
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-bold uppercase">
-                DK 规范代码
+                {node.blueprint.cliWindowPreview ? '极客终端看板' : 'DK 规范代码'}
               </span>
             </div>
 
-            {/* Target Block Blueprint (Matching User's Uploaded Image!) */}
-            <div className="p-6 bg-white rounded-3xl border-2 border-slate-200 shadow-sm flex flex-col items-start gap-1 relative overflow-hidden mb-6">
-              {/* Scratch Grid dots */}
-              <div
-                className="absolute inset-0 pointer-events-none opacity-40"
-                style={{
-                  backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)',
-                  backgroundSize: '24px 24px',
-                }}
-              />
-
-              <div className="relative z-10 flex flex-col items-start">
-                {node.blueprint.blocks.map((b) => (
-                  <BlockView key={b.id} block={b} />
-                ))}
-              </div>
-            </div>
-
-            {/* Scratch Categories Radar Guide */}
-            <div className="space-y-2.5">
-              <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-                积木寻宝雷达 (分类指引)
-              </div>
-              <div className="grid grid-cols-1 gap-2 text-xs">
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 font-medium">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-[#FFBF00] border border-amber-600" />
-                    <strong>事件 (Events)</strong>
+            {/* 1. Terminal Window Preview (For CLI nodes) */}
+            {node.blueprint.cliWindowPreview && (
+              <div className="rounded-2xl overflow-hidden border border-slate-800 shadow-md mb-6 bg-slate-950 text-slate-100 font-mono text-xs">
+                {/* Traffic lights header */}
+                <div className="bg-slate-900 px-4 py-2.5 flex items-center justify-between border-b border-slate-800 select-none">
+                  <div className="flex items-center gap-1.5">
+                    <span className="w-3 h-3 rounded-full bg-rose-500" />
+                    <span className="w-3 h-3 rounded-full bg-amber-400" />
+                    <span className="w-3 h-3 rounded-full bg-emerald-500" />
                   </div>
-                  <span className="font-mono text-amber-800">when ⚑ clicked</span>
+                  <span className="text-[11px] text-slate-400 font-bold">
+                    bash / zsh — {node.blueprint.cliWindowPreview.currentPath}
+                  </span>
+                  <div className="w-12" />
                 </div>
 
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-orange-50 border border-orange-200 text-orange-950 font-medium">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-[#FFAB19] border border-orange-600" />
-                    <strong>控制 (Control)</strong>
+                {/* Session lines */}
+                <div className="p-4 space-y-1.5 min-h-[160px] leading-relaxed">
+                  {node.blueprint.cliWindowPreview.terminalLines.map((line, idx) => {
+                    if (line.type === 'input') {
+                      return (
+                        <div key={idx} className="flex items-center gap-2">
+                          <span className="text-emerald-400 font-bold select-none">$</span>
+                          <span className="text-slate-100 font-bold">{line.text}</span>
+                        </div>
+                      );
+                    } else if (line.type === 'comment') {
+                      return (
+                        <div key={idx} className="text-slate-500 italic select-none">
+                          # {line.text}
+                        </div>
+                      );
+                    } else {
+                      return (
+                        <div key={idx} className="text-sky-300/90 pl-3">
+                          {line.text}
+                        </div>
+                      );
+                    }
+                  })}
+                  <div className="flex items-center gap-1 text-emerald-400">
+                    <span className="font-bold select-none">$</span>
+                    <span className="w-2 h-4 bg-emerald-400 animate-pulse" />
                   </div>
-                  <span className="font-mono text-orange-800">forever</span>
-                </div>
-
-                <div className="flex items-center justify-between p-2.5 rounded-xl bg-sky-50 border border-sky-200 text-sky-950 font-medium">
-                  <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-[#4C97FF] border border-sky-600" />
-                    <strong>运动 (Motion)</strong>
-                  </div>
-                  <span className="font-mono text-sky-800">go to mouse-pointer</span>
                 </div>
               </div>
-            </div>
+            )}
+
+            {/* 2. Scratch Block Blueprint (For Scratch nodes) */}
+            {node.blueprint.blocks && node.blueprint.blocks.length > 0 && (
+              <div className="p-6 bg-white rounded-3xl border-2 border-slate-200 shadow-sm flex flex-col items-start gap-1 relative overflow-hidden mb-6">
+                <div
+                  className="absolute inset-0 pointer-events-none opacity-40"
+                  style={{
+                    backgroundImage: 'radial-gradient(#94a3b8 1px, transparent 1px)',
+                    backgroundSize: '24px 24px',
+                  }}
+                />
+                <div className="relative z-10 flex flex-col items-start">
+                  {node.blueprint.blocks.map((b) => (
+                    <BlockView key={b.id} block={b} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 3. Terminal Command Radar */}
+            {node.blueprint.cliCommands && node.blueprint.cliCommands.length > 0 && (
+              <div className="space-y-2.5">
+                <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
+                  指令速查雷达 (Command Radar)
+                </div>
+                <div className="space-y-2">
+                  {node.blueprint.cliCommands.map((cmd, idx) => (
+                    <div
+                      key={idx}
+                      className="p-3 bg-white rounded-2xl border border-slate-200 shadow-xs flex flex-col gap-1"
+                    >
+                      <div className="flex items-center justify-between">
+                        <code className="text-xs font-mono font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                          $ {cmd.usage}
+                        </code>
+                        <span className="text-[10px] font-mono text-slate-400 font-bold">
+                          例: {cmd.example}
+                        </span>
+                      </div>
+                      <div className="text-xs text-slate-600 font-medium">
+                        {cmd.description}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 4. Scratch Categories Radar Guide (If Scratch blocks exist) */}
+            {node.blueprint.blocks && node.blueprint.blocks.length > 0 && (
+              <div className="space-y-2.5">
+                <div className="text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
+                  积木寻宝雷达 (分类指引)
+                </div>
+                <div className="grid grid-cols-1 gap-2 text-xs">
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 font-medium">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-[#FFBF00] border border-amber-600" />
+                      <strong>事件 (Events)</strong>
+                    </div>
+                    <span className="font-mono text-amber-800">when ⚑ clicked</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-orange-50 border border-orange-200 text-orange-950 font-medium">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-[#FFAB19] border border-orange-600" />
+                      <strong>控制 (Control)</strong>
+                    </div>
+                    <span className="font-mono text-orange-800">forever</span>
+                  </div>
+
+                  <div className="flex items-center justify-between p-2.5 rounded-xl bg-sky-50 border border-sky-200 text-sky-950 font-medium">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-[#4C97FF] border border-sky-600" />
+                      <strong>运动 (Motion)</strong>
+                    </div>
+                    <span className="font-mono text-sky-800">go to mouse-pointer</span>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Blueprint Tip */}

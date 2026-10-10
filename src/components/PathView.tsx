@@ -1,5 +1,24 @@
 import React, { useState } from 'react';
-import { Flag, Footprints, Gauge, Award, Lock, Check, Star, Play, RotateCw, Compass, Sparkles, Volume2, Ghost, ShieldAlert } from 'lucide-react';
+import {
+  Flag,
+  Footprints,
+  Gauge,
+  Award,
+  Lock,
+  Check,
+  Star,
+  Play,
+  RotateCw,
+  Compass,
+  Sparkles,
+  Volume2,
+  Ghost,
+  ShieldAlert,
+  Folder,
+  FolderPlus,
+  FolderSearch,
+  Terminal,
+} from 'lucide-react';
 import { Unit, LearningNode } from '../types';
 import { sound } from '../audio/sound';
 
@@ -28,6 +47,14 @@ export const PathView: React.FC<PathViewProps> = ({
         return <Ghost className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'ShieldAlert':
         return <ShieldAlert className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'FolderSearch':
+        return <FolderSearch className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'FolderPlus':
+        return <FolderPlus className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'Folder':
+        return <Folder className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'Terminal':
+        return <Terminal className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Gauge':
         return <Gauge className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Award':
@@ -44,13 +71,27 @@ export const PathView: React.FC<PathViewProps> = ({
   // Stepped horizontal offsets (pixels) for Duolingo curve
   const nodeOffsets = [0, 56, -56, 0];
 
+  const isTerminalUnit = unit.id.includes('terminal');
+
   return (
     <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8 flex flex-col items-center bg-[#F8FAFC]">
       {/* Unit Header Card (Light Mode, Guaranteed Height & No Content Clipping) */}
-      <div className="shrink-0 w-full max-w-2xl bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/70 border-2 border-amber-300/80 rounded-3xl p-6 mb-12 shadow-sm relative">
-        {/* Cat Avatar Accent */}
-        <div className="absolute right-6 top-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl bg-amber-400/20 border border-amber-400/30 flex items-center justify-center text-4xl shadow-inner select-none pointer-events-none">
-          🐱
+      <div
+        className={`shrink-0 w-full max-w-2xl border-2 rounded-3xl p-6 mb-12 shadow-sm relative ${
+          isTerminalUnit
+            ? 'bg-gradient-to-r from-sky-50 via-cyan-50 to-emerald-50/70 border-sky-300/80'
+            : 'bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/70 border-amber-300/80'
+        }`}
+      >
+        {/* Avatar Accent */}
+        <div
+          className={`absolute right-6 top-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl border flex items-center justify-center text-4xl shadow-inner select-none pointer-events-none ${
+            isTerminalUnit
+              ? 'bg-sky-400/20 border-sky-400/30'
+              : 'bg-amber-400/20 border-amber-400/30'
+          }`}
+        >
+          {isTerminalUnit ? '💻' : '🐱'}
         </div>
 
         <div className="pr-24">

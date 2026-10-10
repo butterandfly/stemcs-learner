@@ -6,7 +6,8 @@ export type BlockCategory =
   | 'sound'
   | 'sensing'
   | 'operators'
-  | 'variables';
+  | 'variables'
+  | 'terminal';
 
 export interface ScratchBlock {
   id: string;
@@ -32,11 +33,29 @@ export interface QuestionOption {
   block?: ScratchBlock;
 }
 
+export interface CliCommandBlueprint {
+  command: string;
+  usage: string;
+  description: string;
+  descriptionEn?: string;
+  example: string;
+}
+
+export interface CliTerminalLine {
+  type: 'input' | 'output' | 'comment';
+  text: string;
+}
+
 export interface TargetBlueprint {
   title: string;
   titleEn: string;
   blocks: ScratchBlock[];
   tip: string;
+  cliCommands?: CliCommandBlueprint[];
+  cliWindowPreview?: {
+    currentPath: string;
+    terminalLines: CliTerminalLine[];
+  };
 }
 
 export interface ChallengeQuestion {
