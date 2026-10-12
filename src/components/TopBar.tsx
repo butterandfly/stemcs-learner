@@ -6,6 +6,11 @@ interface TopBarProps {
   xp: number;
   streakDays: number;
   energy: number;
+  currentUser?: {
+    name: string;
+    avatar: string;
+  };
+  onOpenUserManager?: () => void;
   onRefillEnergy: () => void;
   onToggleSidebar?: () => void;
 }
@@ -14,6 +19,8 @@ export const TopBar: React.FC<TopBarProps> = ({
   xp,
   streakDays,
   energy,
+  currentUser,
+  onOpenUserManager,
   onRefillEnergy,
   onToggleSidebar,
 }) => {
@@ -68,8 +75,28 @@ export const TopBar: React.FC<TopBarProps> = ({
         </div>
       </div>
 
-      {/* Right Gamification Stats: Streak, XP, Hearts, Sound */}
-      <div className="flex items-center gap-2 md:gap-4">
+      {/* Right Gamification Stats: Student Profile, Streak, XP, Hearts, Sound */}
+      <div className="flex items-center gap-2 md:gap-3">
+        {/* Active Student Chip Button */}
+        {currentUser && onOpenUserManager && (
+          <button
+            onClick={() => {
+              sound.playPop();
+              onOpenUserManager();
+            }}
+            className="flex items-center gap-1.5 pl-2 pr-2.5 py-1.5 bg-amber-50 hover:bg-amber-100/90 active:scale-95 transition-all rounded-2xl border-2 border-amber-300 shadow-sm cursor-pointer group"
+            title="点击切换或管理学生档案"
+          >
+            <span className="text-xl -my-1 group-hover:scale-110 transition-transform">
+              {currentUser.avatar}
+            </span>
+            <span className="font-display font-black text-xs md:text-sm text-amber-950 truncate max-w-[80px] md:max-w-[120px]">
+              {currentUser.name}
+            </span>
+            <span className="text-[10px] text-amber-700 opacity-70 group-hover:opacity-100">▼</span>
+          </button>
+        )}
+
         {/* Streak */}
         <div className="flex items-center gap-1.5 px-3 py-1.5 bg-orange-50 rounded-xl border border-orange-200 shadow-sm">
           <Flame className="w-4 h-4 text-orange-500 fill-orange-500" />

@@ -6,17 +6,25 @@ import { TopBar } from './components/TopBar';
 import { PathView } from './components/PathView';
 import { LessonView } from './components/LessonView';
 import { DevPanel } from './components/DevPanel';
+import { UserManagerModal } from './components/UserManagerModal';
 import { LearningNode } from './types';
 import { Smartphone } from 'lucide-react';
 import { registerSW } from 'virtual:pwa-register';
 
 export default function App() {
   const {
+    users,
+    activeUserId,
+    currentUser,
     progress,
     activeModuleId,
     setActiveModuleId,
     activeUnitId,
     setActiveUnitId,
+    switchUser,
+    addUser,
+    updateUser,
+    deleteUser,
     addXp,
     completeNode,
     loseEnergy,
@@ -29,6 +37,7 @@ export default function App() {
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [isDevOpen, setIsDevOpen] = useState<boolean>(false);
+  const [isUserManagerOpen, setIsUserManagerOpen] = useState<boolean>(false);
 
   // Register PWA Service Worker for offline support
   useEffect(() => {
@@ -97,6 +106,8 @@ export default function App() {
           activeModuleId={activeModuleId}
           activeUnitId={activeUnitId}
           completedNodeIds={progress.completedNodeIds}
+          currentUser={currentUser}
+          onOpenUserManager={() => setIsUserManagerOpen(true)}
           onSelectModule={(id) => {
             setActiveModuleId(id);
             const target = CURRICULUM.find((m) => m.id === id);
@@ -123,6 +134,11 @@ export default function App() {
               activeModuleId={activeModuleId}
               activeUnitId={activeUnitId}
               completedNodeIds={progress.completedNodeIds}
+              currentUser={currentUser}
+              onOpenUserManager={() => {
+                setIsUserManagerOpen(true);
+                setSidebarOpen(false);
+              }}
               onSelectModule={(id) => {
                 setActiveModuleId(id);
                 const target = CURRICULUM.find((m) => m.id === id);
@@ -150,6 +166,8 @@ export default function App() {
           xp={progress.xp}
           streakDays={progress.streakDays}
           energy={progress.energy}
+          currentUser={currentUser}
+          onOpenUserManager={() => setIsUserManagerOpen(true)}
           onRefillEnergy={refillEnergy}
           onToggleSidebar={() => setSidebarOpen(true)}
         />
@@ -175,7 +193,20 @@ export default function App() {
         />
       )}
 
-      {/* 4. Developer Debug Panel */}
+      {/* 4. Student User Manager Modal */}
+      {isUserManagerOpen && (
+        <UserManagerModal
+          users={users}
+          activeUserId={activeUserId}
+          onClose={() => setIsUserManagerOpen(false)}
+          onSwitchUser={switchUser}
+          onAddUser={addUser}
+          onUpdateUser={updateUser}
+          onDeleteUser={deleteUser}
+        />
+      )}
+
+      {/* 5. Developer Debug Panel */}
       <DevPanel
         isOpen={isDevOpen}
         onClose={() => setIsDevOpen(false)}

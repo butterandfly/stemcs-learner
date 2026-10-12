@@ -131,3 +131,11 @@ export interface UserProgress {
   activeNodeId: string;
   lastActiveDate: string;
 }
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  avatar: string;
+  createdAt: string;
+  progress: UserProgress;
+}

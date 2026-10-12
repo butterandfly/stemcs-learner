@@ -7,6 +7,11 @@ interface SidebarProps {
   activeModuleId: string;
   activeUnitId: string;
   completedNodeIds: string[];
+  currentUser?: {
+    name: string;
+    avatar: string;
+  };
+  onOpenUserManager?: () => void;
   onSelectModule: (id: string) => void;
   onSelectUnit: (id: string) => void;
   onResetProgress: () => void;
@@ -18,6 +23,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   activeModuleId,
   activeUnitId,
   completedNodeIds,
+  currentUser,
+  onOpenUserManager,
   onSelectModule,
   onSelectUnit,
   onResetProgress,
@@ -188,6 +195,30 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Student Profile Quick Card */}
+      {currentUser && onOpenUserManager && (
+        <div className="p-3 mx-4 mb-2 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/90 rounded-2xl flex items-center justify-between shadow-xs">
+          <div className="flex items-center gap-2.5 min-w-0 pr-1">
+            <span className="w-9 h-9 rounded-xl bg-white border border-amber-300 flex items-center justify-center text-lg shrink-0 shadow-xs">
+              {currentUser.avatar}
+            </span>
+            <div className="min-w-0">
+              <div className="text-[10px] font-mono font-bold text-amber-800 uppercase tracking-tight">当前学员</div>
+              <div className="text-xs font-display font-black text-slate-800 truncate">{currentUser.name}</div>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              sound.playPop();
+              onOpenUserManager();
+            }}
+            className="px-2.5 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-amber-950 text-[11px] font-bold shadow-xs transition-colors shrink-0 cursor-pointer"
+          >
+            切换
+          </button>
+        </div>
+      )}
 
       {/* Bottom Footer Controls */}
       <div className="p-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
