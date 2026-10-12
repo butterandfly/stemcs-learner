@@ -62,6 +62,20 @@ export const BlockView: React.FC<BlockViewProps> = ({
           shadow: 'shadow-[0_4px_0_#2B7391]',
           accent: 'bg-[#4396BA]',
         };
+      case 'operators':
+        return {
+          bg: 'bg-[#59C059]',
+          border: 'border-[#389438]',
+          shadow: 'shadow-[0_4px_0_#2E7A2E]',
+          accent: 'bg-[#46B546]',
+        };
+      case 'variables':
+        return {
+          bg: 'bg-[#FF8C1A]',
+          border: 'border-[#DB6E00]',
+          shadow: 'shadow-[0_4px_0_#B35500]',
+          accent: 'bg-[#E57A00]',
+        };
       case 'terminal':
         return {
           bg: 'bg-slate-900',
@@ -83,9 +97,10 @@ export const BlockView: React.FC<BlockViewProps> = ({
   const isHat = block.shape === 'hat';
   const isCBlock = block.shape === 'c-block';
   const isCap = block.shape === 'cap';
+  const isReporter = block.shape === 'reporter';
   const isIfBlock = block.labelEn.toLowerCase().startsWith('if');
 
-  // Parses [dropdown ▼], (input), or <sensing boolean>
+  // Parses [dropdown ▼], (input), <sensing boolean>, or ((nested reporter))
   const renderTextWithDropdowns = (text: string): React.ReactNode => {
     if (text.includes('when ⚑ clicked')) {
       return (
@@ -99,61 +114,111 @@ export const BlockView: React.FC<BlockViewProps> = ({
       );
     }
 
-    const regex = /(\[.*?\]|\(.*?\)|<.*?>)/g;
-    const parts = [];
-    let lastIndex = 0;
-    let match;
+    const tokens: Array<
+      | { type: 'text'; text: string }
+      | { type: 'operator'; text: string }
+      | { type: 'dropdown'; text: string }
+      | { type: 'boolean'; text: string }
+      | { type: 'number'; text: string }
+    > = [];
 
-    while ((match = regex.exec(text)) !== null) {
-      if (match.index > lastIndex) {
-        parts.push(text.substring(lastIndex, match.index));
+    let i = 0;
+    while (i < text.length) {
+      if (text.startsWith('((', i)) {
+        let depth = 2;
+        const start = i;
+        i += 2;
+        while (i < text.length && depth > 0) {
+          if (text[i] === '(') depth++;
+          else if (text[i] === ')') depth--;
+          i++;
+        }
+        tokens.push({ type: 'operator', text: text.substring(start + 2, i - 2) });
+      } else if (text[i] === '[') {
+        const end = text.indexOf(']', i);
+        if (end !== -1) {
+          tokens.push({ type: 'dropdown', text: text.substring(i + 1, end) });
+          i = end + 1;
+        } else {
+          tokens.push({ type: 'text', text: text[i++] });
+        }
+      } else if (text[i] === '<') {
+        const end = text.indexOf('>', i);
+        if (end !== -1) {
+          tokens.push({ type: 'boolean', text: text.substring(i + 1, end) });
+          i = end + 1;
+        } else {
+          tokens.push({ type: 'text', text: text[i++] });
+        }
+      } else if (text[i] === '(') {
+        const end = text.indexOf(')', i);
+        if (end !== -1) {
+          tokens.push({ type: 'number', text: text.substring(i + 1, end) });
+          i = end + 1;
+        } else {
+          tokens.push({ type: 'text', text: text[i++] });
+        }
+      } else {
+        const nextSpecial = text.slice(i).search(/[\[\(<]/);
+        if (nextSpecial === -1) {
+          tokens.push({ type: 'text', text: text.slice(i) });
+          break;
+        } else {
+          tokens.push({ type: 'text', text: text.substring(i, i + nextSpecial) });
+          i += nextSpecial;
+        }
       }
-
-      const raw = match[0];
-      if (raw.startsWith('[')) {
-        // Dropdown menu pill (e.g. [left-right ▼], [Cat ▼])
-        const inner = raw.slice(1, -1).replace('▼', '').trim();
-        parts.push(
-          <span
-            key={match.index}
-            className="mx-1 px-2 py-0.5 rounded-full bg-black/25 text-white text-xs font-mono font-bold inline-flex items-center gap-1 border border-white/20 shadow-inner"
-          >
-            <span>{inner}</span>
-            <span className="text-[10px] opacity-80">▼</span>
-          </span>
-        );
-      } else if (raw.startsWith('(')) {
-        // Round number input bubble (e.g. (10))
-        const inner = raw.slice(1, -1).trim();
-        parts.push(
-          <span
-            key={match.index}
-            className="mx-1.5 px-2.5 py-0.5 rounded-full bg-white text-slate-900 text-xs font-mono font-extrabold inline-flex items-center shadow-inner"
-          >
-            {inner}
-          </span>
-        );
-      } else if (raw.startsWith('<') && raw.endsWith('>')) {
-        // Hexagonal Boolean Sensing Condition (e.g. <touching [Cat ▼] ?>)
-        const inner = raw.slice(1, -1).trim();
-        parts.push(
-          <span
-            key={match.index}
-            className="mx-1.5 px-3 py-0.5 rounded-full bg-[#49B3DB] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner"
-          >
-            {renderTextWithDropdowns(inner)}
-          </span>
-        );
-      }
-
-      lastIndex = regex.lastIndex;
     }
 
-    if (lastIndex < text.length) {
-      parts.push(text.substring(lastIndex));
-    }
-
-    return <span>{parts}</span>;
+    return (
+      <span>
+        {tokens.map((tok, idx) => {
+          if (tok.type === 'operator') {
+            return (
+              <span
+                key={idx}
+                className="mx-1 px-2.5 py-0.5 rounded-full bg-[#59C059] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner"
+              >
+                {renderTextWithDropdowns(tok.text)}
+              </span>
+            );
+          }
+          if (tok.type === 'dropdown') {
+            const inner = tok.text.replace('▼', '').trim();
+            return (
+              <span
+                key={idx}
+                className="mx-1 px-2 py-0.5 rounded-full bg-black/25 text-white text-xs font-mono font-bold inline-flex items-center gap-1 border border-white/20 shadow-inner"
+              >
+                <span>{inner}</span>
+                <span className="text-[10px] opacity-80">▼</span>
+              </span>
+            );
+          }
+          if (tok.type === 'boolean') {
+            return (
+              <span
+                key={idx}
+                className="mx-1.5 px-3 py-0.5 rounded-full bg-[#49B3DB] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner"
+              >
+                {renderTextWithDropdowns(tok.text)}
+              </span>
+            );
+          }
+          if (tok.type === 'number') {
+            return (
+              <span
+                key={idx}
+                className="mx-1.5 px-2.5 py-0.5 rounded-full bg-white text-slate-900 text-xs font-mono font-extrabold inline-flex items-center shadow-inner"
+              >
+                {tok.text.trim()}
+              </span>
+            );
+          }
+          return <span key={idx}>{tok.text}</span>;
+        })}
+      </span>
+    );
   };
 
   const renderBilingualContent = () => {
@@ -270,19 +335,23 @@ export const BlockView: React.FC<BlockViewProps> = ({
 
       {/* Block Body */}
       <div
-        className={`relative flex items-center gap-2.5 rounded-xl ${
-          size === 'compact' ? 'px-3 py-1.5' : 'px-4 py-2.5'
+        className={`relative flex items-center gap-2.5 ${
+          isReporter
+            ? 'rounded-full px-5 py-2'
+            : size === 'compact'
+            ? 'rounded-xl px-3 py-1.5'
+            : 'rounded-xl px-4 py-2.5'
         } ${style.bg} ${style.shadow} border-t border-white/30 shadow-sm`}
       >
         {/* Top puzzle tab for stack/cap blocks */}
-        {!isHat && !isNestedChild && (
+        {!isHat && !isNestedChild && !isReporter && (
           <div className="absolute -top-1 left-4 w-6 h-1.5 bg-slate-300 rounded-b-md" />
         )}
 
         {renderBilingualContent()}
 
-        {/* Bottom puzzle socket (Cap blocks have FLAT bottom, no socket!) */}
-        {!isCap && (
+        {/* Bottom puzzle socket (Cap and Reporter blocks have FLAT bottom, no socket!) */}
+        {!isCap && !isReporter && (
           <div className="absolute -bottom-1 left-4 w-6 h-1.5 bg-inherit rounded-b-md border-b border-black/20" />
         )}
       </div>
