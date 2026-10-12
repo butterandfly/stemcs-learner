@@ -46,6 +46,15 @@ export interface CliTerminalLine {
   text: string;
 }
 
+export interface ReviewChecklist {
+  title: string;
+  items: {
+    label: string;
+    description: string;
+  }[];
+  allowedCommands?: string[];
+}
+
 export interface TargetBlueprint {
   title: string;
   titleEn: string;
@@ -56,6 +65,7 @@ export interface TargetBlueprint {
     currentPath: string;
     terminalLines: CliTerminalLine[];
   };
+  reviewChecklist?: ReviewChecklist;
 }
 
 export interface ChallengeQuestion {

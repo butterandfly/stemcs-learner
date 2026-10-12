@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Heart, Sparkles, Check, ArrowRight, RotateCcw, Monitor, Compass, CheckCircle2, Terminal } from 'lucide-react';
+import { X, Heart, Sparkles, Check, ArrowRight, RotateCcw, Monitor, Compass, CheckCircle2, Terminal, Award } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import { LearningNode, ScratchBlock } from '../types';
 import { BlockView } from './BlockView';
@@ -415,7 +415,9 @@ export const LessonView: React.FC<LessonViewProps> = ({
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
               <div className="flex items-center gap-2">
                 <span className="p-1.5 rounded-lg bg-sky-100 text-sky-700">
-                  {node.blueprint.cliWindowPreview ? (
+                  {node.blueprint.reviewChecklist ? (
+                    <Award className="w-4 h-4 text-amber-600" />
+                  ) : node.blueprint.cliWindowPreview ? (
                     <Terminal className="w-4 h-4" />
                   ) : (
                     <Compass className="w-4 h-4" />
@@ -425,10 +427,70 @@ export const LessonView: React.FC<LessonViewProps> = ({
                   {node.blueprint.title}
                 </span>
               </div>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-200 text-slate-600 font-bold uppercase">
-                {node.blueprint.cliWindowPreview ? '极客终端看板' : 'DK 规范代码'}
+              <span
+                className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-bold uppercase ${
+                  node.blueprint.reviewChecklist
+                    ? 'bg-amber-100 text-amber-800 border border-amber-300'
+                    : 'bg-slate-200 text-slate-600'
+                }`}
+              >
+                {node.blueprint.reviewChecklist
+                  ? '实战考核 · 不给代码'
+                  : node.blueprint.cliWindowPreview
+                  ? '极客终端看板'
+                  : 'DK 规范代码'}
               </span>
             </div>
+
+            {/* Review Checklist (When no complete code is given!) */}
+            {node.blueprint.reviewChecklist && (
+              <div className="space-y-4 mb-6">
+                <div className="p-5 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl border-2 border-amber-300 shadow-sm">
+                  <div className="flex items-center gap-2 mb-3 text-amber-950 font-display font-black text-sm">
+                    <span className="text-base">🎯</span>
+                    <span>{node.blueprint.reviewChecklist.title}</span>
+                  </div>
+                  <div className="space-y-2">
+                    {node.blueprint.reviewChecklist.items.map((item, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-start gap-2.5 text-xs bg-white/95 p-3 rounded-xl border border-amber-200 shadow-xs"
+                      >
+                        <span className="w-4 h-4 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">
+                          ✓
+                        </span>
+                        <div>
+                          <strong className="text-slate-800 font-bold block">{item.label}</strong>
+                          <span className="text-slate-500 text-[11px] leading-relaxed block mt-0.5">
+                            {item.description}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Allowed Tools Clues (Only command names, no answers!) */}
+                {node.blueprint.reviewChecklist.allowedCommands &&
+                  node.blueprint.reviewChecklist.allowedCommands.length > 0 && (
+                    <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
+                      <div className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-2">
+                        可用极客工具库 (回忆线索)
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {node.blueprint.reviewChecklist.allowedCommands.map((cmd, idx) => (
+                          <span
+                            key={idx}
+                            className="px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-400 font-mono text-xs font-bold border border-emerald-500/30 shadow-xs"
+                          >
+                            $ {cmd}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+              </div>
+            )}
 
             {/* 1. Terminal Window Preview (For CLI nodes) */}
             {node.blueprint.cliWindowPreview && (
