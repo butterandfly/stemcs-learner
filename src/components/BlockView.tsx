@@ -171,13 +171,13 @@ export const BlockView: React.FC<BlockViewProps> = ({
     }
 
     return (
-      <span>
+      <span className="inline-flex items-center flex-nowrap whitespace-nowrap">
         {tokens.map((tok, idx) => {
           if (tok.type === 'operator') {
             return (
               <span
                 key={idx}
-                className="mx-1 px-2.5 py-0.5 rounded-full bg-[#59C059] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner"
+                className="mx-1 px-2.5 py-0.5 rounded-full bg-[#59C059] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner whitespace-nowrap"
               >
                 {renderTextWithDropdowns(tok.text)}
               </span>
@@ -188,7 +188,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
             return (
               <span
                 key={idx}
-                className="mx-1 px-2 py-0.5 rounded-full bg-black/25 text-white text-xs font-mono font-bold inline-flex items-center gap-1 border border-white/20 shadow-inner"
+                className="mx-1 px-2 py-0.5 rounded-full bg-black/25 text-white text-xs font-mono font-bold inline-flex items-center gap-1 border border-white/20 shadow-inner whitespace-nowrap"
               >
                 <span>{inner}</span>
                 <span className="text-[10px] opacity-80">▼</span>
@@ -199,7 +199,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
             return (
               <span
                 key={idx}
-                className="mx-1.5 px-3 py-0.5 rounded-full bg-[#49B3DB] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner"
+                className="mx-1.5 px-3 py-0.5 rounded-full bg-[#49B3DB] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner whitespace-nowrap"
               >
                 {renderTextWithDropdowns(tok.text)}
               </span>
@@ -209,13 +209,13 @@ export const BlockView: React.FC<BlockViewProps> = ({
             return (
               <span
                 key={idx}
-                className="mx-1.5 px-2.5 py-0.5 rounded-full bg-white text-slate-900 text-xs font-mono font-extrabold inline-flex items-center shadow-inner"
+                className="mx-1.5 px-2.5 py-0.5 rounded-full bg-white text-slate-900 text-xs font-mono font-extrabold inline-flex items-center shadow-inner whitespace-nowrap"
               >
                 {tok.text.trim()}
               </span>
             );
           }
-          return <span key={idx}>{tok.text}</span>;
+          return <span key={idx} className="whitespace-nowrap">{tok.text}</span>;
         })}
       </span>
     );
@@ -223,10 +223,10 @@ export const BlockView: React.FC<BlockViewProps> = ({
 
   const renderBilingualContent = () => {
     return (
-      <div className="flex flex-col select-none">
+      <div className="flex flex-col select-none whitespace-nowrap">
         {/* English / Command Standard */}
         <div
-          className={`font-bold tracking-wide flex items-center ${
+          className={`font-bold tracking-wide flex items-center whitespace-nowrap ${
             block.category === 'terminal'
               ? 'font-mono text-emerald-300 text-sm'
               : 'font-display text-white'
@@ -240,7 +240,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
 
         {/* Chinese (Bilingual Subtitle) */}
         <div
-          className={`text-[11px] font-medium tracking-tight -mt-0.5 ${
+          className={`text-[11px] font-medium tracking-tight -mt-0.5 flex items-center whitespace-nowrap ${
             block.category === 'terminal'
               ? 'text-slate-300 font-sans'
               : 'text-white/90 font-mono'

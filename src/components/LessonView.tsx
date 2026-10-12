@@ -422,7 +422,7 @@ export const LessonView: React.FC<LessonViewProps> = ({
 
         {/* Right Side: Scratch / Terminal Blueprint Desk (40%) */}
         {hasRightDesk && node.blueprint && (
-          <div className="w-[42%] max-w-[460px] p-6 lg:p-8 border-l border-slate-200 bg-slate-50 flex flex-col justify-between overflow-y-auto">
+          <div className="w-[42%] max-w-[460px] p-6 lg:p-8 border-l border-slate-200 bg-slate-50 flex flex-col overflow-y-auto">
           <div>
             {/* Desk Title */}
             <div className="flex items-center justify-between mb-4 pb-3 border-b border-slate-200">
@@ -670,8 +670,8 @@ export const LessonView: React.FC<LessonViewProps> = ({
 
       {/* Level Complete Celebration Modal */}
       {isFinished && (
-        <div className="fixed inset-0 z-60 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-6 animate-fade-in">
-          <div className="bg-white border-2 border-slate-200 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl flex flex-col items-center">
+        <div className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-6 animate-fade-in">
+          <div className="relative z-10 bg-white border-2 border-slate-200 rounded-3xl p-8 max-w-md w-full text-center shadow-2xl flex flex-col items-center">
             {/* Dopamine Trophy */}
             <div className="w-24 h-24 rounded-3xl bg-amber-100 border-2 border-amber-400 flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(245,158,11,0.3)] animate-bounce">
               <Sparkles className="w-12 h-12 text-amber-500" />
