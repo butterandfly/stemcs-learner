@@ -20,6 +20,7 @@ import {
   Terminal,
   FileText,
   FileCode,
+  Copy,
 } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
 import { sound } from '../audio/sound';
@@ -69,6 +70,8 @@ export const PathView: React.FC<PathViewProps> = ({
         return <RotateCw className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Compass':
         return <Compass className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'Copy':
+        return <Copy className="w-8 h-8 text-white stroke-[2.5]" />;
       default:
         return <Sparkles className="w-8 h-8 text-white" />;
     }
