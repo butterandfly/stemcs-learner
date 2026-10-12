@@ -25,6 +25,7 @@
    - **关卡 2 · 设置背景与音效**：电脑设置 Underwater 2；`forever` → `play sound [Bubbles ▼] until done`
    - **关卡 3 · 章鱼巡逻怪**：`move (10) steps` → `if on edge, bounce` → `set rotation style [left-right ▼]`
    - **关卡 4 · 碰撞与游戏结束**：`if <touching [Cat ▼] ?> then` → `stop [all ▼]`
+   - **关卡 5 · 星星猎手大挑战 (综合复习)**：考核模式，右侧不展示现成积木堆，提供规格清单与积木线索库，学生在电脑 Scratch 独立复现完整项目。
 
 5. **命令行极客 · 第 1 单元：文件系统 (File System)**
    - **关卡 1 · 穿梭文件世界**：理解目录（Directory）房间概念，掌握 `pwd`、`ls`、`cd <dir>` 与 `cd ..`。

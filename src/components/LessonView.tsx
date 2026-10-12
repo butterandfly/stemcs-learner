@@ -475,15 +475,21 @@ export const LessonView: React.FC<LessonViewProps> = ({
                   node.blueprint.reviewChecklist.allowedCommands.length > 0 && (
                     <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
                       <div className="text-[11px] font-mono font-bold text-slate-400 uppercase tracking-wider mb-2">
-                        可用极客工具库 (回忆线索)
+                        {node.id.includes('cli') || node.id.includes('terminal')
+                          ? '可用极客工具库 (回忆线索)'
+                          : '核心积木线索库 (回忆线索)'}
                       </div>
                       <div className="flex flex-wrap gap-1.5">
                         {node.blueprint.reviewChecklist.allowedCommands.map((cmd, idx) => (
                           <span
                             key={idx}
-                            className="px-2.5 py-1 rounded-lg bg-slate-900 text-emerald-400 font-mono text-xs font-bold border border-emerald-500/30 shadow-xs"
+                            className={`px-2.5 py-1 rounded-lg text-xs font-bold shadow-xs ${
+                              node.id.includes('cli') || node.id.includes('terminal')
+                                ? 'bg-slate-900 text-emerald-400 font-mono border border-emerald-500/30'
+                                : 'bg-amber-100 text-amber-900 font-sans border border-amber-300'
+                            }`}
                           >
-                            $ {cmd}
+                            {node.id.includes('cli') || node.id.includes('terminal') ? `$ ${cmd}` : cmd}
                           </span>
                         ))}
                       </div>
