@@ -21,6 +21,7 @@ import {
   FileText,
   FileCode,
   Copy,
+  Trophy,
 } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
 import { sound } from '../audio/sound';
@@ -74,6 +75,8 @@ export const PathView: React.FC<PathViewProps> = ({
         return <Copy className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Star':
         return <Star className="w-8 h-8 fill-amber-300 text-white stroke-[2]" />;
+      case 'Trophy':
+        return <Trophy className="w-8 h-8 fill-amber-300 text-white stroke-[2]" />;
       default:
         return <Sparkles className="w-8 h-8 text-white" />;
     }
