@@ -61,10 +61,10 @@ export const LessonView: React.FC<LessonViewProps> = ({
     sound.playSnap();
     setAvailableBlocks((prev) => prev.filter((b) => b.id !== block.id));
 
-    // If the assembled list already has a C-block and this is an action/cap block, nest it inside!
+    // If the assembled list already has a C-block and this is an action/stack/cap block, nest it inside!
     setAssembledBlocks((prev) => {
       const cBlockIndex = prev.findIndex((b) => b.shape === 'c-block');
-      if (cBlockIndex !== -1 && (block.category === 'motion' || block.category === 'sound' || block.category === 'looks' || block.shape === 'cap')) {
+      if (cBlockIndex !== -1 && block.shape !== 'c-block' && block.shape !== 'hat') {
         const copy = [...prev];
         const cBlock = { ...copy[cBlockIndex] };
         cBlock.nestedBlocks = [...(cBlock.nestedBlocks || []), block];
