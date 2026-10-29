@@ -22,6 +22,7 @@ import {
   FileCode,
   Copy,
   Trophy,
+  Gamepad2,
 } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
 import { sound } from '../audio/sound';
@@ -77,6 +78,8 @@ export const PathView: React.FC<PathViewProps> = ({
         return <Star className="w-8 h-8 fill-amber-300 text-white stroke-[2]" />;
       case 'Trophy':
         return <Trophy className="w-8 h-8 fill-amber-300 text-white stroke-[2]" />;
+      case 'Gamepad2':
+        return <Gamepad2 className="w-8 h-8 text-white stroke-[2.5]" />;
       default:
         return <Sparkles className="w-8 h-8 text-white" />;
     }
