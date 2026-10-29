@@ -325,8 +325,10 @@ export const BlockView: React.FC<BlockViewProps> = ({
         onClick?.();
       }}
       className={`relative inline-flex flex-col cursor-pointer transition-all duration-150 select-none ${
-        onClick ? 'active:translate-y-1' : ''
-      } ${isSelected ? 'ring-4 ring-sky-400 ring-offset-2 ring-offset-white rounded-xl scale-105' : ''}`}
+        isHat ? 'mt-4 first:mt-0' : ''
+      } ${onClick ? 'active:translate-y-1' : ''} ${
+        isSelected ? 'ring-4 ring-sky-400 ring-offset-2 ring-offset-white rounded-xl scale-105' : ''
+      }`}
     >
       {/* Hat Top Arch */}
       {isHat && (
