@@ -10,9 +10,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'robots.txt', 'icons/*.png', 'icons/*.svg'],
       manifest: {
-        name: 'STEM CodeQuest: 极客多巴胺学习营',
-        short_name: 'CodeQuest',
-        description: '专为平板横屏打造的STEM与计算机科学多巴胺学习站，支持完全离线学习',
+        name: 'BitPi · 比特派极客营',
+        short_name: 'BitPi',
+        description: '专为平板横屏打造的 STEAM、AMC 与 CS 多巴胺学习站，支持完全离线学习',
         theme_color: '#0F172A',
         background_color: '#0B1120',
         display: 'standalone',

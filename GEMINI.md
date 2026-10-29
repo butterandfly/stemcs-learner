@@ -1,4 +1,4 @@
-# STEM CodeQuest 专属项目规则与系统提示 (Workspace Prompt)
+# BitPi (比特派) 专属项目规则与系统提示 (Workspace Prompt)
 
 本文件是本项目（`stem-cs-learner`）的常驻系统级提示词与行为准则。在本项目中与用户进行结对编程和教学内容开发时，必须无条件遵循以下规则：
 
