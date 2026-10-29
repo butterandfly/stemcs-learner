@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { UserProgress, UserProfile } from '../types';
+import { ALL_AMC_CODEX_CARDS, ALL_AMC_TASK_IDS } from './amcCurriculum';
 
 const OLD_STORAGE_KEY = 'cq_user_progress_v1';
 const USERS_STORAGE_KEY = 'cq_users_v2';
@@ -17,6 +18,8 @@ export const createDefaultProgress = (): UserProgress => ({
   completedNodeIds: [],
   activeNodeId: 'node-star-mouse',
   lastActiveDate: new Date().toISOString().split('T')[0],
+  completedAmcTaskIds: [],
+  unlockedCardIds: [],
 });
 
 function loadInitialData(): { users: UserProfile[]; activeUserId: string } {
@@ -234,9 +237,38 @@ export function useUserStore() {
     updateCurrentProgress((prev) => ({
       ...prev,
       completedNodeIds: allNodeIds,
+      completedAmcTaskIds: ALL_AMC_TASK_IDS,
+      unlockedCardIds: ALL_AMC_CODEX_CARDS.map((entry) => entry.card.card_id),
       xp: Math.max(prev.xp, 100),
       energy: 5,
     }));
+  };
+
+  const toggleAmcTask = (taskId: string, cardIdsToUnlock: string[] = []): boolean => {
+    let isNowCompleted = false;
+    updateCurrentProgress((prev) => {
+      const currentTasks = prev.completedAmcTaskIds || [];
+      const currentCards = prev.unlockedCardIds || [];
+      const alreadyChecked = currentTasks.includes(taskId);
+
+      if (alreadyChecked) {
+        isNowCompleted = false;
+        return {
+          ...prev,
+          completedAmcTaskIds: currentTasks.filter((id) => id !== taskId),
+          unlockedCardIds: currentCards.filter((id) => !cardIdsToUnlock.includes(id)),
+        };
+      } else {
+        isNowCompleted = true;
+        const newCards = Array.from(new Set([...currentCards, ...cardIdsToUnlock]));
+        return {
+          ...prev,
+          completedAmcTaskIds: [...currentTasks, taskId],
+          unlockedCardIds: newCards,
+        };
+      }
+    });
+    return isNowCompleted;
   };
 
   const resetAllProgress = () => {
@@ -261,6 +293,7 @@ export function useUserStore() {
     loseEnergy,
     refillEnergy,
     unlockAllNodes,
+    toggleAmcTask,
     resetAllProgress,
   };
 }

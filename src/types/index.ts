@@ -85,6 +85,42 @@ export interface ChallengeQuestion {
   };
 }
 
+export type AmcCardType = 'definition' | 'fact/property' | 'strategy' | 'warning';
+
+export interface AmcKnowledgeCard {
+  card_id: string;
+  type: AmcCardType;
+  title: string;
+  formula: string;
+  content: string;
+}
+
+export interface AmcProblemItem {
+  id: string;
+  label: string;
+  cards: AmcKnowledgeCard[];
+}
+
+export interface AmcExerciseItem {
+  id: string;
+  label: string;
+}
+
+export interface AmcSectionData {
+  section_id: string;
+  title: string;
+  problem_list: AmcProblemItem[];
+  exercise_list: AmcExerciseItem[];
+}
+
+export interface AmcNodeData {
+  section_id: string;
+  section_title: string;
+  mode: 'problems' | 'exercises';
+  problem_list?: AmcProblemItem[];
+  exercise_list?: AmcExerciseItem[];
+}
+
 export interface LearningNode {
   id: string;
   title: string;
@@ -94,6 +130,7 @@ export interface LearningNode {
   xp: number;
   blueprint: TargetBlueprint;
   questions: ChallengeQuestion[];
+  amcData?: AmcNodeData;
 }
 
 export interface Unit {
@@ -130,6 +167,8 @@ export interface UserProgress {
   completedNodeIds: string[];
   activeNodeId: string;
   lastActiveDate: string;
+  completedAmcTaskIds?: string[];
+  unlockedCardIds?: string[];
 }
 
 export interface UserProfile {

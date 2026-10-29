@@ -24,6 +24,7 @@ import {
   Trophy,
   Gamepad2,
   Pizza,
+  BookMarked,
 } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
 import { sound } from '../audio/sound';
@@ -31,12 +32,18 @@ import { sound } from '../audio/sound';
 interface PathViewProps {
   unit: Unit;
   completedNodeIds: string[];
+  unlockedCardCount?: number;
+  totalCardCount?: number;
+  onOpenCodex?: () => void;
   onStartNode: (node: LearningNode) => void;
 }
 
 export const PathView: React.FC<PathViewProps> = ({
   unit,
   completedNodeIds,
+  unlockedCardCount = 0,
+  totalCardCount = 0,
+  onOpenCodex,
   onStartNode,
 }) => {
   const [selectedNode, setSelectedNode] = useState<LearningNode | null>(null);
@@ -92,13 +99,16 @@ export const PathView: React.FC<PathViewProps> = ({
   const nodeOffsets = [0, 56, -56, 0];
 
   const isTerminalUnit = unit.id.includes('terminal');
+  const isAmcUnit = unit.id.includes('amc');
 
   return (
     <div className="flex-1 overflow-y-auto px-4 md:px-8 py-8 flex flex-col items-center bg-[#F8FAFC]">
       {/* Unit Header Card (Light Mode, Guaranteed Height & No Content Clipping) */}
       <div
         className={`shrink-0 w-full max-w-2xl border-2 rounded-3xl p-6 mb-12 shadow-sm relative ${
-          isTerminalUnit
+          isAmcUnit
+            ? 'bg-gradient-to-r from-indigo-50 via-violet-50 to-sky-50/70 border-indigo-300/80'
+            : isTerminalUnit
             ? 'bg-gradient-to-r from-sky-50 via-cyan-50 to-emerald-50/70 border-sky-300/80'
             : 'bg-gradient-to-r from-amber-50 via-orange-50 to-amber-100/70 border-amber-300/80'
         }`}
@@ -106,22 +116,46 @@ export const PathView: React.FC<PathViewProps> = ({
         {/* Avatar Accent */}
         <div
           className={`absolute right-6 top-1/2 -translate-y-1/2 w-20 h-20 rounded-2xl border flex items-center justify-center text-4xl shadow-inner select-none pointer-events-none ${
-            isTerminalUnit
+            isAmcUnit
+              ? 'bg-indigo-400/20 border-indigo-400/30'
+              : isTerminalUnit
               ? 'bg-sky-400/20 border-sky-400/30'
               : 'bg-amber-400/20 border-amber-400/30'
           }`}
         >
-          {isTerminalUnit ? '💻' : '🐱'}
+          {isAmcUnit ? '🧮' : isTerminalUnit ? '💻' : '🐱'}
         </div>
 
         <div className="pr-24">
-          <div className="flex items-center gap-2.5 mb-2">
-            <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-400 text-amber-950 shadow-sm">
+          <div className="flex items-center gap-2.5 mb-2 flex-wrap">
+            <span
+              className={`px-3 py-1 rounded-full text-xs font-mono font-bold shadow-sm ${
+                isAmcUnit
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-amber-400 text-amber-950'
+              }`}
+            >
               {unit.badge}
             </span>
-            <span className="text-xs font-mono font-extrabold text-amber-800 tracking-wider">
+            <span
+              className={`text-xs font-mono font-extrabold tracking-wider ${
+                isAmcUnit ? 'text-indigo-800' : 'text-amber-800'
+              }`}
+            >
               UNIT {unit.unitNumber}
             </span>
+            {isAmcUnit && onOpenCodex && (
+              <button
+                onClick={() => {
+                  sound.playPop();
+                  onOpenCodex();
+                }}
+                className="ml-auto sm:ml-2 px-3 py-1 rounded-full bg-white hover:bg-indigo-50 text-indigo-800 border border-indigo-300 text-xs font-display font-black flex items-center gap-1.5 shadow-2xs transition-all active:scale-95 cursor-pointer"
+              >
+                <BookMarked className="w-3.5 h-3.5 text-indigo-600" />
+                <span>全局知识图鉴 ({unlockedCardCount}/{totalCardCount})</span>
+              </button>
+            )}
           </div>
 
           <h1 className="text-2xl md:text-3xl font-display font-black text-slate-800 tracking-tight leading-snug">

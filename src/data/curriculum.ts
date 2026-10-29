@@ -1,4 +1,5 @@
 import { Module } from '../types';
+import { AMC_MODULE } from './amcCurriculum';
 
 export const CURRICULUM: Module[] = [
   {
@@ -3520,6 +3521,7 @@ export const CURRICULUM: Module[] = [
       },
     ],
   },
+  AMC_MODULE,
   {
     id: 'python',
     name: 'Python 终端极客',

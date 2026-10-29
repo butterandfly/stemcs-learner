@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { CURRICULUM } from './data/curriculum';
+import { ALL_AMC_CODEX_CARDS } from './data/amcCurriculum';
 import { useUserStore } from './data/useStore';
 import { Sidebar } from './components/Sidebar';
 import { TopBar } from './components/TopBar';
 import { PathView } from './components/PathView';
 import { LessonView } from './components/LessonView';
+import { AmcNodeView } from './components/AmcNodeView';
+import { AmcCodexModal } from './components/AmcCodexModal';
 import { DevPanel } from './components/DevPanel';
 import { UserManagerModal } from './components/UserManagerModal';
 import { LearningNode } from './types';
@@ -30,14 +33,23 @@ export default function App() {
     loseEnergy,
     refillEnergy,
     unlockAllNodes,
+    toggleAmcTask,
     resetAllProgress,
   } = useUserStore();
 
   const [activeLessonNode, setActiveLessonNode] = useState<LearningNode | null>(null);
+  const [isCodexOpen, setIsCodexOpen] = useState<boolean>(false);
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [isDevOpen, setIsDevOpen] = useState<boolean>(false);
   const [isUserManagerOpen, setIsUserManagerOpen] = useState<boolean>(false);
+
+  const unlockedCardIds = progress.unlockedCardIds || [];
+  const completedAmcTaskIds = progress.completedAmcTaskIds || [];
+  const totalAmcCards = ALL_AMC_CODEX_CARDS.length;
+  const unlockedAmcCardCount = ALL_AMC_CODEX_CARDS.filter((entry) =>
+    unlockedCardIds.includes(entry.card.card_id)
+  ).length;
 
   // Register PWA Service Worker for offline support
   useEffect(() => {
@@ -72,8 +84,10 @@ export default function App() {
   const allUnits = currentModule.sections.flatMap((s) => s.units);
   const currentUnit = allUnits.find((u) => u.id === activeUnitId) || allUnits[0];
 
-  // All node IDs across current module for dev unlock
-  const allNodeIds = allUnits.flatMap((u) => u.nodes.map((n) => n.id));
+  // All node IDs across all modules for dev unlock
+  const allNodeIds = CURRICULUM.flatMap((m) =>
+    m.sections.flatMap((s) => s.units.flatMap((u) => u.nodes.map((n) => n.id)))
+  );
 
   return (
     <div className="relative w-screen h-screen overflow-hidden flex bg-[#F8FAFC] text-slate-800 font-sans">
@@ -106,8 +120,11 @@ export default function App() {
           activeModuleId={activeModuleId}
           activeUnitId={activeUnitId}
           completedNodeIds={progress.completedNodeIds}
+          unlockedCardCount={unlockedAmcCardCount}
+          totalCardCount={totalAmcCards}
           currentUser={currentUser}
           onOpenUserManager={() => setIsUserManagerOpen(true)}
+          onOpenCodex={() => setIsCodexOpen(true)}
           onSelectModule={(id) => {
             setActiveModuleId(id);
             const target = CURRICULUM.find((m) => m.id === id);
@@ -134,9 +151,15 @@ export default function App() {
               activeModuleId={activeModuleId}
               activeUnitId={activeUnitId}
               completedNodeIds={progress.completedNodeIds}
+              unlockedCardCount={unlockedAmcCardCount}
+              totalCardCount={totalAmcCards}
               currentUser={currentUser}
               onOpenUserManager={() => {
                 setIsUserManagerOpen(true);
+                setSidebarOpen(false);
+              }}
+              onOpenCodex={() => {
+                setIsCodexOpen(true);
                 setSidebarOpen(false);
               }}
               onSelectModule={(id) => {
@@ -175,23 +198,47 @@ export default function App() {
         <PathView
           unit={currentUnit}
           completedNodeIds={progress.completedNodeIds}
+          unlockedCardCount={unlockedAmcCardCount}
+          totalCardCount={totalAmcCards}
+          onOpenCodex={() => setIsCodexOpen(true)}
           onStartNode={(node) => setActiveLessonNode(node)}
         />
       </main>
 
-      {/* 3. Interactive Lesson Modal */}
-      {activeLessonNode && (
-        <LessonView
-          node={activeLessonNode}
-          userEnergy={progress.energy}
-          onClose={() => setActiveLessonNode(null)}
-          onLoseEnergy={loseEnergy}
-          onComplete={(xpEarned) => {
-            completeNode(activeLessonNode.id, xpEarned);
-            setActiveLessonNode(null);
-          }}
-        />
-      )}
+      {/* 3. Interactive Lesson Modal or AMC Companion Todo Modal */}
+      {activeLessonNode &&
+        (activeLessonNode.amcData ? (
+          <AmcNodeView
+            node={activeLessonNode}
+            completedTaskIds={completedAmcTaskIds}
+            unlockedCardIds={unlockedCardIds}
+            onToggleTask={toggleAmcTask}
+            onOpenCodex={() => setIsCodexOpen(true)}
+            onClose={() => setActiveLessonNode(null)}
+            onComplete={(xpEarned) => {
+              completeNode(activeLessonNode.id, xpEarned);
+              setActiveLessonNode(null);
+            }}
+          />
+        ) : (
+          <LessonView
+            node={activeLessonNode}
+            userEnergy={progress.energy}
+            onClose={() => setActiveLessonNode(null)}
+            onLoseEnergy={loseEnergy}
+            onComplete={(xpEarned) => {
+              completeNode(activeLessonNode.id, xpEarned);
+              setActiveLessonNode(null);
+            }}
+          />
+        ))}
+
+      {/* 4. AMC Global Knowledge Codex Modal */}
+      <AmcCodexModal
+        isOpen={isCodexOpen}
+        unlockedCardIds={unlockedCardIds}
+        onClose={() => setIsCodexOpen(false)}
+      />
 
       {/* 4. Student User Manager Modal */}
       {isUserManagerOpen && (

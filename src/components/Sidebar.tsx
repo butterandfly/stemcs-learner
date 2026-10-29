@@ -1,17 +1,20 @@
 import React from 'react';
 import { CURRICULUM } from '../data/curriculum';
-import { Lock, Code, Terminal, Cpu, RotateCcw, CheckCircle2, X } from 'lucide-react';
+import { Lock, Code, Terminal, Cpu, Calculator, BookMarked, RotateCcw, CheckCircle2, X } from 'lucide-react';
 import { sound } from '../audio/sound';
 
 interface SidebarProps {
   activeModuleId: string;
   activeUnitId: string;
   completedNodeIds: string[];
+  unlockedCardCount?: number;
+  totalCardCount?: number;
   currentUser?: {
     name: string;
     avatar: string;
   };
   onOpenUserManager?: () => void;
+  onOpenCodex?: () => void;
   onSelectModule: (id: string) => void;
   onSelectUnit: (id: string) => void;
   onResetProgress: () => void;
@@ -23,8 +26,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   activeModuleId,
   activeUnitId,
   completedNodeIds,
+  unlockedCardCount = 0,
+  totalCardCount = 0,
   currentUser,
   onOpenUserManager,
+  onOpenCodex,
   onSelectModule,
   onSelectUnit,
   onResetProgress,
@@ -52,6 +58,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
     switch (iconName) {
       case 'Cat':
         return <Code className="w-5 h-5" />;
+      case 'Calculator':
+        return <Calculator className="w-5 h-5" />;
       case 'Terminal':
         return <Terminal className="w-5 h-5" />;
       case 'Cpu':
@@ -193,6 +201,28 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             ))}
           </div>
+
+          {activeModuleId === 'amc' && onOpenCodex && (
+            <div className="mt-5 pt-4 border-t border-slate-100">
+              <button
+                onClick={() => {
+                  sound.playPop();
+                  onOpenCodex();
+                }}
+                className="w-full p-3.5 rounded-2xl bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-600 hover:to-violet-600 text-white shadow-md flex items-center justify-between transition-all active:scale-95 cursor-pointer"
+              >
+                <div className="flex items-center gap-2.5">
+                  <BookMarked className="w-4 h-4 shrink-0" />
+                  <span className="font-display font-black text-xs">
+                    全局知识图鉴 (Codex)
+                  </span>
+                </div>
+                <span className="px-2 py-0.5 rounded-full bg-white/20 text-[11px] font-mono font-bold">
+                  {unlockedCardCount}/{totalCardCount}
+                </span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
 
