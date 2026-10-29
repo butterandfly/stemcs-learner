@@ -78,12 +78,18 @@ export const LessonView: React.FC<LessonViewProps> = ({
   const handleRemoveFromAssembled = (block: ScratchBlock) => {
     sound.playPop();
 
+    let blocksToRestore: ScratchBlock[] = [block];
+
     // Remove from root or from nested C-block
     setAssembledBlocks((prev) => {
-      const isRoot = prev.some((b) => b.id === block.id);
-      if (isRoot) {
+      const rootBlock = prev.find((b) => b.id === block.id);
+      if (rootBlock) {
+        if (rootBlock.nestedBlocks && rootBlock.nestedBlocks.length > 0) {
+          blocksToRestore = [rootBlock, ...rootBlock.nestedBlocks];
+        }
         return prev.filter((b) => b.id !== block.id);
       }
+
       return prev.map((b) => {
         if (b.nestedBlocks && b.nestedBlocks.some((n) => n.id === block.id)) {
           return {
@@ -95,7 +101,26 @@ export const LessonView: React.FC<LessonViewProps> = ({
       });
     });
 
-    setAvailableBlocks((prev) => [...prev, block]);
+    setAvailableBlocks((prev) => {
+      const existingIds = new Set(prev.map((b) => b.id));
+      const newlyRestored = blocksToRestore
+        .filter((b) => !existingIds.has(b.id))
+        .map((b) => ({ ...b, nestedBlocks: [] }));
+      return [...prev, ...newlyRestored];
+    });
+
+    if (checkState !== 'idle') {
+      setCheckState('idle');
+    }
+  };
+
+  const handleResetAssembled = () => {
+    sound.playPop();
+    if (question.type === 'block_assemble' && question.availableBlocks) {
+      setAssembledBlocks([]);
+      setAvailableBlocks([...question.availableBlocks]);
+      setCheckState('idle');
+    }
   };
 
   // Submit check
@@ -288,10 +313,29 @@ export const LessonView: React.FC<LessonViewProps> = ({
                 {/* Script Dock (Assembled script) */}
                 <div className="min-h-[160px] p-5 bg-white rounded-3xl border-2 border-dashed border-sky-300 shadow-sm flex flex-col gap-2">
                   <div className="text-xs font-mono font-bold text-slate-500 mb-1 flex items-center justify-between">
-                    <span>运行轨道 (点击积木可拆卸)</span>
-                    <span className="text-sky-600 font-extrabold">
-                      已装配 {assembledBlocks.length} 组积木
+                    <span className="flex items-center gap-1.5">
+                      <span>运行轨道</span>
+                      <span className="text-[11px] text-slate-400 font-normal">（点击积木可拆卸）</span>
                     </span>
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-sky-600 font-extrabold">
+                        已装配 {assembledBlocks.length} 组积木
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleResetAssembled}
+                        disabled={assembledBlocks.length === 0}
+                        className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border shadow-sm ${
+                          assembledBlocks.length > 0
+                            ? 'bg-rose-50 hover:bg-rose-100 text-rose-600 border-rose-200 active:scale-95 cursor-pointer'
+                            : 'bg-slate-50 text-slate-300 border-slate-200 cursor-not-allowed opacity-50'
+                        }`}
+                        title="清空轨道，重置全部积木"
+                      >
+                        <RotateCcw className="w-3.5 h-3.5" />
+                        <span>重置</span>
+                      </button>
+                    </div>
                   </div>
 
                   {assembledBlocks.length === 0 ? (
@@ -307,6 +351,10 @@ export const LessonView: React.FC<LessonViewProps> = ({
                           onClick={() => {
                             if (checkState !== 'idle') return;
                             handleRemoveFromAssembled(block);
+                          }}
+                          onChildClick={(child) => {
+                            if (checkState !== 'idle') return;
+                            handleRemoveFromAssembled(child);
                           }}
                         />
                       ))}

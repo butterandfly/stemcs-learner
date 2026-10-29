@@ -7,6 +7,7 @@ interface BlockViewProps {
   block: ScratchBlock;
   isSelected?: boolean;
   onClick?: () => void;
+  onChildClick?: (child: ScratchBlock) => void;
   size?: 'normal' | 'compact';
   isNestedChild?: boolean;
 }
@@ -15,6 +16,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
   block,
   isSelected = false,
   onClick,
+  onChildClick,
   size = 'normal',
   isNestedChild = false,
 }) => {
@@ -256,7 +258,8 @@ export const BlockView: React.FC<BlockViewProps> = ({
   if (isCBlock) {
     return (
       <div
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           sound.playPop();
           onClick?.();
         }}
@@ -289,7 +292,16 @@ export const BlockView: React.FC<BlockViewProps> = ({
             {block.nestedBlocks && block.nestedBlocks.length > 0 ? (
               <div className="flex flex-col gap-1 items-start">
                 {block.nestedBlocks.map((child) => (
-                  <BlockView key={child.id} block={child} size="compact" isNestedChild />
+                  <BlockView
+                    key={child.id}
+                    block={child}
+                    size="compact"
+                    isNestedChild
+                    onClick={() => {
+                      onChildClick?.(child);
+                    }}
+                    onChildClick={onChildClick}
+                  />
                 ))}
               </div>
             ) : (
@@ -320,7 +332,8 @@ export const BlockView: React.FC<BlockViewProps> = ({
   // Render Hat, Stack, or Cap Block
   return (
     <div
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
         sound.playPop();
         onClick?.();
       }}
