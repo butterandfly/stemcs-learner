@@ -115,7 +115,169 @@ export const AOPS_SECTION_1_2: AmcSectionData = {
   ],
 };
 
-export const AOPS_SECTIONS: AmcSectionData[] = [AOPS_SECTION_1_2];
+export const AOPS_SECTION_1_3: AmcSectionData = {
+  section_id: '1.3',
+  title: 'Multiplication (乘法)',
+  problem_list: [
+    {
+      id: 'p-1.7',
+      label: 'Problem 1.7',
+      cards: [
+        {
+          card_id: 'c-1.3-1',
+          type: 'fact/property',
+          title: '乘法交换律 (Commutative Property of Multiplication)',
+          formula: '$ab = ba$',
+          content: '两个数相乘，交换因数的位置，积不变。对于任意数字 $a$ 和 $b$，恒有 $ab = ba$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.8',
+      label: 'Problem 1.8',
+      cards: [
+        {
+          card_id: 'c-1.3-2',
+          type: 'fact/property',
+          title: '乘法结合律 (Associative Property of Multiplication)',
+          formula: '$(ab)c = a(bc)$',
+          content: '三个数相乘，先把前两个数相乘，或者先把后两个数相乘，积不变。对于任意数字 $a, b, c$，恒有 $(ab)c = a(bc)$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.9',
+      label: 'Problem 1.9',
+      cards: [
+        {
+          card_id: 'c-1.3-3',
+          type: 'strategy',
+          title: '重新排列乘积 (Reordering Products)',
+          formula: 'Rearranging Products',
+          content: '结合乘法交换律与结合律，可以按任意顺序对一串因子求积。遇到复杂乘法时，优先组合能凑成整十、整百、整千的因子对（如 $25 \\times 4 = 100$、$125 \\times 8 = 1000$），能极大简化计算。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.10',
+      label: 'Problem 1.10',
+      cards: [
+        {
+          card_id: 'c-1.3-4',
+          type: 'fact/property',
+          title: '乘 1 性质 (Multiplying by 1)',
+          formula: '$1a = a$',
+          content: '任何数乘以 1 都等于它本身。对于任意数字 $a$，恒有 $1a = a$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.11',
+      label: 'Problem 1.11',
+      cards: [
+        {
+          card_id: 'c-1.3-5',
+          type: 'definition',
+          title: '运算顺序 (Order of Operations)',
+          formula: 'Order of Operations',
+          content: '含有多种运算时，优先计算括号内部的表达式；无括号时，先算乘除法，后算加减法。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.12',
+      label: 'Problem 1.12',
+      cards: [
+        {
+          card_id: 'c-1.3-6',
+          type: 'fact/property',
+          title: '乘法分配律 (Distributive Property)',
+          formula: '$a(b + c) = ab + ac$',
+          content: '一个数同两个数的和相乘，等于把这个数分别同这两个加数相乘，再把积相加。对任意数 $a, b, c$，恒有 $a(b + c) = ab + ac$ 及 $(b + c)a = ba + ca$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.13',
+      label: 'Problem 1.13',
+      cards: [
+        {
+          card_id: 'c-1.3-7',
+          type: 'strategy',
+          title: '提取公因式 / 因式分解 (Factoring)',
+          formula: '$ab + ac = a(b + c)$',
+          content: '逆向运用乘法分配律，将多个含有公共因子 $a$ 的乘积之和改写为 $a(b + c)$ 的形式，可以大幅简化计算过程。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.14',
+      label: 'Problem 1.14',
+      cards: [
+        {
+          card_id: 'c-1.3-8',
+          type: 'definition',
+          title: '重复加法 (Repeated Addition)',
+          formula: '$n \\cdot a = a + a + \\dots + a$',
+          content: '正整数乘以一个数在概念上等价于重复加法，即 $n$ 个相同的数相加。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.15',
+      label: 'Problem 1.15',
+      cards: [
+        {
+          card_id: 'c-1.3-9',
+          type: 'fact/property',
+          title: '乘 0 性质 (Multiplying by Zero)',
+          formula: '$0a = 0$',
+          content: '任何数与 0 相乘，结果均为 0。对于任意数字 $a$，恒有 $0a = 0$。',
+        },
+      ],
+    },
+  ],
+  exercise_list: [
+    {
+      id: 'ex-1.3.1',
+      label: 'Exercise 1.3.1',
+    },
+    {
+      id: 'ex-1.3.2',
+      label: 'Exercise 1.3.2',
+    },
+    {
+      id: 'ex-1.3.3',
+      label: 'Exercise 1.3.3',
+    },
+    {
+      id: 'ex-1.3.4',
+      label: 'Exercise 1.3.4',
+    },
+    {
+      id: 'ex-1.3.5',
+      label: 'Exercise 1.3.5',
+    },
+    {
+      id: 'ex-1.3.6',
+      label: 'Exercise 1.3.6',
+    },
+    {
+      id: 'ex-1.3.7',
+      label: 'Exercise 1.3.7',
+    },
+    {
+      id: 'ex-1.3.8',
+      label: 'Exercise 1.3.8',
+    },
+    {
+      id: 'ex-1.3.9',
+      label: 'Exercise 1.3.9',
+    },
+  ],
+};
+
+export const AOPS_SECTIONS: AmcSectionData[] = [AOPS_SECTION_1_2, AOPS_SECTION_1_3];
 
 export interface CodexCardEntry {
   card: AmcKnowledgeCard;
@@ -204,6 +366,49 @@ export const AMC_MODULE: Module = {
                 mode: 'exercises',
                 exercise_list: AOPS_SECTION_1_2.exercise_list,
                 problem_list: AOPS_SECTION_1_2.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-3-problems',
+              title: '1.3 Problems',
+              titleEn: 'Section 1.3 Multiplication · Problems',
+              shortDesc: '完成 1.3 节 9 道探索题打卡，拆开 9 张乘法定律、分配律与公因式盲盒卡片',
+              icon: 'Sparkles',
+              xp: 50,
+              blueprint: {
+                title: 'Section 1.3 Multiplication · 探索题盲盒',
+                titleEn: 'AoPS Prealgebra Section 1.3 Problems',
+                blocks: [],
+                tip: '先在实体书上独立思考并完成每道 Problem，再勾选打卡解锁对应的知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_3.section_id,
+                section_title: AOPS_SECTION_1_3.title,
+                mode: 'problems',
+                problem_list: AOPS_SECTION_1_3.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-3-exercises',
+              title: '1.3 Exercises',
+              titleEn: 'Section 1.3 Multiplication · Exercises',
+              shortDesc: '完成 1.3 节末尾 9 道巩固练习打卡，实战运用乘法结合律、分配律与公因式巧算',
+              icon: 'Award',
+              xp: 40,
+              blueprint: {
+                title: 'Section 1.3 Multiplication · 巩固练习打卡',
+                titleEn: 'AoPS Prealgebra Section 1.3 Exercises',
+                blocks: [],
+                tip: '在做 Exercise 时，可以随时对照右侧已解锁的 1.3 节知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_3.section_id,
+                section_title: AOPS_SECTION_1_3.title,
+                mode: 'exercises',
+                exercise_list: AOPS_SECTION_1_3.exercise_list,
+                problem_list: AOPS_SECTION_1_3.problem_list,
               },
             },
           ],

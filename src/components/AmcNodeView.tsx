@@ -208,8 +208,8 @@ export const AmcNodeView: React.FC<AmcNodeViewProps> = ({
               </div>
               <p className="text-xs md:text-sm text-slate-700 font-medium leading-relaxed">
                 {isProblemsMode
-                  ? '翻开实体教材《AoPS Prealgebra》Section 1.2，在纸上独立算完每道 Problem 后打勾，立即拆开对应的知识盲盒！'
-                  : '翻开实体教材《AoPS Prealgebra》Section 1.2 末尾，独立完成每道 Exercise 后打勾。右侧已为你备好本节核心知识卡！'}
+                  ? `翻开实体教材《AoPS Prealgebra》Section ${amcData.section_id}，在纸上独立算完每道 Problem 后打勾，立即拆开对应的知识盲盒！`
+                  : `翻开实体教材《AoPS Prealgebra》Section ${amcData.section_id} 末尾，独立完成每道 Exercise 后打勾。右侧已为你备好本节核心知识卡！`}
               </p>
             </div>
           </div>
