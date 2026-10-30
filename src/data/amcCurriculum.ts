@@ -392,10 +392,282 @@ export const AOPS_SECTION_1_4: AmcSectionData = {
   ],
 };
 
+export const AOPS_SECTION_1_5: AmcSectionData = {
+  section_id: '1.5',
+  title: 'Subtraction (减法)',
+  problem_list: [
+    {
+      id: 'p-1.21',
+      label: 'Problem 1.21',
+      cards: [
+        {
+          card_id: 'c-1.5-1',
+          type: 'definition',
+          title: '减法的定义 (Definition of Subtraction)',
+          formula: '$a - b = a + (-b)$',
+          content: '减去一个数等于加上这个数的相反数。对于任意数字 $a$ 和 $b$，减法定义为 $a - b = a + (-b)$。',
+        },
+        {
+          card_id: 'c-1.5-2',
+          type: 'fact/property',
+          title: '与 0 相关的减法性质 (Subtraction with Zero)',
+          formula: '$0 - a = -a, \\quad a - a = 0, \\quad a - 0 = a$',
+          content: '由减法定义可导出：从 0 减去一个数等于该数的相反数（$0 - a = -a$）；任何数减去它本身等于 0（$a - a = 0$）；任何数减去 0 仍等于它本身（$a - 0 = a$）。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.22',
+      label: 'Problem 1.22',
+      cards: [
+        {
+          card_id: 'c-1.5-3',
+          type: 'fact/property',
+          title: '减去相反数 / 减去负数 (Subtraction of Negation)',
+          formula: '$a - (-b) = a + b$',
+          content: '减去一个数的相反数，等于加上这个数本身（“减负得正”）。对于任意数字 $a, b$，恒有 $a - (-b) = a + b$。',
+        },
+        {
+          card_id: 'c-1.5-4',
+          type: 'fact/property',
+          title: '从相反数中减去 (Subtraction from Negation)',
+          formula: '$-a - b = -(a + b)$',
+          content: '从一个负数（或相反数）中减去一个数，等于减去它们的和。即 $-a - b = -(a + b)$。',
+        },
+        {
+          card_id: 'c-1.5-5',
+          type: 'fact/property',
+          title: '差的相反数 (Negation of Subtraction)',
+          formula: '$-(a - b) = b - a$',
+          content: '对差取相反数，等于交换被减数与减数的位置。对于任意数字 $a, b$，恒有 $-(a - b) = b - a$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.23',
+      label: 'Problem 1.23',
+      cards: [
+        {
+          card_id: 'c-1.5-6',
+          type: 'warning',
+          title: '避坑指南：减法不满足交换律与结合律 (Non-commutative & Non-associative)',
+          formula: '$a - b \\neq b - a, \\quad (a - b) - c \\neq a - (b - c)$',
+          content: '减法既不满足交换律，也不满足结合律！例如 $5 - 3 \\neq 3 - 5$，且 $(8 - 3) - 2 \\neq 8 - (3 - 2)$。在涉及减法的运算中，绝不能随意颠倒顺序或重新分组加括号。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.24',
+      label: 'Problem 1.24',
+      cards: [],
+    },
+    {
+      id: 'p-1.25',
+      label: 'Problem 1.25',
+      cards: [
+        {
+          card_id: 'c-1.5-7',
+          type: 'strategy',
+          title: '减法转化为加法策略 (Subtraction-to-Addition Strategy)',
+          formula: 'Convert Subtraction to Addition',
+          content: '遇到复杂的连续加减法算式，先将所有减法转化为“加上相反数”（$a - b = a + (-b)$）。转化为纯加法后，即可自由重组并移动项（如寻找抵消对或凑整对），算完后再转回减法形式。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.26',
+      label: 'Problem 1.26',
+      cards: [],
+    },
+    {
+      id: 'p-1.27',
+      label: 'Problem 1.27',
+      cards: [
+        {
+          card_id: 'c-1.5-8',
+          type: 'fact/property',
+          title: '乘法对减法的分配律 (Distributive Property over Subtraction)',
+          formula: '$a(b - c) = ab - ac \\text{ 且 } (b - c)a = ba - ca$',
+          content: '乘法对减法同样满足分配律。一个数乘以两数之差，等于这个数分别乘以被减数和减数后再相减。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.28',
+      label: 'Problem 1.28',
+      cards: [
+        {
+          card_id: 'c-1.5-9',
+          type: 'strategy',
+          title: '基准数拆分巧算 (Using $1000 - 1$ Trick)',
+          formula: '$999 \\times x = (1000 - 1)x = 1000x - x$',
+          content: '遇到接近整百、整千的数字乘法（如 999、99 等）时，将其拆写为 $(1000 - 1)$ 或 $(100 - 1)$ 的形式，再利用乘法对减法的分配律展开，可大幅简化速算。',
+        },
+      ],
+    },
+  ],
+  exercise_list: [
+    {
+      id: 'ex-1.5.1',
+      label: 'Exercise 1.5.1',
+    },
+    {
+      id: 'ex-1.5.2',
+      label: 'Exercise 1.5.2',
+    },
+    {
+      id: 'ex-1.5.3',
+      label: 'Exercise 1.5.3',
+    },
+    {
+      id: 'ex-1.5.4',
+      label: 'Exercise 1.5.4',
+    },
+    {
+      id: 'ex-1.5.5',
+      label: 'Exercise 1.5.5',
+    },
+    {
+      id: 'ex-1.5.6',
+      label: 'Exercise 1.5.6',
+    },
+    {
+      id: 'ex-1.5.7',
+      label: 'Exercise 1.5.7',
+    },
+    {
+      id: 'ex-1.5.8',
+      label: 'Exercise 1.5.8',
+    },
+    {
+      id: 'ex-1.5.9',
+      label: 'Exercise 1.5.9',
+    },
+    {
+      id: 'ex-1.5.10',
+      label: 'Exercise 1.5.10',
+    },
+    {
+      id: 'ex-1.5.11',
+      label: 'Exercise 1.5.11*',
+    },
+  ],
+};
+
+export const AOPS_SECTION_1_6: AmcSectionData = {
+  section_id: '1.6',
+  title: 'Reciprocals (倒数)',
+  problem_list: [
+    {
+      id: 'p-1.29',
+      label: 'Problem 1.29',
+      cards: [
+        {
+          card_id: 'c-1.6-1',
+          type: 'definition',
+          title: '倒数 / 乘法逆元 (Reciprocal / Multiplicative Inverse)',
+          formula: '$\\frac{1}{a} \\cdot a = 1 \\quad (a \\neq 0)$',
+          content: '对于任意非零数字 $a$，其倒数（记作 $\\frac{1}{a}$）是指与 $a$ 相乘等于 $1$ 的数，满足 $\\frac{1}{a} \\cdot a = 1$。倒数也称为乘法逆元（multiplicative inverse），读作 “1 over $a$”。',
+        },
+        {
+          card_id: 'c-1.6-2',
+          type: 'warning',
+          title: '零没有倒数 / 零不能作分母 (Zero Has No Reciprocal)',
+          formula: '$\\frac{1}{0} \\text{ is undefined}$',
+          content: '0 与任何数相乘都等于 0，不可能得到 1。因此，0 是唯一没有倒数的数，表达式 $\\frac{1}{0}$ 无意义。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.30',
+      label: 'Problem 1.30',
+      cards: [
+        {
+          card_id: 'c-1.6-3',
+          type: 'fact/property',
+          title: '1 的倒数 (Reciprocal of 1)',
+          formula: '$\\frac{1}{1} = 1$',
+          content: '1 的倒数仍然是 1 本身。',
+        },
+        {
+          card_id: 'c-1.6-4',
+          type: 'strategy',
+          title: '倒数检验策略 (Reciprocal Strategy)',
+          formula: '$x \\cdot y = 1 \\implies y = \\frac{1}{x}$',
+          content: '要证明或检验两个数是否互为倒数，只需将它们相乘，检查其乘积是否等于 1。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.31',
+      label: 'Problem 1.31',
+      cards: [
+        {
+          card_id: 'c-1.6-5',
+          type: 'fact/property',
+          title: '倒数的倒数 (Reciprocal of Reciprocal)',
+          formula: '$\\frac{1}{1/a} = a \\quad (a \\neq 0)$',
+          content: '一个非零数的倒数的倒数等于该数本身。对于任意非零数字 $a$，恒有 $\\frac{1}{1/a} = a$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.32',
+      label: 'Problem 1.32',
+      cards: [
+        {
+          card_id: 'c-1.6-6',
+          type: 'fact/property',
+          title: '积的倒数 (Reciprocal of Product)',
+          formula: '$\\frac{1}{ab} = \\frac{1}{a} \\cdot \\frac{1}{b} \\quad (a, b \\neq 0)$',
+          content: '两个非零数乘积的倒数，等于这两个数各自倒数的乘积。此性质可推广至任意多个非零因子的乘积倒数。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.33',
+      label: 'Problem 1.33',
+      cards: [
+        {
+          card_id: 'c-1.6-7',
+          type: 'fact/property',
+          title: '相反数的倒数 (Reciprocal of Negation)',
+          formula: '$\\frac{1}{-a} = -\\frac{1}{a} \\quad (a \\neq 0)$',
+          content: '一个非零数的相反数的倒数，等于该数倒数的相反数。即取相反数与取倒数的顺序可以互换。',
+        },
+      ],
+    },
+  ],
+  exercise_list: [
+    {
+      id: 'ex-1.6.1',
+      label: 'Exercise 1.6.1',
+    },
+    {
+      id: 'ex-1.6.2',
+      label: 'Exercise 1.6.2',
+    },
+    {
+      id: 'ex-1.6.3',
+      label: 'Exercise 1.6.3',
+    },
+    {
+      id: 'ex-1.6.4',
+      label: 'Exercise 1.6.4',
+    },
+    {
+      id: 'ex-1.6.5',
+      label: 'Exercise 1.6.5',
+    },
+  ],
+};
+
 export const AOPS_SECTIONS: AmcSectionData[] = [
   AOPS_SECTION_1_2,
   AOPS_SECTION_1_3,
   AOPS_SECTION_1_4,
+  AOPS_SECTION_1_5,
+  AOPS_SECTION_1_6,
 ];
 
 export interface CodexCardEntry {
@@ -571,6 +843,92 @@ export const AMC_MODULE: Module = {
                 mode: 'exercises',
                 exercise_list: AOPS_SECTION_1_4.exercise_list,
                 problem_list: AOPS_SECTION_1_4.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-5-problems',
+              title: '1.5 Problems',
+              titleEn: 'Section 1.5 Subtraction · Problems',
+              shortDesc: '完成 1.5 节 8 道探索题打卡，拆开 9 张减法本质、避坑指南与分配律盲盒卡片',
+              icon: 'Sparkles',
+              xp: 50,
+              blueprint: {
+                title: 'Section 1.5 Subtraction · 探索题盲盒',
+                titleEn: 'AoPS Prealgebra Section 1.5 Problems',
+                blocks: [],
+                tip: '先在实体书上独立思考并完成每道 Problem，再勾选打卡解锁对应的知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_5.section_id,
+                section_title: AOPS_SECTION_1_5.title,
+                mode: 'problems',
+                problem_list: AOPS_SECTION_1_5.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-5-exercises',
+              title: '1.5 Exercises',
+              titleEn: 'Section 1.5 Subtraction · Exercises',
+              shortDesc: '完成 1.5 节末尾 11 道巩固练习打卡，实战运用转化为加法、减负得正与拆分巧算',
+              icon: 'Award',
+              xp: 45,
+              blueprint: {
+                title: 'Section 1.5 Subtraction · 巩固练习打卡',
+                titleEn: 'AoPS Prealgebra Section 1.5 Exercises',
+                blocks: [],
+                tip: '在做 Exercise 时，可以随时对照右侧已解锁的 1.5 节知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_5.section_id,
+                section_title: AOPS_SECTION_1_5.title,
+                mode: 'exercises',
+                exercise_list: AOPS_SECTION_1_5.exercise_list,
+                problem_list: AOPS_SECTION_1_5.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-6-problems',
+              title: '1.6 Problems',
+              titleEn: 'Section 1.6 Reciprocals · Problems',
+              shortDesc: '完成 1.6 节 5 道探索题打卡，拆开 7 张倒数定义、零无倒数与积的倒数盲盒卡片',
+              icon: 'Sparkles',
+              xp: 50,
+              blueprint: {
+                title: 'Section 1.6 Reciprocals · 探索题盲盒',
+                titleEn: 'AoPS Prealgebra Section 1.6 Problems',
+                blocks: [],
+                tip: '先在实体书上独立思考并完成每道 Problem，再勾选打卡解锁对应的知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_6.section_id,
+                section_title: AOPS_SECTION_1_6.title,
+                mode: 'problems',
+                problem_list: AOPS_SECTION_1_6.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-6-exercises',
+              title: '1.6 Exercises',
+              titleEn: 'Section 1.6 Reciprocals · Exercises',
+              shortDesc: '完成 1.6 节末尾 5 道巩固练习打卡，熟练掌握乘法逆元检验、倒数的倒数与符号性质',
+              icon: 'Award',
+              xp: 40,
+              blueprint: {
+                title: 'Section 1.6 Reciprocals · 巩固练习打卡',
+                titleEn: 'AoPS Prealgebra Section 1.6 Exercises',
+                blocks: [],
+                tip: '在做 Exercise 时，可以随时对照右侧已解锁的 1.6 节知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_6.section_id,
+                section_title: AOPS_SECTION_1_6.title,
+                mode: 'exercises',
+                exercise_list: AOPS_SECTION_1_6.exercise_list,
+                problem_list: AOPS_SECTION_1_6.problem_list,
               },
             },
           ],

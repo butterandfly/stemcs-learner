@@ -12,6 +12,10 @@ interface MathTextProps {
  */
 function formatMathSegment(rawMath: string): React.ReactNode {
   const cleaned = rawMath
+    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '$1/$2')
+    .replace(/\\implies/g, '⇒')
+    .replace(/\\quad/g, '  ')
+    .replace(/\\text\{([^}]+)\}/g, '$1')
     .replace(/\\dots/g, '…')
     .replace(/\\cdots/g, '⋯')
     .replace(/\\times/g, '×')
