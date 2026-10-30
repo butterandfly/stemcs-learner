@@ -1,4 +1,5 @@
 import React from 'react';
+import katex from 'katex';
 
 interface MathTextProps {
   text: string;
@@ -7,42 +8,19 @@ interface MathTextProps {
 }
 
 /**
- * Formats LaTeX-style inline math ($...$) into clean, textbook-grade typography
- * without external heavy font dependencies, ensuring 100% offline PWA reliability.
+ * Renders LaTeX math with KaTeX, falling back to clean text if rendering encounters errors.
  */
-function formatMathSegment(rawMath: string): React.ReactNode {
-  const cleaned = rawMath
-    .replace(/\\frac\{([^}]+)\}\{([^}]+)\}/g, '$1/$2')
-    .replace(/\\implies/g, '⇒')
-    .replace(/\\quad/g, '  ')
-    .replace(/\\text\{([^}]+)\}/g, '$1')
-    .replace(/\\dots/g, '…')
-    .replace(/\\cdots/g, '⋯')
-    .replace(/\\times/g, '×')
-    .replace(/\\div/g, '÷')
-    .replace(/\\cdot/g, '·')
-    .replace(/\\neq/g, '≠')
-    .replace(/\\le/g, '≤')
-    .replace(/\\ge/g, '≥')
-    .replace(/\\pm/g, '±');
-
-  // Tokenize letters vs numbers/operators so variables get classic italic math serif styling
-  const tokens = cleaned.split(/([a-zA-Z]+)/g);
-
-  return (
-    <span className="font-mono font-bold tracking-wide inline-flex items-baseline">
-      {tokens.map((tok, i) => {
-        if (/^[a-zA-Z]+$/.test(tok)) {
-          return (
-            <span key={i} className="font-serif italic font-bold px-[1px]">
-              {tok}
-            </span>
-          );
-        }
-        return <span key={i}>{tok}</span>;
-      })}
-    </span>
-  );
+function renderKaTeX(rawMath: string, displayMode: boolean): string {
+  try {
+    return katex.renderToString(rawMath, {
+      displayMode,
+      throwOnError: false,
+      output: 'htmlAndMathml',
+      strict: false,
+    });
+  } catch (err) {
+    return rawMath;
+  }
 }
 
 export const MathText: React.FC<MathTextProps> = ({
@@ -50,7 +28,24 @@ export const MathText: React.FC<MathTextProps> = ({
   className = '',
   isFormulaBlock = false,
 }) => {
-  // Split by $...$ segments
+  if (isFormulaBlock) {
+    // If the whole string is meant as a formula block, strip outer $ if present and render display math
+    const trimmed = text.trim();
+    const formula =
+      trimmed.startsWith('$') && trimmed.endsWith('$') && trimmed.length >= 2
+        ? trimmed.slice(1, -1)
+        : trimmed;
+
+    const html = renderKaTeX(formula, true);
+    return (
+      <span
+        className={`katex-formula-block inline-block ${className}`}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+
+  // Split by $...$ segments for inline text
   const parts = text.split(/(\$[^$]+\$)/g);
 
   return (
@@ -58,16 +53,13 @@ export const MathText: React.FC<MathTextProps> = ({
       {parts.map((part, idx) => {
         if (part.startsWith('$') && part.endsWith('$') && part.length >= 2) {
           const inner = part.slice(1, -1);
-          if (isFormulaBlock) {
-            return <React.Fragment key={idx}>{formatMathSegment(inner)}</React.Fragment>;
-          }
+          const html = renderKaTeX(inner, false);
           return (
             <span
               key={idx}
-              className="inline-block px-1.5 py-0.5 mx-0.5 rounded-md bg-slate-900/5 text-slate-900 border border-slate-300/60 leading-none"
-            >
-              {formatMathSegment(inner)}
-            </span>
+              className="inline-block px-1 py-0.5 mx-0.5 rounded bg-slate-900/5 text-slate-900 border border-slate-300/50 align-baseline"
+              dangerouslySetInnerHTML={{ __html: html }}
+            />
           );
         }
         return <span key={idx}>{part}</span>;
