@@ -277,7 +277,126 @@ export const AOPS_SECTION_1_3: AmcSectionData = {
   ],
 };
 
-export const AOPS_SECTIONS: AmcSectionData[] = [AOPS_SECTION_1_2, AOPS_SECTION_1_3];
+export const AOPS_SECTION_1_4: AmcSectionData = {
+  section_id: '1.4',
+  title: 'Negation (取相反数)',
+  problem_list: [
+    {
+      id: 'p-1.16',
+      label: 'Problem 1.16',
+      cards: [
+        {
+          card_id: 'c-1.4-1',
+          type: 'definition',
+          title: '相反数 / 否定 (Negation / Additive Inverse)',
+          formula: '$-x + x = 0$',
+          content: '对于任意数字 $x$，其相反数（或否定，记作 $-x$）是指与 $x$ 相加等于 $0$ 的数，即满足 $-x + x = 0$。在英文中也常被称为 opposite 或 additive inverse。',
+        },
+        {
+          card_id: 'c-1.4-2',
+          type: 'fact/property',
+          title: '零的相反数 (Negation of Zero)',
+          formula: '$-0 = 0$',
+          content: '0 的相反数仍然是 0 本身。即 $-0 = 0$。',
+        },
+        {
+          card_id: 'c-1.4-3',
+          type: 'fact/property',
+          title: '双重否定 / 取相反数的相反数 (Negation of Negation)',
+          formula: '$-(-x) = x$',
+          content: '一个数的相反数的相反数等于该数本身。对任意数字 $x$，恒有 $-(-x) = x$。',
+        },
+        {
+          card_id: 'c-1.4-4',
+          type: 'warning',
+          title: '符号辨析：$-x$ 不一定是负数 (Notation Warning)',
+          formula: '$-x \\text{ is not always negative}$',
+          content: '不要以为带有负号的 $-x$ 就一定是负数！当 $x$ 本身是负数时（如 $x = -1$），$-x = -(-1) = 1$ 是正数。负数的相反数永远是正数。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.17',
+      label: 'Problem 1.17',
+      cards: [
+        {
+          card_id: 'c-1.4-5',
+          type: 'fact/property',
+          title: '乘以 -1 的性质 (Multiplying by -1)',
+          formula: '$(-1)x = -x$',
+          content: '任何数乘以 -1 等价于对该数取相反数。对于任意数字 $x$，恒有 $(-1)x = -x$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.18',
+      label: 'Problem 1.18',
+      cards: [
+        {
+          card_id: 'c-1.4-6',
+          type: 'fact/property',
+          title: '否定与乘法 / 异号相乘 (Multiplying by Negation)',
+          formula: '$(-x)y = -(xy) \\text{ 且 } x(-y) = -(xy)$',
+          content: '一个数与另一个数的相反数相乘，等于它们乘积的相反数。正数与负数相乘，结果为负数（“正负得负” / “负正得负”）。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.19',
+      label: 'Problem 1.19',
+      cards: [
+        {
+          card_id: 'c-1.4-7',
+          type: 'fact/property',
+          title: '负负得正 (Negation times Negation)',
+          formula: '$(-x)(-y) = xy$',
+          content: '两个负数相乘（或两个相反数相乘），结果等于对应正数之积。即“负负得正”。对于任意数字 $x, y$，恒有 $(-x)(-y) = xy$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.20',
+      label: 'Problem 1.20',
+      cards: [
+        {
+          card_id: 'c-1.4-8',
+          type: 'fact/property',
+          title: '和的相反数 / 相反数的分配律 (Negation of a Sum)',
+          formula: '$-(x + y) = (-x) + (-y)$',
+          content: '两个数之和的相反数，等于这两个数各自相反数之和。取相反数运算对加法满足分配律，例如 $-(x + y + z) = (-x) + (-y) + (-z)$。',
+        },
+      ],
+    },
+  ],
+  exercise_list: [
+    {
+      id: 'ex-1.4.1',
+      label: 'Exercise 1.4.1',
+    },
+    {
+      id: 'ex-1.4.2',
+      label: 'Exercise 1.4.2',
+    },
+    {
+      id: 'ex-1.4.3',
+      label: 'Exercise 1.4.3',
+    },
+    {
+      id: 'ex-1.4.4',
+      label: 'Exercise 1.4.4',
+    },
+    {
+      id: 'ex-1.4.5',
+      label: 'Exercise 1.4.5',
+    },
+  ],
+};
+
+export const AOPS_SECTIONS: AmcSectionData[] = [
+  AOPS_SECTION_1_2,
+  AOPS_SECTION_1_3,
+  AOPS_SECTION_1_4,
+];
 
 export interface CodexCardEntry {
   card: AmcKnowledgeCard;
@@ -409,6 +528,49 @@ export const AMC_MODULE: Module = {
                 mode: 'exercises',
                 exercise_list: AOPS_SECTION_1_3.exercise_list,
                 problem_list: AOPS_SECTION_1_3.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-4-problems',
+              title: '1.4 Problems',
+              titleEn: 'Section 1.4 Negation · Problems',
+              shortDesc: '完成 1.4 节 5 道探索题打卡，拆开 8 张相反数定义、符号辨析与负负得正盲盒卡片',
+              icon: 'Sparkles',
+              xp: 50,
+              blueprint: {
+                title: 'Section 1.4 Negation · 探索题盲盒',
+                titleEn: 'AoPS Prealgebra Section 1.4 Problems',
+                blocks: [],
+                tip: '先在实体书上独立思考并完成每道 Problem，再勾选打卡解锁对应的知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_4.section_id,
+                section_title: AOPS_SECTION_1_4.title,
+                mode: 'problems',
+                problem_list: AOPS_SECTION_1_4.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-4-exercises',
+              title: '1.4 Exercises',
+              titleEn: 'Section 1.4 Negation · Exercises',
+              shortDesc: '完成 1.4 节末尾 5 道巩固练习打卡，深入辨析相反数性质、和的相反数与负负得正',
+              icon: 'Award',
+              xp: 40,
+              blueprint: {
+                title: 'Section 1.4 Negation · 巩固练习打卡',
+                titleEn: 'AoPS Prealgebra Section 1.4 Exercises',
+                blocks: [],
+                tip: '在做 Exercise 时，可以随时对照右侧已解锁的 1.4 节知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_4.section_id,
+                section_title: AOPS_SECTION_1_4.title,
+                mode: 'exercises',
+                exercise_list: AOPS_SECTION_1_4.exercise_list,
+                problem_list: AOPS_SECTION_1_4.problem_list,
               },
             },
           ],
