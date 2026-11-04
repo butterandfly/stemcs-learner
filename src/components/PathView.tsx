@@ -26,6 +26,7 @@ import {
   Pizza,
   Music,
   LayoutGrid,
+  Palette,
   BookMarked,
 } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
@@ -96,6 +97,8 @@ export const PathView: React.FC<PathViewProps> = ({
         return <Music className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'LayoutGrid':
         return <LayoutGrid className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'Palette':
+        return <Palette className="w-8 h-8 text-white stroke-[2.5]" />;
       default:
         return <Sparkles className="w-8 h-8 text-white" />;
     }
