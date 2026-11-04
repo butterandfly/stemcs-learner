@@ -27,6 +27,7 @@ import {
   Music,
   LayoutGrid,
   Palette,
+  BrickWall,
   BookMarked,
 } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
@@ -99,6 +100,8 @@ export const PathView: React.FC<PathViewProps> = ({
         return <LayoutGrid className="w-8 h-8 text-white stroke-[2.5]" />;
       case 'Palette':
         return <Palette className="w-8 h-8 text-white stroke-[2.5]" />;
+      case 'BrickWall':
+        return <BrickWall className="w-8 h-8 text-white stroke-[2.5]" />;
       default:
         return <Sparkles className="w-8 h-8 text-white" />;
     }
