@@ -16,6 +16,7 @@ export interface ScratchBlock {
   labelEn: string; // Official Scratch English
   shape: 'hat' | 'stack' | 'c-block' | 'cap' | 'reporter';
   nestedBlocks?: ScratchBlock[];
+  elseBlocks?: ScratchBlock[];
 }
 
 export type QuestionType =

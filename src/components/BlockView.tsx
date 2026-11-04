@@ -198,10 +198,22 @@ export const BlockView: React.FC<BlockViewProps> = ({
             );
           }
           if (tok.type === 'boolean') {
+            const isOperatorBoolean =
+              tok.text.includes('=') ||
+              tok.text.includes('>') ||
+              tok.text.includes('<') ||
+              tok.text.includes('与') ||
+              tok.text.includes('或') ||
+              tok.text.includes('不成立') ||
+              tok.text.includes('and') ||
+              tok.text.includes('or') ||
+              tok.text.includes('not');
             return (
               <span
                 key={idx}
-                className="mx-1.5 px-3 py-0.5 rounded-full bg-[#49B3DB] border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner whitespace-nowrap"
+                className={`mx-1.5 px-3 py-0.5 rounded-full ${
+                  isOperatorBoolean ? 'bg-[#59C059]' : 'bg-[#49B3DB]'
+                } border border-white/40 text-white text-xs font-mono font-bold inline-flex items-center gap-1 shadow-inner whitespace-nowrap`}
               >
                 {renderTextWithDropdowns(tok.text)}
               </span>
@@ -311,6 +323,49 @@ export const BlockView: React.FC<BlockViewProps> = ({
             )}
           </div>
         </div>
+
+        {/* If block has elseBlocks: Middle divider & Else Mouth */}
+        {block.elseBlocks !== undefined && (
+          <>
+            {/* Middle Else Arm */}
+            <div
+              className={`relative flex items-center justify-between px-4 py-2 ${style.bg} border-y border-white/30 text-white select-none`}
+            >
+              <div className="flex flex-col select-none whitespace-nowrap">
+                <span className="font-display font-bold text-white text-sm">else</span>
+                <span className="text-[11px] font-medium text-white/90 font-mono -mt-0.5">否则</span>
+              </div>
+              <div className="absolute -bottom-1 left-4 w-6 h-1.5 bg-inherit rounded-b-md border-b border-black/20" />
+            </div>
+
+            {/* Else Mouth */}
+            <div className="flex">
+              <div className={`w-4 ${style.bg} border-l border-white/30 shrink-0`} />
+              <div className="flex-1 py-1.5 px-1 min-h-[48px] bg-slate-100/60 border-l border-slate-300/40 rounded-r-lg">
+                {block.elseBlocks.length > 0 ? (
+                  <div className="flex flex-col gap-1 items-start">
+                    {block.elseBlocks.map((child) => (
+                      <BlockView
+                        key={child.id}
+                        block={child}
+                        size="compact"
+                        isNestedChild
+                        onClick={() => {
+                          onChildClick?.(child);
+                        }}
+                        onChildClick={onChildClick}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <div className="h-full flex items-center px-3 text-xs text-slate-400 font-mono italic">
+                    [ 放入执行积木 ]
+                  </div>
+                )}
+              </div>
+            </div>
+          </>
+        )}
 
         {/* C-Block Bottom Arm */}
         <div

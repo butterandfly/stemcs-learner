@@ -87,6 +87,9 @@ export const LessonView: React.FC<LessonViewProps> = ({
         if (rootBlock.nestedBlocks && rootBlock.nestedBlocks.length > 0) {
           blocksToRestore = [rootBlock, ...rootBlock.nestedBlocks];
         }
+        if (rootBlock.elseBlocks && rootBlock.elseBlocks.length > 0) {
+          blocksToRestore = [...blocksToRestore, ...rootBlock.elseBlocks];
+        }
         return prev.filter((b) => b.id !== block.id);
       }
 
@@ -95,6 +98,12 @@ export const LessonView: React.FC<LessonViewProps> = ({
           return {
             ...b,
             nestedBlocks: b.nestedBlocks.filter((n) => n.id !== block.id),
+          };
+        }
+        if (b.elseBlocks && b.elseBlocks.some((n) => n.id === block.id)) {
+          return {
+            ...b,
+            elseBlocks: b.elseBlocks.filter((n) => n.id !== block.id),
           };
         }
         return b;
@@ -137,6 +146,9 @@ export const LessonView: React.FC<LessonViewProps> = ({
         flatIds.push(b.id);
         if (b.nestedBlocks) {
           b.nestedBlocks.forEach((nested) => flatIds.push(nested.id));
+        }
+        if (b.elseBlocks) {
+          b.elseBlocks.forEach((nested) => flatIds.push(nested.id));
         }
       });
       const expectedIds = question.correctBlockSequence || [];
