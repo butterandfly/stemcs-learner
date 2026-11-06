@@ -662,12 +662,249 @@ export const AOPS_SECTION_1_6: AmcSectionData = {
   ],
 };
 
+export const AOPS_SECTION_1_7: AmcSectionData = {
+  section_id: '1.7',
+  title: 'Division (除法)',
+  problem_list: [
+    {
+      id: 'p-1.34',
+      label: 'Problem 1.34',
+      cards: [
+        {
+          card_id: 'c-1.7-1',
+          type: 'definition',
+          title: '除法的定义 (Definition of Division)',
+          formula: '$a \\div b = a \\cdot \\frac{1}{b} \\quad (b \\neq 0)$',
+          content: '除以一个非零数等于乘以这个数的倒数。对于任意数字 $a$ 和非零数字 $b$，除法定义为 $a \\div b = a \\cdot \\frac{1}{b}$。',
+        },
+        {
+          card_id: 'c-1.7-2',
+          type: 'warning',
+          title: '避坑指南：不能除以 0 (Division by Zero is Undefined)',
+          formula: '$\\frac{a}{0} \\text{ is undefined}$',
+          content: '因为 0 没有倒数，所以 0 不能作为除数。在做除法运算前，必须确保除数不为 0。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.35',
+      label: 'Problem 1.35',
+      cards: [
+        {
+          card_id: 'c-1.7-3',
+          type: 'fact/property',
+          title: '与 0 和 1 相关的除法性质 (Division with 0 and 1)',
+          formula: '$0 \\div a = 0, \\quad a \\div a = 1, \\quad a \\div 1 = a \\quad (a \\neq 0)$',
+          content: '由除法定义可得：0 除以任何非零数都等于 0（$0 \\div a = 0$）；任何非零数除以它本身都等于 1（$a \\div a = 1$）；任何数除以 1 都等于它本身（$a \\div 1 = a$）。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.36',
+      label: 'Problem 1.36',
+      cards: [
+        {
+          card_id: 'c-1.7-4',
+          type: 'fact/property',
+          title: '除以倒数 (Dividing by a Reciprocal)',
+          formula: '$a \\div \\frac{1}{b} = ab \\quad (b \\neq 0)$',
+          content: '除以一个数的倒数，等于乘以这个数本身。对于任意非零数字 $b$，恒有 $a \\div \\frac{1}{b} = a \\cdot b$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.37',
+      label: 'Problem 1.37',
+      cards: [
+        {
+          card_id: 'c-1.7-5',
+          type: 'fact/property',
+          title: '除法的符号法则 / 带相反数的除法 (Signed Division)',
+          formula: '$(-a) \\div b = -(a \\div b), \\quad a \\div (-b) = -(a \\div b), \\quad (-a) \\div (-b) = a \\div b$',
+          content: '除法的符号法则与乘法完全一致：“异号相除得负，同号相除得正”。即正数与负数相除结果为负，两个负数相除结果为正。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.38',
+      label: 'Problem 1.38',
+      cards: [
+        {
+          card_id: 'c-1.7-6',
+          type: 'warning',
+          title: '避坑指南：除法不满足交换律与结合律 (Non-commutative & Non-associative)',
+          formula: '$a \\div b \\neq b \\div a, \\quad (a \\div b) \\div c \\neq a \\div (b \\div c)$',
+          content: '除法既不满足交换律，也不满足结合律！例如 $10 \\div 2 \\neq 2 \\div 10$，且 $(8 \\div 4) \\div 2 \\neq 8 \\div (4 \\div 2)$。在连续除法中，必须严格从左往右依次计算。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.39',
+      label: 'Problem 1.39',
+      cards: [
+        {
+          card_id: 'c-1.7-7',
+          type: 'strategy',
+          title: '除法转化为乘法重排消因子 (Division-to-Multiplication Strategy)',
+          formula: '$(a \\cdot b) \\div (c \\cdot d) = a \\cdot b \\cdot \\frac{1}{c} \\cdot \\frac{1}{d}$',
+          content: '面对复杂的分子分母多项乘除法，先将所有除法转化为乘以倒数，再运用乘法交换律与结合律，将可以整除或约分的项配对计算，可大幅简化速算。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.40',
+      label: 'Problem 1.40',
+      cards: [
+        {
+          card_id: 'c-1.7-8',
+          type: 'fact/property',
+          title: '消去公共因子 (Cancel Common Factor)',
+          formula: '$(ab) \\div (ac) = b \\div c \\quad (a, c \\neq 0)$',
+          content: '当被除数与除数同时乘以一个非零公共因子 $a$ 时，公共因子可以相互抵消，即 $(ab) \\div (ac) = b \\div c$。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.41',
+      label: 'Problem 1.41',
+      cards: [
+        {
+          card_id: 'c-1.7-9',
+          type: 'fact/property',
+          title: '除法对加减法的右分配律 (Distributive Property of Division)',
+          formula: '$(a + b) \\div c = a \\div c + b \\div c \\text{ 且 } (a - b) \\div c = a \\div c - b \\div c$',
+          content: '当一个和或差除以一个数 $c$ 时，可以将每一项分别除以 $c$ 再相加减。注意：除法只满足“右分配律”（除数在右侧）。',
+        },
+        {
+          card_id: 'c-1.7-10',
+          type: 'warning',
+          title: '避坑指南：除数是和/差时不能分配 (No Left Distribution over Divisor)',
+          formula: '$a \\div (b + c) \\neq a \\div b + a \\div c$',
+          content: '切记！除数在右侧的和/差可以拆开，但一个数除以一个和/差时绝不能拆开！例如 $6 \\div (2 + 1) = 2$，而 $6 \\div 2 + 6 \\div 1 = 3 + 6 = 9$，两者完全不相等。',
+        },
+      ],
+    },
+  ],
+  exercise_list: [
+    {
+      id: 'ex-1.7.1',
+      label: 'Exercise 1.7.1',
+    },
+    {
+      id: 'ex-1.7.2',
+      label: 'Exercise 1.7.2',
+    },
+    {
+      id: 'ex-1.7.3',
+      label: 'Exercise 1.7.3',
+    },
+    {
+      id: 'ex-1.7.4',
+      label: 'Exercise 1.7.4',
+    },
+    {
+      id: 'ex-1.7.5',
+      label: 'Exercise 1.7.5',
+    },
+    {
+      id: 'ex-1.7.6',
+      label: 'Exercise 1.7.6',
+    },
+    {
+      id: 'ex-1.7.7',
+      label: 'Exercise 1.7.7',
+    },
+    {
+      id: 'ex-1.7.8',
+      label: 'Exercise 1.7.8',
+    },
+    {
+      id: 'ex-1.7.9',
+      label: 'Exercise 1.7.9',
+    },
+    {
+      id: 'ex-1.7.10',
+      label: 'Exercise 1.7.10',
+    },
+    {
+      id: 'ex-1.7.11',
+      label: 'Exercise 1.7.11*',
+    },
+  ],
+};
+
+export const AOPS_SECTION_1_8: AmcSectionData = {
+  section_id: '1.8',
+  title: 'Summary (本章小结)',
+  problem_list: [
+    {
+      id: 'p-1.8-core',
+      label: 'Core Principles (公理框架与定义)',
+      cards: [
+        {
+          card_id: 'c-1.8-1',
+          type: 'definition',
+          title: '运算顺序法则 (Order of Operations)',
+          formula: '$\\text{Parentheses} \\rightarrow \\text{Exponents} \\rightarrow \\text{Mult/Div} \\rightarrow \\text{Add/Sub}$',
+          content: '计算复杂算式时遵循：1. 优先算括号内部；2. 计算乘方；3. 从左往右算乘除；4. 从左往右算加减。',
+        },
+        {
+          card_id: 'c-1.8-2',
+          type: 'fact/property',
+          title: '算术的 9 大基石公理 (9 Fundamental Axioms of Arithmetic)',
+          formula: '$a+b=b+a, \\, ab=ba, \\, (a+b)+c=a+(b+c), \\, (ab)c=a(bc), \\, a+0=a, \\, 1a=a, \\, a(b+c)=ab+ac, \\, -a+a=0, \\, \\frac{1}{a} \\cdot a=1$',
+          content: '整章代数推导建立在 9 个最基本的假设之上：加法与乘法的交换律、结合律、单位元（加 0、乘 1）、分配律，以及相反数与倒数的定义。所有复杂的代数规则均由这 9 条公理推导而来。',
+        },
+        {
+          card_id: 'c-1.8-3',
+          type: 'definition',
+          title: '减法与除法的统一定义 (Unified Definitions of Subtraction & Division)',
+          formula: '$a - b = a + (-b), \\quad a \\div b = a \\cdot \\frac{1}{b} \\quad (b \\neq 0)$',
+          content: '减法定义为“加上相反数”，除法定义为“乘以倒数”。通过这两个基本定义，所有算术运算成功统一为了加法与乘法两大核心机制。',
+        },
+      ],
+    },
+    {
+      id: 'p-1.8-traps',
+      label: 'Pitfall Summary (第一章四大避坑指南)',
+      cards: [
+        {
+          card_id: 'c-1.8-4',
+          type: 'warning',
+          title: '第一章四大易错陷阱总揽 (Chapter 1 Pitfall Summary)',
+          formula: '$\\text{Subtraction/Division Pitfalls}$',
+          content: '1. 减法与除法既不满足交换律也不满足结合律；2. 0 不能作除数且没有倒数；3. 除法不能对分母上的和/差进行拆开分配；4. $-x$ 不必然代表负数（负数的相反数是正数）。',
+        },
+        {
+          card_id: 'c-1.8-5',
+          type: 'strategy',
+          title: '公理化代数思维 (Axiomatic Algebraic Thinking)',
+          formula: '$\\text{Learn by Solving and Proving}$',
+          content: '学习代数不仅是记忆计算公式，更是理解“规则为什么成立”。学会利用最底层的假定公理去解释与推导复杂性质，是从算术迈向高等数学的核心思维跃迁。',
+        },
+      ],
+    },
+  ],
+  exercise_list: [
+    {
+      id: 'ex-1.8-review',
+      label: 'Review Problems (第一章复习题组 Problem 1.42 - 1.63)',
+    },
+    {
+      id: 'ex-1.8-challenge',
+      label: 'Challenge Problems (第一章挑战题组 Problem 1.64 - 1.76)',
+    },
+  ],
+};
+
 export const AOPS_SECTIONS: AmcSectionData[] = [
   AOPS_SECTION_1_2,
   AOPS_SECTION_1_3,
   AOPS_SECTION_1_4,
   AOPS_SECTION_1_5,
   AOPS_SECTION_1_6,
+  AOPS_SECTION_1_7,
+  AOPS_SECTION_1_8,
 ];
 
 export interface CodexCardEntry {
@@ -929,6 +1166,92 @@ export const AMC_MODULE: Module = {
                 mode: 'exercises',
                 exercise_list: AOPS_SECTION_1_6.exercise_list,
                 problem_list: AOPS_SECTION_1_6.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-7-problems',
+              title: '1.7 Problems',
+              titleEn: 'Section 1.7 Division · Problems',
+              shortDesc: '完成 1.7 节 8 道探索题打卡，拆开 10 张除法本质、右分配律与消因子盲盒卡片',
+              icon: 'Sparkles',
+              xp: 50,
+              blueprint: {
+                title: 'Section 1.7 Division · 探索题盲盒',
+                titleEn: 'AoPS Prealgebra Section 1.7 Problems',
+                blocks: [],
+                tip: '先在实体书上独立思考并完成每道 Problem，再勾选打卡解锁对应的知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_7.section_id,
+                section_title: AOPS_SECTION_1_7.title,
+                mode: 'problems',
+                problem_list: AOPS_SECTION_1_7.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-7-exercises',
+              title: '1.7 Exercises',
+              titleEn: 'Section 1.7 Division · Exercises',
+              shortDesc: '完成 1.7 节末尾 11 道巩固练习打卡，实战运用除法转化为乘法、约分与符号法则',
+              icon: 'Award',
+              xp: 45,
+              blueprint: {
+                title: 'Section 1.7 Division · 巩固练习打卡',
+                titleEn: 'AoPS Prealgebra Section 1.7 Exercises',
+                blocks: [],
+                tip: '在做 Exercise 时，可以随时对照右侧已解锁的 1.7 节知识卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_7.section_id,
+                section_title: AOPS_SECTION_1_7.title,
+                mode: 'exercises',
+                exercise_list: AOPS_SECTION_1_7.exercise_list,
+                problem_list: AOPS_SECTION_1_7.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-8-problems',
+              title: '1.8 Summary Problems',
+              titleEn: 'Section 1.8 Summary · Principles & Pitfalls',
+              shortDesc: '梳理第一章公理基石与核心框架，拆开 9 大公理、统一定义与避坑指南知识卡片',
+              icon: 'BookMarked',
+              xp: 50,
+              blueprint: {
+                title: 'Section 1.8 Summary · 公理体系与避坑盲盒',
+                titleEn: 'AoPS Prealgebra Section 1.8 Core Principles',
+                blocks: [],
+                tip: '系统复习全章公理架构与四大陷阱，勾选打卡解锁终极总结卡片！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_8.section_id,
+                section_title: AOPS_SECTION_1_8.title,
+                mode: 'problems',
+                problem_list: AOPS_SECTION_1_8.problem_list,
+              },
+            },
+            {
+              id: 'node-amc-1-8-exercises',
+              title: '1.8 Review & Challenges',
+              titleEn: 'Section 1.8 Review & Challenge Problems',
+              shortDesc: '挑战第一章综合复习题组 (1.42-1.63) 与竞赛级挑战题组 (1.64-1.76)',
+              icon: 'Trophy',
+              xp: 60,
+              blueprint: {
+                title: 'Section 1.8 Summary · 综合复习与挑战打卡',
+                titleEn: 'AoPS Prealgebra Chapter 1 Review & Challenges',
+                blocks: [],
+                tip: '翻开实体教材完成第一章 Review 与 Challenge 综合题组，为第一单元画上圆满句号！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_1_8.section_id,
+                section_title: AOPS_SECTION_1_8.title,
+                mode: 'exercises',
+                exercise_list: AOPS_SECTION_1_8.exercise_list,
+                problem_list: AOPS_SECTION_1_8.problem_list,
               },
             },
           ],
