@@ -145,7 +145,24 @@ export const BlockView: React.FC<BlockViewProps> = ({
           tokens.push({ type: 'text', text: text[i++] });
         }
       } else if (text[i] === '<') {
-        const end = text.indexOf('>', i);
+        let depth = 1;
+        let j = i + 1;
+        let end = -1;
+        while (j < text.length) {
+          if (text[j] === '<' && !(j > 0 && text[j - 1] === ' ' && j + 1 < text.length && text[j + 1] === ' ')) {
+            depth++;
+          } else if (text[j] === '>') {
+            const isOperator = j > 0 && text[j - 1] === ' ' && j + 1 < text.length && text[j + 1] === ' ';
+            if (!isOperator) {
+              depth--;
+              if (depth === 0) {
+                end = j;
+                break;
+              }
+            }
+          }
+          j++;
+        }
         if (end !== -1) {
           tokens.push({ type: 'boolean', text: text.substring(i + 1, end) });
           i = end + 1;
@@ -220,12 +237,18 @@ export const BlockView: React.FC<BlockViewProps> = ({
             );
           }
           if (tok.type === 'number') {
+            const trimmed = tok.text.trim();
+            const isVariable = isNaN(Number(trimmed));
             return (
               <span
                 key={idx}
-                className="mx-1.5 px-2.5 py-0.5 rounded-full bg-white text-slate-900 text-xs font-mono font-extrabold inline-flex items-center shadow-inner whitespace-nowrap"
+                className={`mx-1.5 px-2.5 py-0.5 rounded-full ${
+                  isVariable
+                    ? 'bg-[#FF8C1A] text-white border border-white/30 font-bold'
+                    : 'bg-white text-slate-900 font-extrabold'
+                } text-xs font-mono inline-flex items-center shadow-inner whitespace-nowrap`}
               >
-                {tok.text.trim()}
+                {trimmed}
               </span>
             );
           }
