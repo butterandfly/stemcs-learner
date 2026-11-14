@@ -238,12 +238,15 @@ export const BlockView: React.FC<BlockViewProps> = ({
           }
           if (tok.type === 'number') {
             const trimmed = tok.text.trim();
-            const isVariable = isNaN(Number(trimmed));
+            const isSensingReporter = trimmed === 'timer' || trimmed === '计时器';
+            const isVariable = !isSensingReporter && isNaN(Number(trimmed));
             return (
               <span
                 key={idx}
                 className={`mx-1.5 px-2.5 py-0.5 rounded-full ${
-                  isVariable
+                  isSensingReporter
+                    ? 'bg-[#5CB1D6] text-white border border-white/30 font-bold'
+                    : isVariable
                     ? 'bg-[#FF8C1A] text-white border border-white/30 font-bold'
                     : 'bg-white text-slate-900 font-extrabold'
                 } text-xs font-mono inline-flex items-center shadow-inner whitespace-nowrap`}
