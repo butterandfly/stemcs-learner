@@ -5866,12 +5866,12 @@ export const CURRICULUM: Module[] = [
                 id: 'node-cw-instructions',
                 title: '游戏开场说明页',
                 titleEn: 'Game Instructions Screen',
-                shortDesc: '仿照 DK 经典版本绘制 Instructions 说明牌，用空格键同步唤醒全场角色开战！',
+                shortDesc: '仿照 DK 经典版本绘制 Instructions 说明牌，点击鼠标（mouse down）同步唤醒全场开战！',
                 icon: 'FileText',
                 xp: 50,
                 blueprint: {
-                  title: '目标脚本：Instructions 说明页与开局同步',
-                  titleEn: 'Target Script: Instructions & Start Sync',
+                  title: '目标脚本：Instructions 说明页与点击开局',
+                  titleEn: 'Target Script: Instructions & Mouse-Down Start',
                   blocks: [
                     {
                       id: 'bp-cw6-flag',
@@ -5904,8 +5904,8 @@ export const CURRICULUM: Module[] = [
                     {
                       id: 'bp-cw6-wait',
                       category: 'control',
-                      label: '等待直到 <按下 [空格 ▼] 键?>',
-                      labelEn: 'wait until <key [space ▼] pressed?>',
+                      label: '等待直到 <按下鼠标?>',
+                      labelEn: 'wait until <mouse down?>',
                       shape: 'stack',
                     },
                     {
@@ -5916,7 +5916,7 @@ export const CURRICULUM: Module[] = [
                       shape: 'stack',
                     },
                   ],
-                  tip: '提示：先绘制居中的 Instructions 说明面板，开局移到最前并显示，直到按下空格才隐藏；同时给 Player、friend、enemy 的绿旗下方也加上「等待直到 <按下 [空格 ▼] 键?>」，全场一起等空格开跑！',
+                  tip: '提示：先绘制居中的 Instructions 说明面板，开局移到最前并显示，直到「按下鼠标」才隐藏；同时给 Player、friend、enemy 的绿旗下方也加上「等待直到 <按下鼠标?>」，点击鼠标瞬间全场同步开战！',
                 },
                 questions: [
                   {
@@ -5947,20 +5947,20 @@ export const CURRICULUM: Module[] = [
                   {
                     id: 'q-cw6-2',
                     type: 'select_one',
-                    prompt: '想让说明页一直停在屏幕上等玩家读完，直到按下空格键（Space）才继续往下执行隐藏，该选哪块积木？',
-                    promptEn: 'Which block pauses the Instructions script until the player presses the Space key?',
-                    subtext: '提示：寻找琥珀橙色控制分类的等待条件积木',
+                    prompt: '想让说明页一直停在屏幕上等玩家读完，直到「点击鼠标（mouse down）」才继续往下执行隐藏，该选哪块积木？',
+                    promptEn: 'Which block pauses the Instructions script until the player clicks the mouse?',
+                    subtext: '提示：琥珀橙色「控制」等待积木 + 青蓝色「侦测」鼠标按下判断',
                     options: [
                       {
-                        id: 'opt-cw6-wait-space',
-                        text: '等待直到 <按下 [空格 ▼] 键?>',
-                        textEn: 'wait until <key [space ▼] pressed?>',
+                        id: 'opt-cw6-wait-mouse',
+                        text: '等待直到 <按下鼠标?>',
+                        textEn: 'wait until <mouse down?>',
                         isCorrect: true,
                         block: {
-                          id: 'b-opt-cw6-wait-space',
+                          id: 'b-opt-cw6-wait-mouse',
                           category: 'control',
-                          label: '等待直到 <按下 [空格 ▼] 键?>',
-                          labelEn: 'wait until <key [space ▼] pressed?>',
+                          label: '等待直到 <按下鼠标?>',
+                          labelEn: 'wait until <mouse down?>',
                           shape: 'stack',
                         },
                       },
@@ -5978,26 +5978,26 @@ export const CURRICULUM: Module[] = [
                         },
                       },
                       {
-                        id: 'opt-cw6-hat-space',
-                        text: '当按下 [空格 ▼] 键',
-                        textEn: 'when [space ▼] key pressed',
+                        id: 'opt-cw6-hat-sprite',
+                        text: '当角色被点击',
+                        textEn: 'when this sprite clicked',
                         isCorrect: false,
                         block: {
-                          id: 'b-opt-cw6-hat-space',
+                          id: 'b-opt-cw6-hat-sprite',
                           category: 'events',
-                          label: '当按下 [空格 ▼] 键',
-                          labelEn: 'when [space ▼] key pressed',
+                          label: '当角色被点击',
+                          labelEn: 'when this sprite clicked',
                           shape: 'hat',
                         },
                       },
                     ],
-                    successMessage: '精准！「等待直到 <按下 [空格 ▼] 键?>」就像发令枪，玩家不按空格，脚本就一直安静等候！',
+                    successMessage: '精准！「等待直到 <按下鼠标?>」就像发令枪，玩家在屏幕任何位置点击鼠标左键，脚本就立刻放行进入下一步！',
                   },
                   {
                     id: 'q-cw6-3',
                     type: 'predict_output',
-                    prompt: '如果只给 Instructions 加了「等待直到按下空格键」，却没给 Player、friend、enemy 加，点击绿旗后会发生什么？',
-                    promptEn: 'What happens if Player, friend, and enemy do NOT wait for the Space key after the green flag is clicked?',
+                    prompt: '如果只给 Instructions 加了「等待直到 <按下鼠标?>」，却没给 Player、friend、enemy 加，点击绿旗后会发生什么？',
+                    promptEn: 'What happens if Player, friend, and enemy do NOT wait for mouse down after the green flag is clicked?',
                     subtext: '思考：绿旗一响，舞台上所有角色的绿旗脚本都会同时起跑',
                     options: [
                       {
@@ -6016,14 +6016,14 @@ export const CURRICULUM: Module[] = [
                         isCorrect: false,
                       },
                     ],
-                    successMessage: '并发思维满分！必须让 Player、friend、enemy 也在绿旗下方加上「等待直到 <按下 [空格 ▼] 键?>」，才能做到按下空格全场同步开战！',
+                    successMessage: '并发思维满分！必须让 Player、friend、enemy 也在绿旗下方加上「等待直到 <按下鼠标?>」，才能做到点击鼠标瞬间全场同步开战！',
                   },
                   {
                     id: 'q-cw6-4',
                     type: 'block_assemble',
-                    prompt: '按顺序拼装 Instructions 说明页从开局亮相到按空格退场的完整脚本：',
+                    prompt: '按顺序拼装 Instructions 说明页从开局亮相到点击鼠标退场的完整脚本：',
                     promptEn: 'Assemble the complete Instructions sprite script in order:',
-                    subtext: '点击积木放入轨道：绿旗启动 → 归位 (0,0) → 移到最前面 → 显示 → 等待空格 → 隐藏',
+                    subtext: '点击积木放入轨道：绿旗启动 → 归位 (0,0) → 移到最前面 → 显示 → 等待按下鼠标 → 隐藏',
                     availableBlocks: [
                       {
                         id: 'b_cw6_flag',
@@ -6056,8 +6056,8 @@ export const CURRICULUM: Module[] = [
                       {
                         id: 'b_cw6_wait',
                         category: 'control',
-                        label: '等待直到 <按下 [空格 ▼] 键?>',
-                        labelEn: 'wait until <key [space ▼] pressed?>',
+                        label: '等待直到 <按下鼠标?>',
+                        labelEn: 'wait until <mouse down?>',
                         shape: 'stack',
                       },
                       {
@@ -6069,19 +6069,19 @@ export const CURRICULUM: Module[] = [
                       },
                     ],
                     correctBlockSequence: ['b_cw6_flag', 'b_cw6_pos', 'b_cw6_front', 'b_cw6_show', 'b_cw6_wait', 'b_cw6_hide'],
-                    successMessage: '咔哒！归位、置顶、显示、等待、隐藏，六块积木一气呵成！',
+                    successMessage: '咔哒！归位、置顶、显示、等待按下鼠标、隐藏，六块积木一气呵成！',
                   },
                   {
                     id: 'q-cw6-5',
                     type: 'action_mission',
-                    prompt: '打开电脑 Scratch，绘制 DK 版 Instructions 游戏说明页并完成全场空格同步！',
-                    promptEn: 'Open Scratch on your computer: create the Instructions sprite and add Space-key sync to all sprites!',
-                    subtext: '绘制 Instructions 卡片 → 拼好右侧脚本 → 给 Player/friend/enemy 都加上「等待直到按下空格键」→ 测试',
-                    successMessage: '太有街机质感了！点击绿旗先展示清晰的游戏规则说明，按下空格键瞬间隐藏并同步启动计时与圆圈战斗！',
+                    prompt: '打开电脑 Scratch，绘制 DK 版 Instructions 游戏说明页并完成全场点击鼠标同步！',
+                    promptEn: 'Open Scratch on your computer: create the Instructions sprite and add mouse-down sync to all sprites!',
+                    subtext: '绘制 Instructions 卡片 → 拼好右侧脚本 → 给 Player/friend/enemy 都加上「等待直到 <按下鼠标?>」→ 测试',
+                    successMessage: '太有街机质感了！点击绿旗先展示清晰的游戏规则说明，点击一下鼠标左键瞬间隐藏并同步启动计时与圆圈战斗！',
                     missionStep: {
                       stepNumber: 6,
                       title: '电脑 Scratch 动手任务：制作 DK 版开场游戏说明页',
-                      description: '1. 打开电脑上的「圆圈战争」项目，悬停右下角猫咪图标 → 点击「绘制 (画笔 🖌️)」，将新角色命名为「Instructions」\n2. 【绘制游戏说明牌】：\n   ① 先用矩形工具画一个居中遮住舞台的大圆角卡片（对准画布中心十字靶心）\n   ② 用文字工具「T」在卡片上写出简洁规则（DK 版经典文案参考）：\n      CIRCLE WARS\n      • Move blue circle with mouse\n      • Touch green (+1) / Avoid red (-3)\n      • Score > 20 to WIN, < -20 to LOSE\n      • Press SPACE to start!\n      （也可写中文：鼠标控制蓝圈｜碰绿 +1 躲红 -3｜超 20 分胜利｜按空格开始！）\n3. 【编写 Instructions 脚本】：对照右侧蓝图依次拼出：\n   「当 绿旗 被点击」→「移到 x: (0) y: (0)」→「移到最 [前面 ▼]」→「显示」→「等待直到 <按下 [空格 ▼] 键?>」→「隐藏」\n4. 【全场起跑同步（关键！）】：点开「Player」、「friend」、「enemy」三个角色，在它们「当 绿旗 被点击」正下方第一格，各自插入一块「等待直到 <按下 [空格 ▼] 键?>」（这样按空格后才计时归零并开始克隆！）\n5. 点击绿旗全屏测试：确认开场先显示说明牌、后台计时未动，按下空格键后说明页消失且全场同步开战！',
+                      description: '1. 打开电脑上的「圆圈战争」项目，悬停右下角猫咪图标 → 点击「绘制 (画笔 🖌️)」，将新角色命名为「Instructions」\n2. 【绘制游戏说明牌】：\n   ① 先用矩形工具画一个居中遮住舞台的大圆角卡片（对准画布中心十字靶心）\n   ② 用文字工具「T」在卡片上写出简洁规则（DK 版经典文案参考）：\n      CIRCLE WARS\n      • Move blue circle with mouse\n      • Touch green (+1) / Avoid red (-3)\n      • Score > 20 to WIN, < -20 to LOSE\n      • Click mouse to start!\n      （也可写中文：鼠标控制蓝圈｜碰绿 +1 躲红 -3｜超 20 分胜利｜点击鼠标开始！）\n3. 【编写 Instructions 脚本】：对照右侧蓝图依次拼出：\n   「当 绿旗 被点击」→「移到 x: (0) y: (0)」→「移到最 [前面 ▼]」→「显示」→「等待直到 <按下鼠标?>」→「隐藏」\n4. 【全场起跑同步（关键！）】：点开「Player」、「friend」、「enemy」三个角色，在它们「当 绿旗 被点击」正下方第一格，各自插入一块「等待直到 <按下鼠标?>」（这样点击鼠标后才计时归零并开始克隆！）\n5. 点击绿旗全屏测试：确认开场先显示说明牌、后台计时未动，点击一下鼠标后说明页消失且全场同步开战！',
                     },
                   },
                 ],
