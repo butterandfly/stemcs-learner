@@ -424,6 +424,13 @@ export const BlockView: React.FC<BlockViewProps> = ({
         isSelected ? 'ring-4 ring-sky-400 ring-offset-2 ring-offset-white rounded-xl scale-105' : ''
       }`}
     >
+      {/* Optional Sprite Badge for multi-sprite blueprints */}
+      {block.spriteLabel && (
+        <div className="mb-1.5 self-start inline-flex items-center px-2.5 py-0.5 rounded-full bg-slate-100 border border-slate-300 text-[11px] font-display font-black text-slate-700 shadow-2xs">
+          {block.spriteLabel}
+        </div>
+      )}
+
       {/* Hat Top Arch */}
       {isHat && (
         <div className="w-24 h-4 bg-inherit self-start rounded-t-full -mb-1 ml-4 border-t-2 border-x-2 border-white/30" />

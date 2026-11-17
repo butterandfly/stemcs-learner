@@ -15,6 +15,7 @@ export interface ScratchBlock {
   label: string; // Official Scratch Chinese
   labelEn: string; // Official Scratch English
   shape: 'hat' | 'stack' | 'c-block' | 'cap' | 'reporter';
+  spriteLabel?: string; // Optional badge shown above hat blocks in multi-sprite blueprints
   nestedBlocks?: ScratchBlock[];
   elseBlocks?: ScratchBlock[];
 }
