@@ -4539,8 +4539,8 @@ export const CURRICULUM: Module[] = [
             nodes: [
               {
                 id: 'node-cw-setup-player',
-                title: '三色角色与玩家操控',
-                titleEn: '3 Sprites & Player Control',
+                title: '角色与操控',
+                titleEn: 'Sprites & Control',
                 shortDesc: '创建蓝、绿、红三个圆圈角色，建立 Score 变量并实现鼠标操控 player！',
                 icon: 'Gamepad2',
                 xp: 40,
@@ -4744,8 +4744,8 @@ export const CURRICULUM: Module[] = [
               },
               {
                 id: 'node-cw-friend-clone',
-                title: 'friend 游走与分身克隆',
-                titleEn: 'Friend Patrol & Cloning',
+                title: '克隆 Friend',
+                titleEn: 'Clone Friend',
                 shortDesc: '让绿色 friend 满屏随机游走并不断克隆分身，半透明克隆体追踪玩家、碰到加分后消失！',
                 icon: 'Copy',
                 xp: 45,
@@ -5046,8 +5046,8 @@ export const CURRICULUM: Module[] = [
               },
               {
                 id: 'node-cw-enemy-clone',
-                title: '复制脚本到 enemy 与参数改造',
-                titleEn: 'Copy Scripts to Enemy & Tune Params',
+                title: '复制给 Enemy',
+                titleEn: 'Copy to Enemy',
                 shortDesc: '把 friend 的两段脚本复制到红色 enemy，并修改扣分数值（-3）与警示音效（Cymbal）！',
                 icon: 'ShieldAlert',
                 xp: 45,
@@ -5348,8 +5348,8 @@ export const CURRICULUM: Module[] = [
               },
               {
                 id: 'node-cw-win-lose',
-                title: '判断输赢与终局定身',
-                titleEn: 'Win & Lose Conditions',
+                title: '判断输赢',
+                titleEn: 'Win & Lose',
                 shortDesc: '用比较运算符判断 Score 是否大于 20 或小于 -20，触发 Win! / Lose... 并停止 Player 脚本！',
                 icon: 'Trophy',
                 xp: 50,
@@ -5864,8 +5864,8 @@ export const CURRICULUM: Module[] = [
               },
               {
                 id: 'node-cw-instructions',
-                title: '游戏开场说明页',
-                titleEn: 'Game Instructions Screen',
+                title: '游戏说明',
+                titleEn: 'Game Instructions',
                 shortDesc: '仿照 DK 经典版本绘制 Instructions 说明牌，点击鼠标（mouse down）同步唤醒全场开战！',
                 icon: 'FileText',
                 xp: 50,
