@@ -101,6 +101,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
   const isCap = block.shape === 'cap';
   const isReporter = block.shape === 'reporter';
   const isIfBlock = block.labelEn.toLowerCase().startsWith('if');
+  const isRepeatLoop = block.labelEn.toLowerCase().startsWith('repeat');
 
   // Parses [dropdown ▼], (input), <sensing boolean>, or ((nested reporter))
   const renderTextWithDropdowns = (text: string): React.ReactNode => {
@@ -238,7 +239,11 @@ export const BlockView: React.FC<BlockViewProps> = ({
           }
           if (tok.type === 'number') {
             const trimmed = tok.text.trim();
-            const isSensingReporter = trimmed === 'timer' || trimmed === '计时器';
+            const isSensingReporter =
+              trimmed === 'timer' ||
+              trimmed === '计时器' ||
+              trimmed.includes(' of ') ||
+              trimmed.includes(' 的 ');
             const isVariable = !isSensingReporter && isNaN(Number(trimmed));
             return (
               <span
@@ -251,7 +256,7 @@ export const BlockView: React.FC<BlockViewProps> = ({
                     : 'bg-white text-slate-900 font-extrabold'
                 } text-xs font-mono inline-flex items-center shadow-inner whitespace-nowrap`}
               >
-                {trimmed}
+                {isSensingReporter ? renderTextWithDropdowns(trimmed) : trimmed}
               </span>
             );
           }
@@ -397,10 +402,11 @@ export const BlockView: React.FC<BlockViewProps> = ({
         <div
           className={`relative flex items-center justify-between px-4 py-2 rounded-b-xl ${style.bg} ${style.shadow} border-b border-x border-black/10`}
         >
-          {/* Socket under bottom arm (for if-then block) or loop return arrow (for forever) */}
-          {isIfBlock ? (
+          {/* Socket under bottom arm (for if-then and repeat/repeat-until blocks) and loop return arrow */}
+          {(isIfBlock || isRepeatLoop) && (
             <div className="absolute -bottom-1 left-4 w-6 h-1.5 bg-inherit rounded-b-md border-b border-black/20" />
-          ) : (
+          )}
+          {!isIfBlock && (
             <div className="ml-auto flex items-center gap-1 text-white/90">
               <RotateCcw className="w-3.5 h-3.5 stroke-[2.5]" />
             </div>
