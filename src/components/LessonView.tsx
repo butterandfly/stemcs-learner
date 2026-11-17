@@ -561,7 +561,7 @@ export const LessonView: React.FC<LessonViewProps> = ({
                     backgroundSize: '24px 24px',
                   }}
                 />
-                <div className="relative z-10 flex flex-col items-start">
+                <div className="relative z-10 w-full overflow-x-auto pb-1 flex flex-col items-start">
                   {node.blueprint.blocks.map((b) => (
                     <BlockView key={b.id} block={b} />
                   ))}
