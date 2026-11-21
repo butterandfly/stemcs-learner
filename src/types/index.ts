@@ -115,6 +115,7 @@ export interface AmcPageItem {
   title: string;
   problem?: string;
   solution?: string;
+  diagram?: 'grid-8x8';
   cards: AmcKnowledgeCard[];
   relatedCardIds?: string[];
   checkpoints?: string[];

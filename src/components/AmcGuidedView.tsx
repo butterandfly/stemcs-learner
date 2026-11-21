@@ -347,8 +347,91 @@ export const AmcGuidedView: React.FC<AmcGuidedViewProps> = ({
                 </span>
               </div>
 
-              <div className="p-5 md:p-6 text-base md:text-lg text-slate-800 font-medium leading-relaxed select-text">
-                <MathText text={currentPage.problem} />
+              <div
+                className={`p-5 md:p-6 ${
+                  currentPage.diagram
+                    ? 'flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6'
+                    : ''
+                }`}
+              >
+                <div className="text-base md:text-lg text-slate-800 font-medium leading-relaxed select-text flex-1">
+                  <MathText text={currentPage.problem} />
+                </div>
+
+                {currentPage.diagram === 'grid-8x8' && (
+                  <div className="shrink-0 self-center sm:self-auto bg-slate-50 border border-slate-200 rounded-2xl p-3">
+                    <svg
+                      viewBox="0 0 176 176"
+                      className="w-40 h-40 md:w-44 md:h-44"
+                      role="img"
+                      aria-label="8 by 8 square grid partitioned into a 7 by 7 square, two 1 by 7 rectangles, and one 1 by 1 corner square"
+                    >
+                      {/* Color-coded regions */}
+                      {/* Bottom-left 7x7 square: x=8..148, y=28..168 */}
+                      <rect x="8" y="28" width="140" height="140" fill="#E0E7FF" />
+                      {/* Top-left 1x7 strip: x=8..148, y=8..28 */}
+                      <rect x="8" y="8" width="140" height="20" fill="#FEF3C7" />
+                      {/* Bottom-right 7x1 strip: x=148..168, y=28..168 */}
+                      <rect x="148" y="28" width="20" height="140" fill="#FEF3C7" />
+                      {/* Top-right 1x1 lonely square: x=148..168, y=8..28 */}
+                      <rect x="148" y="8" width="20" height="20" fill="#A7F3D0" />
+
+                      {/* Fine 8x8 grid lines */}
+                      {Array.from({ length: 9 }).map((_, i) => {
+                        const pos = 8 + i * 20;
+                        return (
+                          <React.Fragment key={i}>
+                            <line
+                              x1={pos}
+                              y1={8}
+                              x2={pos}
+                              y2={168}
+                              stroke="#94A3B8"
+                              strokeWidth="1"
+                            />
+                            <line
+                              x1={8}
+                              y1={pos}
+                              x2={168}
+                              y2={pos}
+                              stroke="#94A3B8"
+                              strokeWidth="1"
+                            />
+                          </React.Fragment>
+                        );
+                      })}
+
+                      {/* Outer border */}
+                      <rect
+                        x="8"
+                        y="8"
+                        width="160"
+                        height="160"
+                        fill="none"
+                        stroke="#1E293B"
+                        strokeWidth="2.5"
+                      />
+
+                      {/* Bold partition lines separating 7x7, 1x7, 7x1, 1x1 */}
+                      <line
+                        x1="8"
+                        y1="28"
+                        x2="168"
+                        y2="28"
+                        stroke="#1E293B"
+                        strokeWidth="3"
+                      />
+                      <line
+                        x1="148"
+                        y1="8"
+                        x2="148"
+                        y2="168"
+                        stroke="#1E293B"
+                        strokeWidth="3"
+                      />
+                    </svg>
+                  </div>
+                )}
               </div>
 
               {/* Optional Collapsible Solution */}

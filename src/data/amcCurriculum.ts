@@ -993,6 +993,135 @@ export const AOPS_SECTION_2_1: AmcSectionData = {
         '证明两个 theorem；“分类讨论”入门',
       ],
     },
+    {
+      id: 'aops-prealg-2.1-p2.4',
+      type: 'problem',
+      label: 'P2.4',
+      title: 'Problem 2.4',
+      problem:
+        '(a) What is $(-2)^2$?\n(b) The expression $-2^2$ is the negation of the square of $2$. What number does $-2^2$ equal?\n(c) Given $x = -2$, find the value of $2x^2 + 3x + 4$.',
+      solution:
+        '(a) Because of the parentheses, this part asks us to square $-2$. Using what we just learned about squaring negative numbers, we have\n$$(-2)^2 = 2^2 = 4.$$\n(b) Hmm, this part looks like part (a). But the missing parentheses make all the difference. The expression $-2^2$ is the negation of the square of $2$. In other words, we have to square $2$ first, and then negate. So we get\n$$-2^2 = -(2^2) = -4.$$\n(c) In the expression $2x^2 + 3x + 4$, we first replace each $x$ with $-2$:\n$$2x^2 + 3x + 4 = 2(-2)^2 + 3(-2) + 4.$$\nNote that we were careful to write $(-2)$ instead of $-2$. Since $x^2$ means to square $x$, we want $(-2)^2$, the square of $-2$, not $-2^2$, the negation of $2^2$. Similarly, since $3x$ means $3$ times $x$, we want $3(-2)$, which means $3$ times $-2$.\nFinally, we evaluate the expression using the order of operations:\n$$\\begin{aligned}\n2(-2)^2 + 3(-2) + 4 &= 2(4) + 3(-2) + 4 \\\\\n&= 8 + (-6) + 4 \\\\\n&= 2 + 4 \\\\\n&= 6.\n\\end{aligned}$$',
+      cards: [
+        {
+          card_id: 'c-2.1-6',
+          type: 'warning',
+          title: 'Square of a Negation vs. Negation of a Square (负数的平方 vs. 平方的相反数)',
+          formula: '$(-2)^2 = 4 \\neq -4 = -2^2$',
+          content:
+            'The square of a negation and the negation of a square are **NOT** the same thing! For example, $(-2)^2$ and $-2^2$ are **NOT** equal.',
+        },
+      ],
+      relatedCardIds: ['c-2.1-4', 'c-2.1-3'],
+    },
+    {
+      id: 'aops-prealg-2.1-p2.5',
+      type: 'problem',
+      label: 'P2.5',
+      title: 'Problem 2.5',
+      problem:
+        '(a) Explain why $(8 \\cdot 125)^2 = 8^2 \\cdot 125^2$.\n(b) How does part (a) help us compute $8^2 \\cdot 125^2$ quickly?',
+      solution:
+        '(a) Let\'s rewrite the square $(8 \\cdot 125)^2$ as a product and then group equal numbers:\n$$\\begin{aligned}\n(8 \\cdot 125)^2 &= (8 \\cdot 125)(8 \\cdot 125) && \\text{definition of a square} \\\\\n&= (8 \\cdot 8)(125 \\cdot 125) && \\text{commutative and associative properties} \\\\\n&= 8^2 \\cdot 125^2. && \\text{definition of a square}\n\\end{aligned}$$\nSo, we see that a square of a product, $(8 \\cdot 125)^2$, equals a product of squares, $8^2 \\cdot 125^2$.\n(b) The product $8 \\cdot 125$ is $1000$, which is an easy number to square. So, the relationship in part (a) makes $8^2 \\cdot 125^2$ easy to compute:\n$$8^2 \\cdot 125^2 = (8 \\cdot 125)^2 = 1000^2 = 1000 \\cdot 1000 = 1{,}000{,}000.$$',
+      cards: [
+        {
+          card_id: 'c-2.1-7',
+          type: 'fact/property',
+          title: 'Square of Product (乘积的平方)',
+          formula: '$(ab)^2 = a^2b^2$',
+          content: 'Let $a$ and $b$ be numbers. Then $(ab)^2 = a^2b^2$.',
+        },
+      ],
+      relatedCardIds: ['c-2.1-1'],
+    },
+    {
+      id: 'aops-prealg-2.1-p2.6',
+      type: 'problem',
+      label: 'P2.6',
+      title: 'Problem 2.6',
+      problem: 'Evaluate $\\left(\\frac{1}{7}\\right)^2$.',
+      solution:
+        'Again, let\'s rewrite the square as a product:\n$$\\begin{aligned}\n\\left(\\frac{1}{7}\\right)^2 &= \\frac{1}{7} \\cdot \\frac{1}{7} && \\text{definition of a square} \\\\\n&= \\frac{1}{7 \\cdot 7} && \\text{product of reciprocals} \\\\\n&= \\frac{1}{7^2} && \\text{definition of a square} \\\\\n&= \\frac{1}{49}. && 7^2 = 49\n\\end{aligned}$$',
+      cards: [
+        {
+          card_id: 'c-2.1-8',
+          type: 'fact/property',
+          title: 'Square of Reciprocal (倒数的平方)',
+          formula: '$\\left(\\frac{1}{a}\\right)^2 = \\frac{1}{a^2}$',
+          content: 'Let $a$ be a nonzero number. Then $\\left(\\frac{1}{a}\\right)^2 = \\frac{1}{a^2}$.',
+        },
+      ],
+      relatedCardIds: ['c-2.1-1'],
+    },
+    {
+      id: 'aops-prealg-2.1-p2.7',
+      type: 'problem',
+      label: 'P2.7',
+      title: 'Problem 2.7',
+      problem: 'Explain why $(7224 \\div 12)^2 = 7224^2 \\div 12^2$.',
+      solution:
+        'We could compute both $(7224 \\div 12)^2$ and $7224^2 \\div 12^2$ but squaring $7224$ is a lot of work! Instead, let\'s try using the properties of squares and division. Because division is multiplication by a reciprocal, we can use our rules for the square of a product and the square of a reciprocal:\n$$\\begin{aligned}\n(7224 \\div 12)^2 &= \\left(7224 \\cdot \\frac{1}{12}\\right)^2 && \\text{definition of division} \\\\\n&= 7224^2 \\cdot \\left(\\frac{1}{12}\\right)^2 && \\text{square of product} \\\\\n&= 7224^2 \\cdot \\frac{1}{12^2} && \\text{square of reciprocal} \\\\\n&= 7224^2 \\div 12^2. && \\text{definition of division}\n\\end{aligned}$$\nSo, the square of $7224 \\div 12$ is $7224^2 \\div 12^2$.',
+      cards: [
+        {
+          card_id: 'c-2.1-9',
+          type: 'fact/property',
+          title: 'Square of Quotient (商的平方)',
+          formula: '$(a \\div b)^2 = a^2 \\div b^2$',
+          content:
+            'Let $a$ and $b$ be numbers such that $b$ is nonzero. Then $(a \\div b)^2 = a^2 \\div b^2$.',
+        },
+      ],
+      relatedCardIds: ['c-2.1-7', 'c-2.1-8'],
+    },
+    {
+      id: 'aops-prealg-2.1-p2.8',
+      type: 'problem',
+      label: 'P2.8',
+      title: 'Problem 2.8',
+      problem:
+        '(a) What is the value of $(5 + 6)^2$?\n(b) What is the value of $5^2 + 6^2$?\n(c) Is $(5 + 6)^2$ equal to $5^2 + 6^2$?',
+      solution:
+        '(a) The value of $(5 + 6)^2$ is $(5 + 6)^2 = 11^2 = 121$.\n(b) The value of $5^2 + 6^2$ is $5^2 + 6^2 = 25 + 36 = 61$.\n(c) No. By the first two parts, $(5 + 6)^2$ is greater than $5^2 + 6^2$, so the two expressions are not equal.',
+      cards: [
+        {
+          card_id: 'c-2.1-10',
+          type: 'warning',
+          title: 'Square of a Sum Is Not the Sum of Squares (和的平方 ≠ 平方和)',
+          formula: '$(a + b)^2 \\neq a^2 + b^2 \\quad (a, b \\neq 0)$',
+          content:
+            'If $a$ and $b$ are nonzero, then $(a + b)^2$ is **NOT** equal to $a^2 + b^2$. That is, the square of a sum of two nonzero numbers is **NOT** equal to the sum of the squares of the numbers.',
+        },
+      ],
+      relatedCardIds: ['c-2.1-3'],
+    },
+    {
+      id: 'aops-prealg-2.1-p2.9',
+      type: 'problem',
+      label: 'P2.9',
+      title: 'Problem 2.9',
+      problem:
+        '(a) Using the picture at the right, explain why $8^2 = 7^2 + 2(7) + 1$.\n(b) Explain why $901^2 = 900^2 + 2(900) + 1$.\n(c) What is $901^2$?',
+      solution:
+        '(a) On one hand, the entire picture is a square with $8$ rows and $8$ columns. So it has $8^2$ little squares.\nOn the other hand, we split the grid of little squares into four pieces with the bold lines inside the square. The big piece is a square with $7$ rows and $7$ columns, so it has $7^2$ little squares. The two skinny rectangles have $7$ little squares each. Finally, there is $1$ lonely square in the upper right corner. In all, the number of little squares is\n$$7^2 + 2(7) + 1.$$\nWe have counted the same squares in two different ways, so these two counts must be equal. We found $8^2$ little squares with our first method and $7^2 + 2(7) + 1$ with the second, so\n$$8^2 = 7^2 + 2(7) + 1.$$\nLet\'s check this equation. The left side, $8^2$, is $64$. The right side, $7^2 + 2(7) + 1$, simplifies to $49 + 14 + 1$, which is also $64$. Yes, the equation checks out.\n(b) We can use the same argument. Imagine a huge square with $901$ rows and $901$ columns. It will have $901^2$ little squares.\nWe can also count the little squares by cutting the huge square into the four pieces in the same pattern:\n• A square with $900$ rows and $900$ columns. This square has $900^2$ little squares.\n• One skinny rectangle that is a row of $900$ little squares.\n• One skinny rectangle that is a column of $900$ little squares.\n• $1$ lonely little square.\nThis gives us a total of $900^2 + 2(900) + 1$ little squares. But this must be the same total as our first count, $901^2$, so\n$$901^2 = 900^2 + 2(900) + 1.$$\n(c) Using part (b), we have\n$$\\begin{aligned}\n901^2 &= 900^2 + 2(900) + 1 \\\\\n&= 900^2 + 1800 + 1 \\\\\n&= 810{,}000 + 1801 \\\\\n&= 811{,}801.\n\\end{aligned}$$\nSo we have found a quick way to go from one perfect square to the next.',
+      diagram: 'grid-8x8',
+      cards: [
+        {
+          card_id: 'c-2.1-11',
+          type: 'fact/property',
+          title: 'Square of (a + 1) (相邻完全平方数公式)',
+          formula: '$(a + 1)^2 = a^2 + 2a + 1 = a^2 + a + (a + 1)$',
+          content: 'For every number $a$, $(a + 1)^2 = a^2 + 2a + 1 = a^2 + a + (a + 1)$.',
+        },
+        {
+          card_id: 'c-2.1-12',
+          type: 'fact/property',
+          title: 'Square of a Sum (完全平方和公式)',
+          formula: '$(a + b)^2 = a^2 + 2ab + b^2$',
+          content: 'For any two numbers $a$ and $b$, $(a + b)^2 = a^2 + 2ab + b^2$.',
+        },
+      ],
+      relatedCardIds: ['c-2.1-1', 'c-2.1-2', 'c-2.1-10'],
+    },
   ],
 };
 
@@ -1384,15 +1513,15 @@ export const AMC_MODULE: Module = {
             {
               id: 'node-amc-2-1-squares',
               title: '2.1 Squares',
-              titleEn: 'Section 2.1 Squares · Intro & Problems 2.1–2.3',
-              shortDesc: '学习平方、完全平方数与运算顺序，完成 Problem 2.1–2.3 并解锁 5 张核心数学卡片',
+              titleEn: 'Section 2.1 Squares · Intro & Problems 2.1–2.9',
+              shortDesc: '学习平方、完全平方数与运算顺序，完成 Problem 2.1–2.9 并解锁 12 张核心数学卡片',
               icon: 'Sparkles',
-              xp: 60,
+              xp: 80,
               blueprint: {
                 title: 'Section 2.1 Squares · 逐页伴读',
                 titleEn: 'AoPS Prealgebra Section 2.1 Squares',
                 blocks: [],
-                tip: '逐页完成概念与 Problem 2.1–2.3，确认学习完毕后进入下一页！',
+                tip: '逐页完成概念与 Problem 2.1–2.9，确认学习完毕后进入下一页！',
               },
               questions: [],
               amcData: {
