@@ -1,6 +1,6 @@
 import React from 'react';
 import { CURRICULUM } from '../data/curriculum';
-import { Lock, Code, Terminal, Cpu, Calculator, BookMarked, RotateCcw, CheckCircle2, X } from 'lucide-react';
+import { Lock, Code, Terminal, Cpu, Calculator, BookMarked, Map, RotateCcw, CheckCircle2, X } from 'lucide-react';
 import { sound } from '../audio/sound';
 
 interface SidebarProps {
@@ -15,6 +15,8 @@ interface SidebarProps {
   };
   onOpenUserManager?: () => void;
   onOpenCodex?: () => void;
+  isAmcRoadmapOpen?: boolean;
+  onOpenAmcRoadmap?: () => void;
   onSelectModule: (id: string) => void;
   onSelectUnit: (id: string) => void;
   onResetProgress: () => void;
@@ -31,6 +33,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   currentUser,
   onOpenUserManager,
   onOpenCodex,
+  isAmcRoadmapOpen = false,
+  onOpenAmcRoadmap,
   onSelectModule,
   onSelectUnit,
   onResetProgress,
@@ -163,6 +167,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
             章节导航
           </div>
 
+          {activeModuleId === 'amc' && onOpenAmcRoadmap && (
+            <div className="mb-3">
+              <button
+                onClick={() => {
+                  sound.playPop();
+                  onOpenAmcRoadmap();
+                }}
+                className={`w-full px-3.5 py-2.5 rounded-xl text-left text-xs transition-all flex items-center gap-2 cursor-pointer ${
+                  isAmcRoadmapOpen
+                    ? 'bg-indigo-50 text-indigo-900 border-2 border-indigo-300 font-black shadow-sm'
+                    : 'text-indigo-700 bg-indigo-50/40 hover:bg-indigo-50 border border-indigo-200/70 font-bold'
+                }`}
+              >
+                <Map className="w-4 h-4 text-indigo-600 shrink-0" />
+                <span className="truncate">AoPS 课程学习安排</span>
+              </button>
+            </div>
+          )}
+
           <div className="space-y-4">
             {currentModule.sections.map((section) => (
               <div key={section.id} className="space-y-1.5">
@@ -172,7 +195,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
                 <div className="space-y-1">
                   {section.units.map((unit) => {
-                    const isSelected = unit.id === activeUnitId;
+                    const isSelected = !isAmcRoadmapOpen && unit.id === activeUnitId;
                     const isUnitCompleted =
                       unit.nodes.length > 0 &&
                       unit.nodes.every((n) => completedNodeIds.includes(n.id));

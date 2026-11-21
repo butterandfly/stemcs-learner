@@ -31,6 +31,7 @@ import {
   Bug,
   Radio,
   BookMarked,
+  Map,
 } from 'lucide-react';
 import { Unit, LearningNode } from '../types';
 import { sound } from '../audio/sound';
@@ -41,6 +42,7 @@ interface PathViewProps {
   unlockedCardCount?: number;
   totalCardCount?: number;
   onOpenCodex?: () => void;
+  onOpenAmcRoadmap?: () => void;
   onStartNode: (node: LearningNode) => void;
 }
 
@@ -50,6 +52,7 @@ export const PathView: React.FC<PathViewProps> = ({
   unlockedCardCount = 0,
   totalCardCount = 0,
   onOpenCodex,
+  onOpenAmcRoadmap,
   onStartNode,
 }) => {
   const [selectedNode, setSelectedNode] = useState<LearningNode | null>(null);
@@ -162,13 +165,25 @@ export const PathView: React.FC<PathViewProps> = ({
             >
               UNIT {unit.unitNumber}
             </span>
+            {isAmcUnit && onOpenAmcRoadmap && (
+              <button
+                onClick={() => {
+                  sound.playPop();
+                  onOpenAmcRoadmap();
+                }}
+                className="px-3 py-1 rounded-full bg-white hover:bg-indigo-50 text-indigo-800 border border-indigo-300 text-xs font-display font-black flex items-center gap-1.5 shadow-2xs transition-all active:scale-95 cursor-pointer"
+              >
+                <Map className="w-3.5 h-3.5 text-indigo-600" />
+                <span>课程学习安排</span>
+              </button>
+            )}
             {isAmcUnit && onOpenCodex && (
               <button
                 onClick={() => {
                   sound.playPop();
                   onOpenCodex();
                 }}
-                className="ml-auto sm:ml-2 px-3 py-1 rounded-full bg-white hover:bg-indigo-50 text-indigo-800 border border-indigo-300 text-xs font-display font-black flex items-center gap-1.5 shadow-2xs transition-all active:scale-95 cursor-pointer"
+                className="px-3 py-1 rounded-full bg-white hover:bg-indigo-50 text-indigo-800 border border-indigo-300 text-xs font-display font-black flex items-center gap-1.5 shadow-2xs transition-all active:scale-95 cursor-pointer"
               >
                 <BookMarked className="w-3.5 h-3.5 text-indigo-600" />
                 <span>全局知识图鉴 ({unlockedCardCount}/{totalCardCount})</span>

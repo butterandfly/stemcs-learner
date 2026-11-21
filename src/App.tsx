@@ -8,6 +8,7 @@ import { PathView } from './components/PathView';
 import { LessonView } from './components/LessonView';
 import { AmcNodeView } from './components/AmcNodeView';
 import { AmcCodexModal } from './components/AmcCodexModal';
+import { AmcRoadmapView } from './components/AmcRoadmapView';
 import { DevPanel } from './components/DevPanel';
 import { UserManagerModal } from './components/UserManagerModal';
 import { LearningNode } from './types';
@@ -40,6 +41,7 @@ export default function App() {
 
   const [activeLessonNode, setActiveLessonNode] = useState<LearningNode | null>(null);
   const [isCodexOpen, setIsCodexOpen] = useState<boolean>(false);
+  const [isAmcRoadmapOpen, setIsAmcRoadmapOpen] = useState<boolean>(false);
   const [isPortrait, setIsPortrait] = useState<boolean>(false);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
   const [isDevOpen, setIsDevOpen] = useState<boolean>(false);
@@ -126,15 +128,21 @@ export default function App() {
           currentUser={currentUser}
           onOpenUserManager={() => setIsUserManagerOpen(true)}
           onOpenCodex={() => setIsCodexOpen(true)}
+          isAmcRoadmapOpen={isAmcRoadmapOpen}
+          onOpenAmcRoadmap={() => setIsAmcRoadmapOpen(true)}
           onSelectModule={(id) => {
             setActiveModuleId(id);
+            setIsAmcRoadmapOpen(false);
             const target = CURRICULUM.find((m) => m.id === id);
             const firstUnit = target?.sections[0]?.units[0];
             if (firstUnit) {
               setActiveUnitId(firstUnit.id);
             }
           }}
-          onSelectUnit={setActiveUnitId}
+          onSelectUnit={(id) => {
+            setActiveUnitId(id);
+            setIsAmcRoadmapOpen(false);
+          }}
           onResetProgress={resetAllProgress}
           onToggleDevPanel={() => setIsDevOpen(true)}
         />
@@ -163,8 +171,14 @@ export default function App() {
                 setIsCodexOpen(true);
                 setSidebarOpen(false);
               }}
+              isAmcRoadmapOpen={isAmcRoadmapOpen}
+              onOpenAmcRoadmap={() => {
+                setIsAmcRoadmapOpen(true);
+                setSidebarOpen(false);
+              }}
               onSelectModule={(id) => {
                 setActiveModuleId(id);
+                setIsAmcRoadmapOpen(false);
                 const target = CURRICULUM.find((m) => m.id === id);
                 const firstUnit = target?.sections[0]?.units[0];
                 if (firstUnit) {
@@ -174,6 +188,7 @@ export default function App() {
               }}
               onSelectUnit={(id) => {
                 setActiveUnitId(id);
+                setIsAmcRoadmapOpen(false);
                 setSidebarOpen(false);
               }}
               onResetProgress={resetAllProgress}
@@ -196,14 +211,19 @@ export default function App() {
           onToggleSidebar={() => setSidebarOpen(true)}
         />
 
-        <PathView
-          unit={currentUnit}
-          completedNodeIds={progress.completedNodeIds}
-          unlockedCardCount={unlockedAmcCardCount}
-          totalCardCount={totalAmcCards}
-          onOpenCodex={() => setIsCodexOpen(true)}
-          onStartNode={(node) => setActiveLessonNode(node)}
-        />
+        {activeModuleId === 'amc' && isAmcRoadmapOpen ? (
+          <AmcRoadmapView />
+        ) : (
+          <PathView
+            unit={currentUnit}
+            completedNodeIds={progress.completedNodeIds}
+            unlockedCardCount={unlockedAmcCardCount}
+            totalCardCount={totalAmcCards}
+            onOpenCodex={() => setIsCodexOpen(true)}
+            onOpenAmcRoadmap={() => setIsAmcRoadmapOpen(true)}
+            onStartNode={(node) => setActiveLessonNode(node)}
+          />
+        )}
       </main>
 
       {/* 3. Interactive Lesson Modal or AMC Companion Todo Modal */}
