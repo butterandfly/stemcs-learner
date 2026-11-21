@@ -897,6 +897,105 @@ export const AOPS_SECTION_1_8: AmcSectionData = {
   ],
 };
 
+export const AOPS_SECTION_2_1: AmcSectionData = {
+  section_id: '2.1',
+  title: 'Squares (平方)',
+  problem_list: [],
+  exercise_list: [],
+  pages: [
+    {
+      id: 'aops-prealg-2.1-intro',
+      type: 'concept',
+      label: 'Intro',
+      title: '2.1 Squares — Concept & Intro',
+      cards: [
+        {
+          card_id: 'c-2.1-1',
+          type: 'definition',
+          title: 'Square (平方)',
+          formula: '$a^2 = a \\cdot a$',
+          content:
+            'Let $a$ be a number. The **square** of $a$, written $a^2$, is equal to $a \\cdot a$.',
+        },
+        {
+          card_id: 'c-2.1-2',
+          type: 'definition',
+          title: 'Perfect Square (完全平方数)',
+          formula: '$0^2, 1^2, 2^2, 3^2, \\dots$',
+          content: 'A **perfect square** is the square of an integer.',
+        },
+        {
+          card_id: 'c-2.1-3',
+          type: 'warning',
+          title: 'Order of Operations (运算顺序)',
+          formula: '$\\text{Parentheses} \\to \\text{Powers} \\to \\times, \\div \\to +, -$',
+          content:
+            'Always compute powers **after** parentheses and **before** multiplication or division:\n1. Evaluate expressions inside parentheses first.\n2. Compute powers.\n3. Multiply and divide from left to right.\n4. Add and subtract from left to right.\n*Watch out*: In $7 \\cdot 3^2$, square $3$ first ($7 \\cdot 9 = 63$), rather than multiplying $7 \\cdot 3$ first.',
+        },
+      ],
+      checkpoints: [
+        '读法',
+        '使用面积来理解；同时回顾离散（方格子数量）的情况及连续（面积）的情况',
+        'Perfect Square 的定义',
+        '运算顺序的更新',
+      ],
+    },
+    {
+      id: 'aops-prealg-2.1-p2.1',
+      type: 'problem',
+      label: 'P2.1',
+      title: 'Problem 2.1',
+      problem: 'Simplify $180 - 5 \\cdot 2^2$.',
+      solution:
+        'Compute the square first, then multiply, and then subtract:\n$$180 - 5 \\cdot 2^2 = 180 - 5 \\cdot 4 = 180 - 20 = 160.$$',
+      cards: [],
+      relatedCardIds: ['c-2.1-3'],
+    },
+    {
+      id: 'aops-prealg-2.1-p2.2',
+      type: 'problem',
+      label: 'P2.2',
+      title: 'Problem 2.2',
+      problem:
+        'What is the value of $(2x + 5)^2$ when $x = 3$? In other words, in the expression $(2x + 5)^2$, replace the $x$ with $3$, and evaluate the new expression.',
+      solution:
+        "Let's first replace the $x$ with a $3$ in the expression $(2x + 5)^2$. Since $2x$ means $2 \\cdot x$, we get\n$$(2x + 5)^2 = (2 \\cdot 3 + 5)^2.$$\nNext we evaluate $(2 \\cdot 3 + 5)^2$ by following the order of operations:\n$$(2 \\cdot 3 + 5)^2 = (6 + 5)^2 = (11)^2 = 121.$$",
+      cards: [],
+      relatedCardIds: ['c-2.1-3'],
+    },
+    {
+      id: 'aops-prealg-2.1-p2.3',
+      type: 'problem',
+      label: 'P2.3',
+      title: 'Problem 2.3',
+      problem: '(a) Evaluate $(-12)^2$.\n(b) How are $(-a)^2$ and $a^2$ related?',
+      solution:
+        '(a) First, we write the square as a product: $(-12)^2 = (-12)(-12)$. Applying the rule for a product of two negations, we have $(-12)(-12) = 12 \\cdot 12 = 144$. So, we have $(-12)^2 = 144$.\n(b) Above, we showed that $(-12)^2 = 12 \\cdot 12 = 12^2$. We can do the same for the square of any negation. For any number $a$, we have\n$$\\begin{aligned}\n(-a)^2 &= (-a)(-a) && \\text{definition of a square} \\\\\n&= a \\cdot a && \\text{negation times negation} \\\\\n&= a^2. && \\text{definition of a square}\n\\end{aligned}$$',
+      cards: [
+        {
+          card_id: 'c-2.1-4',
+          type: 'fact/property',
+          title: 'Square of Negation (负数的平方)',
+          formula: '$(-a)^2 = a^2$',
+          content: 'Let $a$ be a number. Then $(-a)^2 = a^2$.',
+        },
+        {
+          card_id: 'c-2.1-5',
+          type: 'fact/property',
+          title: 'Squares are Nonnegative (平方的非负性)',
+          formula: '$a^2 \\ge 0$',
+          content: 'Let $a$ be a number. Then $a^2$ is nonnegative.',
+        },
+      ],
+      relatedCardIds: ['c-2.1-1', 'c-2.1-2'],
+      checkpoints: [
+        '从“处理例子”到“处理边界情况”；切换武器',
+        '证明两个 theorem；“分类讨论”入门',
+      ],
+    },
+  ],
+};
+
 export const AOPS_SECTIONS: AmcSectionData[] = [
   AOPS_SECTION_1_2,
   AOPS_SECTION_1_3,
@@ -905,6 +1004,7 @@ export const AOPS_SECTIONS: AmcSectionData[] = [
   AOPS_SECTION_1_6,
   AOPS_SECTION_1_7,
   AOPS_SECTION_1_8,
+  AOPS_SECTION_2_1,
 ];
 
 export interface CodexCardEntry {
@@ -915,8 +1015,8 @@ export interface CodexCardEntry {
   problemLabel: string;
 }
 
-export const ALL_AMC_CODEX_CARDS: CodexCardEntry[] = AOPS_SECTIONS.flatMap((section) =>
-  section.problem_list.flatMap((problem) =>
+export const ALL_AMC_CODEX_CARDS: CodexCardEntry[] = AOPS_SECTIONS.flatMap((section) => [
+  ...section.problem_list.flatMap((problem) =>
     problem.cards.map((card) => ({
       card,
       sectionId: section.section_id,
@@ -924,12 +1024,22 @@ export const ALL_AMC_CODEX_CARDS: CodexCardEntry[] = AOPS_SECTIONS.flatMap((sect
       problemId: problem.id,
       problemLabel: problem.label,
     }))
-  )
-);
+  ),
+  ...(section.pages || []).flatMap((page) =>
+    page.cards.map((card) => ({
+      card,
+      sectionId: section.section_id,
+      sectionTitle: section.title,
+      problemId: page.id,
+      problemLabel: page.title,
+    }))
+  ),
+]);
 
 export const ALL_AMC_TASK_IDS: string[] = AOPS_SECTIONS.flatMap((section) => [
   ...section.problem_list.map((p) => p.id),
   ...section.exercise_list.map((e) => e.id),
+  ...(section.pages || []).map((p) => p.id),
 ]);
 
 export const AMC_MODULE: Module = {
@@ -1252,6 +1362,44 @@ export const AMC_MODULE: Module = {
                 mode: 'exercises',
                 exercise_list: AOPS_SECTION_1_8.exercise_list,
                 problem_list: AOPS_SECTION_1_8.problem_list,
+              },
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 'sec-aops-ch2',
+      title: 'Chapter 2: Exponents (指数)',
+      description: '配合《AoPS Prealgebra》第 2 章实体教材，逐页掌握平方、指数运算与证明思维',
+      units: [
+        {
+          id: 'unit-amc-ch2',
+          unitNumber: 2,
+          title: '第 2 单元：指数与乘方',
+          titleEn: 'Chapter 2: Exponents',
+          badge: 'AoPS 伴读',
+          summary: '逐页精学概念、独立挑战 Problem、核对 Checkpoints 并解锁核心数学卡片！',
+          nodes: [
+            {
+              id: 'node-amc-2-1-squares',
+              title: '2.1 Squares',
+              titleEn: 'Section 2.1 Squares · Intro & Problems 2.1–2.3',
+              shortDesc: '学习平方、完全平方数与运算顺序，完成 Problem 2.1–2.3 并解锁 5 张核心数学卡片',
+              icon: 'Sparkles',
+              xp: 60,
+              blueprint: {
+                title: 'Section 2.1 Squares · 逐页伴读',
+                titleEn: 'AoPS Prealgebra Section 2.1 Squares',
+                blocks: [],
+                tip: '逐页完成概念与 Problem 2.1–2.3，确认学习完毕后进入下一页！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_2_1.section_id,
+                section_title: AOPS_SECTION_2_1.title,
+                mode: 'guided',
+                pages: AOPS_SECTION_2_1.pages,
               },
             },
           ],

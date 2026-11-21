@@ -13,6 +13,7 @@ import {
 import confetti from 'canvas-confetti';
 import { LearningNode } from '../types';
 import { AmcCardItem, getAmcCardTheme } from './AmcCardItem';
+import { AmcGuidedView } from './AmcGuidedView';
 import { sound } from '../audio/sound';
 
 interface AmcNodeViewProps {
@@ -20,6 +21,7 @@ interface AmcNodeViewProps {
   completedTaskIds: string[];
   unlockedCardIds: string[];
   onToggleTask: (taskId: string, cardIdsToUnlock: string[]) => boolean;
+  onUnlockCards?: (cardIds: string[]) => void;
   onOpenCodex: () => void;
   onClose: () => void;
   onComplete: (xpEarned: number) => void;
@@ -30,6 +32,7 @@ export const AmcNodeView: React.FC<AmcNodeViewProps> = ({
   completedTaskIds,
   unlockedCardIds,
   onToggleTask,
+  onUnlockCards,
   onOpenCodex,
   onClose,
   onComplete,
@@ -39,6 +42,21 @@ export const AmcNodeView: React.FC<AmcNodeViewProps> = ({
 
   const amcData = node.amcData;
   if (!amcData) return null;
+
+  if (amcData.mode === 'guided') {
+    return (
+      <AmcGuidedView
+        node={node}
+        completedTaskIds={completedTaskIds}
+        unlockedCardIds={unlockedCardIds}
+        onToggleTask={onToggleTask}
+        onUnlockCards={onUnlockCards}
+        onOpenCodex={onOpenCodex}
+        onClose={onClose}
+        onComplete={onComplete}
+      />
+    );
+  }
 
   const isProblemsMode = amcData.mode === 'problems';
   const problemList = amcData.problem_list || [];

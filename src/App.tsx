@@ -34,6 +34,7 @@ export default function App() {
     refillEnergy,
     unlockAllNodes,
     toggleAmcTask,
+    unlockAmcCards,
     resetAllProgress,
   } = useUserStore();
 
@@ -213,6 +214,7 @@ export default function App() {
             completedTaskIds={completedAmcTaskIds}
             unlockedCardIds={unlockedCardIds}
             onToggleTask={toggleAmcTask}
+            onUnlockCards={unlockAmcCards}
             onOpenCodex={() => setIsCodexOpen(true)}
             onClose={() => setActiveLessonNode(null)}
             onComplete={(xpEarned) => {

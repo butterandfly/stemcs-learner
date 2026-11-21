@@ -108,19 +108,33 @@ export interface AmcExerciseItem {
   label: string;
 }
 
+export interface AmcPageItem {
+  id: string;
+  type: 'concept' | 'problem';
+  label: string;
+  title: string;
+  problem?: string;
+  solution?: string;
+  cards: AmcKnowledgeCard[];
+  relatedCardIds?: string[];
+  checkpoints?: string[];
+}
+
 export interface AmcSectionData {
   section_id: string;
   title: string;
   problem_list: AmcProblemItem[];
   exercise_list: AmcExerciseItem[];
+  pages?: AmcPageItem[];
 }
 
 export interface AmcNodeData {
   section_id: string;
   section_title: string;
-  mode: 'problems' | 'exercises';
+  mode: 'problems' | 'exercises' | 'guided';
   problem_list?: AmcProblemItem[];
   exercise_list?: AmcExerciseItem[];
+  pages?: AmcPageItem[];
 }
 
 export interface LearningNode {

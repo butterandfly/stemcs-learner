@@ -271,6 +271,18 @@ export function useUserStore() {
     return isNowCompleted;
   };
 
+  const unlockAmcCards = (cardIdsToUnlock: string[]) => {
+    if (cardIdsToUnlock.length === 0) return;
+    updateCurrentProgress((prev) => {
+      const currentCards = prev.unlockedCardIds || [];
+      const newCards = Array.from(new Set([...currentCards, ...cardIdsToUnlock]));
+      return {
+        ...prev,
+        unlockedCardIds: newCards,
+      };
+    });
+  };
+
   const resetAllProgress = () => {
     updateCurrentProgress(() => createDefaultProgress());
   };
@@ -294,6 +306,7 @@ export function useUserStore() {
     refillEnergy,
     unlockAllNodes,
     toggleAmcTask,
+    unlockAmcCards,
     resetAllProgress,
   };
 }
