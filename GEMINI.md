@@ -55,6 +55,14 @@
 - **常规关卡**：右侧展示 macOS 风格交互终端视窗与命令雷达速查。
 - **复习关卡**：隐藏右侧看板，全屏单栏专注考核相对路径、改名机制与原生终端独立打造秘密基地。
 
+### C. AMC 数学思维模块（关联技能：`amc-curriculum-design`）
+- **数据源对齐**：以 `/Users/butterandfly/MyNotes/AMC/` 中的 `Map of AMC.md`、`spec.md` 与 `Prealgebra/aops-prealg-*.md` 为单一事实源。
+- **逐页伴读模式（第 2 单元起，`mode: 'guided'`）**：
+  - 每个小节（Section，如 `2.1 Squares`、`2.2 Higher Exponents`）作为 1 个独立 `LearningNode`，按 `Intro → Problem ...` 分页推进。
+  - `Problem` 页展示英文原题面与默认折叠的参考解析（`Solution`），本页新解锁卡片默认盲盒折叠防剧透；`Concept Intro` 页直接展示卡片。
+  - 笔记中的 `related_cards` 映射为可点击展开的关联知识卡胶囊；`## 教学安排` 映射为可选勾选的 `Checkpoints`。
+  - 所有卡片严格限定为 `definition`、`fact/property`、`strategy`、`warning` 四类，并自动注册进 `AOPS_SECTIONS` 与全局 `Codex`。
+
 ---
 
 ## 3. 技术栈与工程规范 (Technical Conventions)

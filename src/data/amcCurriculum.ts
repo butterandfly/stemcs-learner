@@ -1125,6 +1125,271 @@ export const AOPS_SECTION_2_1: AmcSectionData = {
   ],
 };
 
+export const AOPS_SECTION_2_2: AmcSectionData = {
+  section_id: '2.2',
+  title: 'Higher Exponents (更高次幂)',
+  problem_list: [],
+  exercise_list: [],
+  pages: [
+    {
+      id: 'aops-prealg-2.2-intro',
+      type: 'concept',
+      label: 'Intro',
+      title: '2.2 Higher Exponents — Concept & Intro',
+      cards: [
+        {
+          card_id: 'c-2.2-1',
+          type: 'definition',
+          title: 'Power (Positive Integer Exponent) (正整数次幂)',
+          formula: '$a^n = \\underbrace{a \\times a \\times \\cdots \\times a}_{n\\text{ copies of }a}$',
+          content:
+            'Let $a$ be any number and let $n$ be a positive integer. The **power** $a^n$, pronounced "$a$ to the $n$," is defined by multiplying $n$ copies of $a$. For example, $a^5 = a \\cdot a \\cdot a \\cdot a \\cdot a$.',
+        },
+        {
+          card_id: 'c-2.2-2',
+          type: 'fact/property',
+          title: 'Power of Product (乘积的幂)',
+          formula: '$(ab)^n = a^n b^n$',
+          content:
+            'Let $a$ and $b$ be numbers, and let $n$ be a positive integer. Then $(ab)^n = a^n b^n$.',
+        },
+        {
+          card_id: 'c-2.2-3',
+          type: 'fact/property',
+          title: 'Power of Reciprocal (倒数的幂)',
+          formula: '$\\left(\\frac{1}{b}\\right)^n = \\frac{1}{b^n}$',
+          content:
+            'Let $b$ be a nonzero number, and let $n$ be a positive integer. Then $\\left(\\frac{1}{b}\\right)^n = \\frac{1}{b^n}$.',
+        },
+        {
+          card_id: 'c-2.2-4',
+          type: 'fact/property',
+          title: 'Power of Quotient (商的幂)',
+          formula: '$(a \\div b)^n = a^n \\div b^n$',
+          content:
+            'Let $a$ and $b$ be numbers with $b$ nonzero, and let $n$ be a positive integer. Then $(a \\div b)^n = a^n \\div b^n$.',
+        },
+        {
+          card_id: 'c-2.2-5',
+          type: 'warning',
+          title: 'Power of a Sum Is Not the Sum of Powers (和的幂 ≠ 幂的和)',
+          formula: '$(a + b)^n \\neq a^n + b^n$',
+          content:
+            'Suppose $a$ and $b$ are nonzero numbers, and $n$ is an integer greater than $2$. Just as $(a + b)^2$ is **NOT** equal to $a^2 + b^2$, the expression $(a + b)^n$ is **NOT** necessarily equal to $a^n + b^n$.',
+        },
+      ],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.10',
+      type: 'problem',
+      label: 'P2.10',
+      title: 'Problem 2.10',
+      problem:
+        '*(Source: (b) MATHCOUNTS)*\n(a) Compute $(-4)^3$.\n(b) For how many integers $n$ is $n^3$ between $-50$ and $50$?',
+      solution:
+        "(a) The expression $(-4)^3$ means the product of three $-4$'s, so\n$$(-4)^3 = (-4)(-4)(-4) = (16)(-4) = -64.$$\nThis result shows one key difference between squares and cubes. While the square of a negative number is positive, the cube of a negative number is negative. We see why in our computation of $(-4)^3$. The product of the first two $-4$'s in $(-4)(-4)(-4)$ is positive, and then we multiply by one more $-4$ and have a negative number as a final result. So, while there are no negative squares, there are negative cubes.\n(b) We have\n$$0^3 = 0 \\cdot 0 \\cdot 0 = 0, \\qquad 1^3 = 1 \\cdot 1 \\cdot 1 = 1, \\qquad 2^3 = 2 \\cdot 2 \\cdot 2 = 8,$$\n$$3^3 = 3 \\cdot 3 \\cdot 3 = 27, \\qquad 4^3 = 4 \\cdot 4 \\cdot 4 = 64.$$\nWe see that $4^3$ is greater than $50$, and the cube of any number greater than $4$ is greater than $4^3$. So, the only nonnegative cubes between $-50$ and $50$ are $0^3, 1^3, 2^3,$ and $3^3$. But we have to be careful not to forget about negatives! We have\n$$\\begin{aligned}\n(-1)^3 &= -1^3 = -1, \\\\\n(-2)^3 &= -2^3 = -8, \\\\\n(-3)^3 &= -3^3 = -27.\n\\end{aligned}$$\nJust as all the positive cubes from $4^3$ up are greater than $50$, the negative cubes from $(-4)^3$ down are less than $-50$.\nCombining these $3$ negative cubes with the $4$ nonnegative cubes we found first, we see that there are $7$ integers $n$ such that $n^3$ is between $-50$ and $50$.",
+      cards: [
+        {
+          card_id: 'c-2.2-6',
+          type: 'fact/property',
+          title: 'Cube of Negation (负数的立方)',
+          formula: '$(-a)^3 = -a^3$',
+          content: 'Let $a$ be any number. Then $(-a)^3 = -a^3$.',
+        },
+      ],
+      relatedCardIds: ['c-2.2-1', 'c-2.1-5'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.11',
+      type: 'problem',
+      label: 'P2.11',
+      title: 'Problem 2.11',
+      problem:
+        'Let $a$ be any number.\n(a) Explain why $(-a)^4 = a^4$.\n(b) Explain why $(-a)^5 = -a^5$.',
+      solution:
+        '(a) We rewrite the power on the left side as a product, and then use what we know about the product of negations:\n$$\\begin{aligned}\n(-a)^4 &= (-a)(-a)(-a)(-a) && \\text{definition of an exponent} \\\\\n&= ((-a)(-a))((-a)(-a)) && \\text{associative property} \\\\\n&= (a \\cdot a)(a \\cdot a) && \\text{negation times negation (twice)} \\\\\n&= a^4. && \\text{definition of an exponent}\n\\end{aligned}$$\n(b) Again, we convert the power on the left side to a product:\n$$\\begin{aligned}\n(-a)^5 &= (-a)(-a)(-a)(-a)(-a) && \\text{definition of an exponent} \\\\\n&= (-a)((-a)(-a))((-a)(-a)) && \\text{associative property} \\\\\n&= (-a)(a \\cdot a)(a \\cdot a) && \\text{negation times negation (twice)} \\\\\n&= -(a \\cdot a \\cdot a \\cdot a \\cdot a) && \\text{multiplication by negation} \\\\\n&= -a^5. && \\text{definition of an exponent}\n\\end{aligned}$$',
+      cards: [
+        {
+          card_id: 'c-2.2-7',
+          type: 'fact/property',
+          title: 'Power of Negation (负数的幂)',
+          formula: '$(-a)^n = \\begin{cases} a^n & (n\\text{ even}) \\\\ -a^n & (n\\text{ odd}) \\end{cases}$',
+          content:
+            'Let $a$ be any number. Let $n$ be a positive integer. If $n$ is even, then $(-a)^n = a^n$. If $n$ is odd, then $(-a)^n = -a^n$.',
+        },
+      ],
+      relatedCardIds: ['c-2.2-1', 'c-2.1-4', 'c-2.2-6'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.12',
+      type: 'problem',
+      label: 'P2.12',
+      title: 'Problem 2.12',
+      problem: '*(Source: MATHCOUNTS)*\nEvaluate $(-1)^{(5^2)} + 1^{(2^5)}$.',
+      solution:
+        "Let's look at the first term of our sum. Because $5^2 = 25$ is odd, we have\n$$(-1)^{(5^2)} = (-1)^{25} = -(1^{25}) = -1.$$\nFor the second term of our sum, any power of $1$ is $1$, so $1^{(2^5)}$ is $1$. Therefore, our sum is $-1 + 1$, which is $0$.",
+      cards: [],
+      relatedCardIds: ['c-2.2-7', 'c-2.2-1'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.13',
+      type: 'problem',
+      label: 'P2.13',
+      title: 'Problem 2.13',
+      problem:
+        'Addition and multiplication are commutative. That is, $a + b = b + a$ and $ab = ba$ for all $a$ and $b$. In this problem, we explore whether or not exponentiation is commutative.\n(a) What is $3^4$?\n(b) What is $4^3$?\n(c) Is exponentiation commutative? That is, if $a$ and $b$ are positive integers, then must we have $a^b = b^a$?',
+      solution:
+        '(a) $3^4 = 3 \\cdot 3 \\cdot 3 \\cdot 3 = (3 \\cdot 3) \\cdot (3 \\cdot 3) = 9 \\cdot 9 = 81$.\n(b) $4^3 = 4 \\cdot 4 \\cdot 4 = 16 \\cdot 4 = 64$.\n(c) In parts (a) and (b), we found that $3^4$ and $4^3$ are not equal. Therefore, we know that exponentiation is not commutative. The order of the numbers in a power matters.',
+      cards: [
+        {
+          card_id: 'c-2.2-8',
+          type: 'warning',
+          title: 'Exponentiation Is Not Commutative (乘方不满足交换律)',
+          formula: '$3^4 = 81 \\neq 64 = 4^3$',
+          content:
+            'Exponentiation is **not** commutative: $a^b$ and $b^a$ are not necessarily equal (for example, $3^4 = 81 \\neq 64 = 4^3$). The order of the numbers in a power matters.',
+        },
+      ],
+      relatedCardIds: ['c-2.2-1'],
+      checkpoints: [
+        '引入“^”，在文本格式上指明 power 操作符；将“^”符号类比成加号和乘号',
+        '判断 ^ 是否具有交换律',
+      ],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.14',
+      type: 'problem',
+      label: 'P2.14',
+      title: 'Problem 2.14',
+      problem:
+        'Addition and multiplication are associative. That is, $(a + b) + c = a + (b + c)$ and $(ab)c = a(bc)$ for any numbers $a, b,$ and $c$. In this problem, we explore whether or not exponentiation is associative.\n(a) What is $(2^2)^3$?\n(b) What is $2^{(2^3)}$?\n(c) Is exponentiation associative? That is, if $a, b,$ and $c$ are positive integers, must we have $(a^b)^c = a^{(b^c)}$?',
+      solution:
+        '(a) We evaluate inside the parentheses first:\n$$(2^2)^3 = 4^3 = 64.$$\n(b) Again, we evaluate inside the parentheses first:\n$$\\begin{aligned}\n2^{(2^3)} &= 2^8 \\\\\n&= 2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 \\cdot 2 \\\\\n&= (2 \\cdot 2 \\cdot 2 \\cdot 2) \\cdot (2 \\cdot 2 \\cdot 2 \\cdot 2) \\\\\n&= 16 \\cdot 16 \\\\\n&= 256.\n\\end{aligned}$$\n(c) We just showed that $(2^2)^3$ is different from $2^{(2^3)}$. So exponentiation is not associative; where we place parentheses in expressions like $(2^2)^3$ and $2^{(2^3)}$ matters.',
+      cards: [
+        {
+          card_id: 'c-2.2-9',
+          type: 'warning',
+          title: 'Exponentiation Is Not Associative (乘方不满足结合律)',
+          formula: '$(2^2)^3 = 64 \\neq 256 = 2^{(2^3)} = 2^{2^3}$',
+          content:
+            'Exponentiation is **not** associative: $(a^b)^c$ and $a^{(b^c)}$ are not necessarily equal (for example, $(2^2)^3 = 64 \\neq 256 = 2^{(2^3)}$). When written without parentheses as $2^{2^3}$, we evaluate powers from **top to bottom** (right to left), so $2^{2^3} = 2^{(2^3)}$.',
+        },
+      ],
+      relatedCardIds: ['c-2.2-1', 'c-2.1-3'],
+      checkpoints: ['判断并证明 power 操作符是否具有结合律', '多层乘方的书写约定'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.15',
+      type: 'problem',
+      label: 'P2.15',
+      title: 'Problem 2.15',
+      problem: 'Let $a$ be any number. Explain why $a^3 \\cdot a^5 = a^8$.',
+      solution:
+        "We expand the left side as a big product:\n$$\\begin{aligned}\na^3 \\cdot a^5 &= (a \\cdot a \\cdot a)(a \\cdot a \\cdot a \\cdot a \\cdot a) && \\text{definition of an exponent (twice)} \\\\\n&= a \\cdot a \\cdot a \\cdot a \\cdot a \\cdot a \\cdot a \\cdot a && \\text{associative property} \\\\\n&= a^8. && \\text{definition of an exponent}\n\\end{aligned}$$\nIn other words, $a^3$ is the product of $3$ $a$'s and $a^5$ is the product of $5$ $a$'s. So $a^3 \\cdot a^5$ is the product of $3 + 5$ $a$'s, which is $a^{3 + 5}$, or $a^8$.",
+      cards: [
+        {
+          card_id: 'c-2.2-10',
+          type: 'fact/property',
+          title: 'Product of Powers (Same Base) (同底数幂相乘)',
+          formula: '$a^m \\cdot a^n = a^{m + n}$',
+          content:
+            'Let $a$ be any number. Let $m$ and $n$ be positive integers. Then $a^m \\cdot a^n = a^{m + n}$.',
+        },
+      ],
+      relatedCardIds: ['c-2.2-1'],
+      checkpoints: ['证明 Product of Powers', '连乘的情况', '对比乘法分配律'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.16',
+      type: 'problem',
+      label: 'P2.16',
+      title: 'Problem 2.16',
+      problem:
+        '*(Source: MATHCOUNTS)*\nExpress $5^{17} + 5^{17} + 5^{17} + 5^{17} + 5^{17}$ as a power of $5$.',
+      solution:
+        'Because we are adding $5$ copies of a number, we have\n$$\\begin{aligned}\n5^{17} + 5^{17} + 5^{17} + 5^{17} + 5^{17} &= 5 \\cdot 5^{17} && \\text{repeated addition} \\\\\n&= 5^1 \\cdot 5^{17} && \\text{definition of an exponent} \\\\\n&= 5^{1 + 17} && \\text{product of powers (same base)} \\\\\n&= 5^{18}. && \\text{addition}\n\\end{aligned}$$',
+      cards: [],
+      relatedCardIds: ['c-2.2-10', 'c-2.2-1'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.17',
+      type: 'problem',
+      label: 'P2.17',
+      title: 'Problem 2.17',
+      problem: 'Explain why $9^7 \\div 9^3 = 9^4$.',
+      solution:
+        'We start by using the product rule "backwards" to write $9^7 = 9^4 \\cdot 9^3$. This allows us to cancel the common factor $9^3$:\n$$\\begin{aligned}\n9^7 \\div 9^3 &= (9^4 \\cdot 9^3) \\div 9^3 && \\text{product of powers (same base)} \\\\\n&= 9^4 \\div 1 && \\text{cancel factor of }9^3 \\\\\n&= 9^4. && \\text{division by }1\n\\end{aligned}$$\nAgain, this result makes sense; $9^7$ is the product of $7$ nines and $9^3$ is the product of $3$ nines. So in $9^7 \\div 9^3$, we can cancel $3$ of the nines in $9^7$ with the $3$ nines of $9^3$. This leaves $7 - 3$ nines, or $9^{7 - 3}$, which is $9^4$.',
+      cards: [
+        {
+          card_id: 'c-2.2-11',
+          type: 'fact/property',
+          title: 'Quotient of Powers (Same Base) (同底数幂相除)',
+          formula: '$a^m \\div a^n = a^{m - n}$',
+          content:
+            'Let $a$ be a nonzero number. Let $m$ and $n$ be positive integers such that $m$ is greater than $n$. Then $a^m \\div a^n = a^{m - n}$.',
+        },
+      ],
+      relatedCardIds: ['c-2.2-10'],
+      checkpoints: ['证明 Quotient of Powers（使用底部大括号）'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.18',
+      type: 'problem',
+      label: 'P2.18',
+      title: 'Problem 2.18',
+      problem: 'Explain why $(7^5)^3 = 7^{5 \\cdot 3}$.',
+      solution:
+        "We will use the product rule:\n$$\\begin{aligned}\n(7^5)^3 &= 7^5 \\cdot 7^5 \\cdot 7^5 && \\text{definition of an exponent} \\\\\n&= 7^{5 + 5 + 5} && \\text{product of powers (same base)} \\\\\n&= 7^{5 \\cdot 3} && \\text{repeated addition} \\\\\n&= 7^{15}. && \\text{multiplication}\n\\end{aligned}$$\nOnce again, this result makes sense when we count how many $7$'s must be multiplied to get $(7^5)^3$. First, the exponent $3$ means that we multiply $3$ copies of $7^5$:\n$$(7^5)^3 = 7^5 \\cdot 7^5 \\cdot 7^5.$$\nEach of these $3$ copies of $7^5$ is the product of $5$ copies of $7$:\n$$7^5 \\cdot 7^5 \\cdot 7^5 = (7 \\cdot 7 \\cdot 7 \\cdot 7 \\cdot 7) \\cdot (7 \\cdot 7 \\cdot 7 \\cdot 7 \\cdot 7) \\cdot (7 \\cdot 7 \\cdot 7 \\cdot 7 \\cdot 7).$$\nSo, altogether, the product has $5 \\cdot 3$ copies of $7$. Therefore, $(7^5)^3 = 7^{5 \\cdot 3}$.",
+      cards: [
+        {
+          card_id: 'c-2.2-12',
+          type: 'fact/property',
+          title: 'Power of Power (幂的乘方)',
+          formula: '$(a^m)^n = a^{mn}$',
+          content:
+            'Let $a$ be any number. Let $m$ and $n$ be positive integers. Then $(a^m)^n = a^{mn}$.',
+        },
+      ],
+      relatedCardIds: ['c-2.2-1', 'c-2.2-10'],
+      checkpoints: ['证明 Power of Power', '对比 power 的结合律证伪'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.19',
+      type: 'problem',
+      label: 'P2.19',
+      title: 'Problem 2.19',
+      problem:
+        'Express each of the following as a power of $2$:\n(a) $(2^7 \\cdot 2^8) \\div 2^3$\n(b) $(2^6)^4 \\div 2^7$\n(c) $4^6 \\div 8^2$',
+      solution:
+        '(a) We have\n$$\\begin{aligned}\n(2^7 \\cdot 2^8) \\div 2^3 &= 2^{7 + 8} \\div 2^3 && \\text{product of powers (same base)} \\\\\n&= 2^{7 + 8 - 3} && \\text{quotient of powers (same base)} \\\\\n&= 2^{12}. && \\text{addition and subtraction}\n\\end{aligned}$$\n(b) We have\n$$\\begin{aligned}\n(2^6)^4 \\div 2^7 &= 2^{6 \\cdot 4} \\div 2^7 && \\text{power of a power} \\\\\n&= 2^{6 \\cdot 4 - 7} && \\text{quotient of powers (same base)} \\\\\n&= 2^{17}. && \\text{multiplication and subtraction}\n\\end{aligned}$$\n(c) This part is a little trickier because the bases are $4$ and $8$, not $2$. However, both $4$ and $8$ are powers of $2$. Since $4 = 2^2$ and $8 = 2^3$, we can use exponent laws to write $4^6 \\div 8^2$ as a power of $2$:\n$$\\begin{aligned}\n4^6 \\div 8^2 &= (2^2)^6 \\div (2^3)^2 && \\text{powers of }2 \\\\\n&= 2^{2 \\cdot 6} \\div 2^{3 \\cdot 2} && \\text{power of a power (twice)} \\\\\n&= 2^{12} \\div 2^6 && \\text{multiplication} \\\\\n&= 2^{12 - 6} && \\text{quotient of powers (same base)} \\\\\n&= 2^6. && \\text{subtraction}\n\\end{aligned}$$',
+      cards: [],
+      relatedCardIds: ['c-2.2-10', 'c-2.2-11', 'c-2.2-12'],
+    },
+    {
+      id: 'aops-prealg-2.2-p2.20',
+      type: 'problem',
+      label: 'P2.20',
+      title: 'Problem 2.20',
+      problem:
+        '(a) Express $11^{20{,}000}$ as a $10{,}000^{\\text{th}}$ power by finding the positive integer $a$ such that $11^{20{,}000}$ equals $a^{10{,}000}$.\n(b) Express $5^{30{,}000}$ as a $10{,}000^{\\text{th}}$ power.\n(c) Express $2^{70{,}000}$ as a $10{,}000^{\\text{th}}$ power.\n(d) Which of the numbers $11^{20{,}000}, 5^{30{,}000},$ and $2^{70{,}000}$ is the greatest?',
+      solution:
+        '(a) Since the problem asks for a $10{,}000^{\\text{th}}$ power, let\'s write $11^{20{,}000}$ as $11^{2 \\cdot 10{,}000}$. By the "power of a power" rule, we can write $11^{2 \\cdot 10{,}000}$ as $(11^2)^{10{,}000}$. Since $11^2 = 121$, we can write $(11^2)^{10{,}000}$ as $121^{10{,}000}$. As requested, we have expressed the original expression as a $10{,}000^{\\text{th}}$ power.\n(b) Similarly, we have\n$$5^{30{,}000} = 5^{3 \\cdot 10{,}000} = (5^3)^{10{,}000} = 125^{10{,}000}.$$\n(c) Again, we have\n$$2^{70{,}000} = 2^{7 \\cdot 10{,}000} = (2^7)^{10{,}000} = 128^{10{,}000}.$$\n(d) Yikes, the three numbers are enormous! We don\'t want to actually calculate them. Luckily, in the three previous parts, we expressed each number as a $10{,}000^{\\text{th}}$ power. The three $10{,}000^{\\text{th}}$ powers are $121^{10{,}000}$, $125^{10{,}000}$, and $128^{10{,}000}$. The exponents in these three powers are the same, and $128$ is the largest base, so the largest of these three powers is $128^{10{,}000}$. So the largest of our original expressions is $2^{70{,}000}$.',
+      cards: [
+        {
+          card_id: 'c-2.2-13',
+          type: 'strategy',
+          title: 'Compare Large Powers via Common Exponent (同指数法比较大幂)',
+          formula: '$a^{kn} = (a^k)^n$',
+          content:
+            'To compare huge powers without computing them directly, use the "power of a power" rule backwards ($a^{kn} = (a^k)^n$) to rewrite all numbers with the **same exponent**, and then compare their bases.',
+        },
+      ],
+      relatedCardIds: ['c-2.2-12'],
+      checkpoints: ['策略：对比 powers'],
+    },
+  ],
+};
+
 export const AOPS_SECTIONS: AmcSectionData[] = [
   AOPS_SECTION_1_2,
   AOPS_SECTION_1_3,
@@ -1134,6 +1399,7 @@ export const AOPS_SECTIONS: AmcSectionData[] = [
   AOPS_SECTION_1_7,
   AOPS_SECTION_1_8,
   AOPS_SECTION_2_1,
+  AOPS_SECTION_2_2,
 ];
 
 export interface CodexCardEntry {
@@ -1529,6 +1795,28 @@ export const AMC_MODULE: Module = {
                 section_title: AOPS_SECTION_2_1.title,
                 mode: 'guided',
                 pages: AOPS_SECTION_2_1.pages,
+              },
+            },
+            {
+              id: 'node-amc-2-2-higher-exponents',
+              title: '2.2 Higher Exponents',
+              titleEn: 'Section 2.2 Higher Exponents · Intro & Problems 2.10–2.20',
+              shortDesc:
+                '掌握正整数次幂、负数奇偶次幂与同底数指数法则，完成 Problem 2.10–2.20 并解锁 13 张核心数学卡片',
+              icon: 'Zap',
+              xp: 100,
+              blueprint: {
+                title: 'Section 2.2 Higher Exponents · 逐页伴读',
+                titleEn: 'AoPS Prealgebra Section 2.2 Higher Exponents',
+                blocks: [],
+                tip: '逐页完成概念与 Problem 2.10–2.20，确认学习完毕后进入下一页！',
+              },
+              questions: [],
+              amcData: {
+                section_id: AOPS_SECTION_2_2.section_id,
+                section_title: AOPS_SECTION_2_2.title,
+                mode: 'guided',
+                pages: AOPS_SECTION_2_2.pages,
               },
             },
           ],
