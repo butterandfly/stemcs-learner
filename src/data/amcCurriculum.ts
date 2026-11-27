@@ -1825,3 +1825,59 @@ export const AMC_MODULE: Module = {
     },
   ],
 };
+
+export interface CodexSectionGroup {
+  sectionId: string;
+  sectionTitle: string;
+  entries: CodexCardEntry[];
+}
+
+export interface CodexChapterGroup {
+  chapterKey: string;
+  title: string;
+  shortTitle: string;
+  sections: CodexSectionGroup[];
+  entries: CodexCardEntry[];
+}
+
+export const AMC_CODEX_CHAPTERS: CodexChapterGroup[] = (() => {
+  const chapterOrder: string[] = [];
+  const sectionsByChapter = new Map<string, AmcSectionData[]>();
+
+  for (const section of AOPS_SECTIONS) {
+    const chapterKey = section.section_id.split('.')[0];
+    if (!sectionsByChapter.has(chapterKey)) {
+      chapterOrder.push(chapterKey);
+      sectionsByChapter.set(chapterKey, []);
+    }
+    sectionsByChapter.get(chapterKey)!.push(section);
+  }
+
+  return chapterOrder.map((chapterKey) => {
+    const chapterNum = Number(chapterKey);
+    const moduleSection = AMC_MODULE.sections.find((sec) =>
+      sec.units.some((u) => u.unitNumber === chapterNum)
+    );
+    const unit = moduleSection?.units.find((u) => u.unitNumber === chapterNum);
+
+    const title = moduleSection?.title || `Chapter ${chapterKey}`;
+    const shortTitle = unit
+      ? `Ch.${chapterKey} ${unit.title.replace(/^第 \d+ 单元：/, '')}`
+      : `Ch.${chapterKey}`;
+
+    const rawSections = sectionsByChapter.get(chapterKey) || [];
+    const sections: CodexSectionGroup[] = rawSections.map((sec) => ({
+      sectionId: sec.section_id,
+      sectionTitle: sec.title,
+      entries: ALL_AMC_CODEX_CARDS.filter((entry) => entry.sectionId === sec.section_id),
+    }));
+
+    return {
+      chapterKey,
+      title,
+      shortTitle,
+      sections,
+      entries: sections.flatMap((s) => s.entries),
+    };
+  });
+})();
